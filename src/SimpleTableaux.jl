@@ -5,7 +5,6 @@ using LinearAlgebra
 
 import DataFrames: DataFrame
 
-
 TabEntry = Rational{BigInt}
 
 export DataFrame, Tableau
@@ -19,7 +18,7 @@ struct Tableau
     n_vars::Int           # number of variables in the LP
     n_cons::Int           # number of constraints in the LP
 
-function Tableau(A::Matrix, b::Vector, c::Vector)
+    function Tableau(A::Matrix, b::Vector, c::Vector)
         m, n = size(A)
         if length(b) ≠ m || length(c) ≠ n
             throw(ArgumentError("Size mismatch"))
