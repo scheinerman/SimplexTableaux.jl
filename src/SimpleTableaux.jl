@@ -5,15 +5,21 @@ using LinearAlgebra
 
 import DataFrames: DataFrame
 
+
 TabEntry = Rational{BigInt}
 
-export Tableau
+export DataFrame, Tableau
+"""
+Tableau(A::Matrix, b::Vector, c::Vector)
 
+Create a `Tableau` datastructure for the linear program maximize `c'x` subject to `Ax ≤ b`.
+"""
 struct Tableau
-    M::Matrix{TabEntry}
-    n_vars::Int
-    n_cons::Int
-    function Tableau(A::Matrix, b::Vector, c::Vector)
+    M::Matrix{TabEntry}   # place to hold the entire Tableau
+    n_vars::Int           # number of variables in the LP
+    n_cons::Int           # number of constraints in the LP
+
+function Tableau(A::Matrix, b::Vector, c::Vector)
         m, n = size(A)
         if length(b) ≠ m || length(c) ≠ n
             throw(ArgumentError("Size mismatch"))
