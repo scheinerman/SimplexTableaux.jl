@@ -18,6 +18,9 @@ Create a `Tableau` data structure for the linear program maximize `c'x` subject 
 """
 struct Tableau
     M::Matrix{TabEntry}   # place to hold the entire Tableau
+    A::Matrix             # (original) A matrix
+    b::Vector             # (original) RHS, b vector
+    c::Vector             # (original) objective coefficients, c vector
     n_vars::Int           # number of variables in the LP
     n_cons::Int           # number of constraints in the LP
 
@@ -30,7 +33,7 @@ struct Tableau
 
         obj = [-c; zeros(Int, m); 1; 0]'
 
-        return new(vcat(body, obj), n, m)
+        return new(vcat(body, obj), A, b, c, n, m)
     end
 end
 
