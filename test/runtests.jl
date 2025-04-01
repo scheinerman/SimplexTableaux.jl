@@ -8,5 +8,6 @@ using DataFrames
     b = [1; 3//2]
     c = [5; 6; 9; 2]
     T = Tableau(A, b, c)
+    pivot!(T)
     @test true
 end

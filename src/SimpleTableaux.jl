@@ -8,8 +8,7 @@ import Base: show
 
 TabEntry = Rational{BigInt}
 
-export Tableau,
-    find_pivot, find_pivot_column, find_pivot_row, get_A, get_b, get_c, pivot, pivot!
+export Tableau, find_pivot, find_pivot_column, find_pivot_row, pivot, pivot!, restore
 
 """
 Tableau(A::Matrix, b::Vector, c::Vector)
@@ -38,31 +37,12 @@ struct Tableau
 end
 
 """
-    get_A(T::Tableau)
+    restore(T::Tableau)
 
-Return the coefficient matrix of this `Tableau`.
+Create a new `Tableau` based on the original data used to create `T`.
 """
-function get_A(T::Tableau)
-    return copy(T.M[1:(T.n_cons), 1:(T.n_vars)])
-end
-
-"""
-    get_b(T::Tableau)
-
-Return the RHS of this `Tableau`.
-"""
-function get_b(T::Tableau)
-    return copy(T.M[1:(T.n_cons), end])
-end
-
-"""
-    get_c(T::Tableau)
-
-Return the objective function of this `Tableau`.
-"""
-function get_c(T::Tableau)
-    c = T.M[end, 1:(T.n_vars)]
-    return collect(-c)
+function restore(T::Tableau)
+    return Tableau(T.A, T.b, T.C)
 end
 
 include("Exact.jl")
