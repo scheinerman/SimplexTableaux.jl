@@ -8,7 +8,7 @@ import Base: show
 
 TabEntry = Rational{BigInt}
 
-export Tableau, get_A, get_b, get_c
+export Tableau, find_pivot_column, get_A, get_b, get_c
 
 """
 Tableau(A::Matrix, b::Vector, c::Vector)
@@ -68,5 +68,7 @@ function show(io::IO, T::Tableau)
     df = DataFrame(T)
     return show(io, df)
 end
+
+include("Pivoting.jl")
 
 end # module SimpleTableaux
