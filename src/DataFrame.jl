@@ -6,10 +6,10 @@ Present a `Tableau` as a `DataFrame`.
 function DataFrame(T::Tableau)
     df = DataFrame()
 
-    # Name the rows
-    rownames = ["cons" * string(k) for k in 1:(T.n_cons)]
-    push!(rownames, "obj")
-    df[:, "Row Name"] = rownames
+    # # Name the rows
+    # rownames = ["cons" * string(k) for k in 1:(T.n_cons)]
+    # push!(rownames, "obj")
+    # df[:, "Row Name"] = rownames
 
     # Variable columns
     for i in 1:(T.n_vars)
