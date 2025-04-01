@@ -8,7 +8,7 @@ import Base: show
 
 TabEntry = Rational{BigInt}
 
-export DataFrame, Tableau, get_A, get_b, get_c
+export Tableau, get_A, get_b, get_c
 
 """
 Tableau(A::Matrix, b::Vector, c::Vector)
