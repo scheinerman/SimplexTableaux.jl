@@ -20,7 +20,7 @@ struct Tableau
     n_vars::Int           # number of variables in the LP
     n_cons::Int           # number of constraints in the LP
 
-    function Tableau(A::Matrix, b::Vector, c::Vector)
+    function Tableau(A::AbstractMatrix, b::Vector, c::Vector)
         m, n = size(A)
         if length(b) ≠ m || length(c) ≠ n
             throw(ArgumentError("Size mismatch"))
@@ -63,5 +63,10 @@ end
 
 include("Exact.jl")
 include("DataFrame.jl")
+
+function show(io::IO, T::Tableau)
+    df = DataFrame(T)
+    return show(io, df)
+end
 
 end # module SimpleTableaux
