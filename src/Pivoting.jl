@@ -51,11 +51,11 @@ function pivot!(T::Tableau, i::Int, j::Int)
     M[i, :] .//= mij
 
     # clear other entries in column j
-    for a = 1:T.n_cons+1
-        if a == i 
+    for a in 1:(T.n_cons + 1)
+        if a == i
             continue
         end
-        M[a,:] += -M[a,j] * M[i,:] 
+        M[a, :] += -M[a, j] * M[i, :]
     end
 
     return T
