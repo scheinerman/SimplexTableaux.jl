@@ -13,11 +13,10 @@ struct Exact
     end
 end
 
-
 function show(io::IO, x::Exact)
     a = numerator(x.val)
     b = denominator(x.val)
-    if b==1
+    if b == 1
         print(io, a)
     else
         print(io, "$a/$b")
