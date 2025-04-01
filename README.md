@@ -1,7 +1,7 @@
 # SimpleTableaux
 
 Illustration project for the optimization problem
-$\max c^t x$ subject to $Ax ≤ b$.
+$\max c^t x$ subject to $Ax ≤ b$ and $x \ge 0$
 
 ## Construction
 
