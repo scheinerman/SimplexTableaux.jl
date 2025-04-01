@@ -8,7 +8,8 @@ import Base: show
 
 TabEntry = Rational{BigInt}
 
-export Tableau, find_pivot_column, get_A, get_b, get_c
+export Tableau,
+    find_pivot, find_pivot_column, find_pivot_row, get_A, get_b, get_c, pivot, pivot!
 
 """
 Tableau(A::Matrix, b::Vector, c::Vector)
