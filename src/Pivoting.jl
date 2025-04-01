@@ -6,6 +6,7 @@ value, or `0` if all entries in the bottom row are nonnegative.
 """
 function find_pivot_column(T::Tableau)
     bottom = T.M[end, 1:(end - 1)]
+    @show bottom
     v, j = findmin(bottom)
     return v < 0 ? j : 0
 end
@@ -47,7 +48,6 @@ function pivot!(T::Tableau, i::Int, j::Int)
 
     # make i,j-entry a 1
     mij = M[i, j]
-    @show mij
     M[i, :] .//= mij
 
     # clear other entries in column j
@@ -69,4 +69,12 @@ Non-modifying version of `pivot!`
 function pivot(T::Tableau, i::Int, j::Int)
     TT = deepcopy(T)
     return pivot!(TT, i, j)
+end
+
+function pivot(T::Tableau)
+    i, j = find_pivot(T)
+    if i == 0 || j == 0
+        return T
+    end
+    return pivot(T, i, j)
 end
