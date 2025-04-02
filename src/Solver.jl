@@ -20,7 +20,7 @@ function pivot_solve!(T::Tableau, verbose::Bool=true)
     end # end while
 
     if verbose
-        val = Exact(T.M[end,end])
+        val = Exact(T.M[end, end])
         println("Optimum value = $val")
     end
 
