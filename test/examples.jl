@@ -23,3 +23,19 @@ function example2()
     c = [3; 4; 1]
     return Tableau(A, b, c)
 end
+
+function example3()
+    A = [1 1 3; 2 2 5; 4 1 2]
+    b = [30; 24; 36]
+    c = [3; 1; 1]
+    return Tableau(A, b, c)
+end
+
+function unbounded_example()
+    A = [-1 0; 0 -1]
+    b = [-1; -1]
+    c = [1; 1]
+    return Tableau(A, b, c)
+end
+
+nothing

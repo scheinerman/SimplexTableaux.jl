@@ -65,7 +65,7 @@ end
 
 """
     pivot(T::Tableau, i::Int, j::Int)
-    pivot!(T::Tableau)
+    pivot(T::Tableau)
 
 Non-modifying version of `pivot!`
 """

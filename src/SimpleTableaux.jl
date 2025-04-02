@@ -1,6 +1,8 @@
 module SimpleTableaux
 
+using ChooseOptimizer
 using DataFrames
+using JuMP
 using LinearAlgebra
 
 import DataFrames: DataFrame
@@ -8,7 +10,16 @@ import Base: show
 
 TabEntry = Rational{BigInt}
 
-export Tableau, find_pivot, find_pivot_column, find_pivot_row, pivot, pivot!, restore
+export Tableau,
+    find_pivot,
+    find_pivot_column,
+    find_pivot_row,
+    lp_solve,
+    pivot,
+    pivot!,
+    pivot_solve,
+    pivot_solve!,
+    restore
 
 """
 Tableau(A::Matrix, b::Vector, c::Vector)
@@ -40,9 +51,11 @@ end
     restore(T::Tableau)
 
 Create a new `Tableau` based on the original data used to create `T`.
+
+Recommended usage: `T = restore(T)` to reset `T` to its original state. 
 """
 function restore(T::Tableau)
-    return Tableau(T.A, T.b, T.C)
+    return Tableau(T.A, T.b, T.c)
 end
 
 include("Exact.jl")
@@ -54,5 +67,7 @@ function show(io::IO, T::Tableau)
 end
 
 include("Pivoting.jl")
+include("Solver.jl")
+include("LPsolve.jl")
 
 end # module SimpleTableaux
