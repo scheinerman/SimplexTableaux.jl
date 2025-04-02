@@ -41,7 +41,7 @@ end
 function example5()
     A = [8 3; 1 1; 1 4]
     b = [24; 4; 12]
-    c = [1; 2]
+    c = [2; 1]
     return T = Tableau(A, b, c)
 end
 

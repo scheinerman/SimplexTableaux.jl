@@ -33,7 +33,7 @@ function visualize(T::Tableau)
     p = lp_solve(T)
     P = Point(p...)
     set_pointsize!(P, 5)
-    set_pointcolor!(P, :red)
+    set_pointcolor!(P, :green)
     draw(P)
 
     draw_xaxis(x_max * 1.15)
