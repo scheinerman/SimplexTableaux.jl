@@ -31,6 +31,20 @@ function example3()
     return Tableau(A, b, c)
 end
 
+function example4()
+    A = [4 5; 8 5; 4 1]
+    b = [60; 80; 20]
+    c = [1; 1]
+    return Tableau(A, b, c)
+end
+
+function example5()
+    A = [8 3; 1 1; 1 4]
+    b = [24; 4; 12]
+    c = [1; 2]
+    return T = Tableau(A, b, c)
+end
+
 function unbounded_example()
     A = [-1 0; 0 -1]
     b = [-1; -1]
