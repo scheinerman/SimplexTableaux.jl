@@ -3,10 +3,11 @@
 Solve linear programming problems using the simplex method by pivoting
 tableaux. 
 
-This is an illusration project just for feasible optimization problems of the form 
+This is an illusration project for solving 
+feasible optimization problems of the form 
 $\max c^t x$ subject to $Ax ≤ b$ and $x \ge 0$.
 
-## Quick Start
+Here are some quick start instructions. 
 
 ## Set up the problem
 
@@ -66,7 +67,7 @@ Optimum value = 78
 2-element Vector{Rational{BigInt}}:
   6
  12
- ```
+```
 
 
 ## Check the results
@@ -85,7 +86,7 @@ julia> c' * x == 78
 true
 ```
 
-## Repeat using `HiGHS` solver
+## Repeat using an LP solver (HiGHS)
 
 ```
 julia> lp_solve(T)
