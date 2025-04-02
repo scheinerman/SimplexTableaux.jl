@@ -1,11 +1,14 @@
 # SimpleTableaux
 
-Illustration project for the optimization problem
-$\max c^t x$ subject to $Ax ≤ b$ and $x \ge 0$
+Solve linear programming problems using the simplex method by pivoting
+tableaux. 
+
+This is an illusration project just for feasible optimization problems of the form 
+$\max c^t x$ subject to $Ax ≤ b$ and $x \ge 0$.
 
 ## Quick Start
 
-### Set up the problem
+## Set up the problem
 
 This example comes from [this video](https://www.youtube.com/watch?v=rzRZLGD_aeE).
 
@@ -28,7 +31,7 @@ julia> T = Tableau(A, b, c)
 ```
 Notice that the last row is the encoding of the objective function.
 
-### Solve the problem 
+## Solve the problem 
 
 ```
 julia> x = pivot_solve(T)
@@ -66,7 +69,7 @@ Optimum value = 78
  ```
 
 
-### Checking the results
+## Check the results
 
 Checking feasibility:
 ```
@@ -82,7 +85,7 @@ julia> c' * x == 78
 true
 ```
 
-### Repeat using `HiGHS` solver
+## Repeat using `HiGHS` solver
 
 ```
 julia> lp_solve(T)
