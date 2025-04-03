@@ -2,12 +2,12 @@
 
 
 
-This is an illusration project for solving 
-feasible optimization problems of the form 
+This is an illustration project for solving 
+feasible optimization problems (Linear Programs) of the form 
 $\max c^t x$ subject to $Ax ≤ b$ and $x \ge 0$.
 
 For a quick introduction (and caveats), see the 
-[README](https://github.com/scheinerman/SimpleTableaux.jl/blob/main/README.md) on GitHub.
+[README](https://github.com/scheinerman/SimpleTableaux.jl/blob/main/README.md).
 
 ## Creating a `Tableau`
 
@@ -34,7 +34,7 @@ This is the result:
 ## Pivoting
 
 The functions `pivot(T,i,j)` and `pivot!(T,i,j)` are used to peform a pivot operation at row `i` and column `j`. 
-The first version (`pivot`) does returns the result of the pivot, but does not alter `T`. 
+The first version (`pivot`) returns the result of the pivot, but does not alter `T`. 
 The second version (`pivot!`) also performs the pivot, but modifies `T`.
 
 The function `find_pivot` returns the location of the pivot operation that the simplex method would use to solve the LP.
