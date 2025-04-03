@@ -22,6 +22,7 @@ export Tableau,
     pivot_solve,
     pivot_solve!,
     restore,
+    restore!,
     visualize
 
 """
@@ -55,10 +56,25 @@ end
 
 Create a new `Tableau` based on the original data used to create `T`.
 
-Recommended usage: `T = restore(T)` to reset `T` to its original state. 
+See also `restore!`.
 """
 function restore(T::Tableau)
     return Tableau(T.A, T.b, T.c)
+end
+
+"""
+    restore!(T::Tableau)
+
+Restore a `Tableau` based on the original data used to create it. 
+"""
+function restore!(T::Tableau)
+    TT = restore(T)
+    for i in 1:(T.n_cons)
+        for j in 1:(T.n_vars)
+            T.M[i, j] = TT.M[i, j]
+        end
+    end
+    return T
 end
 
 include("Exact.jl")

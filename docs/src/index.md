@@ -123,9 +123,11 @@ julia> lp_solve(T)
  1.599999999999999
 ```
 
-## The `restore` function
+## The `restore!` function
 
-As mentioned, the `pivot!` and `pivot_solve!` functions modify the `Tableau`. Use `restore` to return a `Tableau` to its original state like this: `T = restore(T)`. 
+As mentioned, the `pivot!` and `pivot_solve!` functions modify the `Tableau`. Use `restore!` to return a `Tableau` to its original state like this: `restore!(T)`. 
+
+There is also `restore(T)` which does not reset `T`, but creates a new `Tableau` equal to the original state of `T`.
 
 ```
 julia> T
@@ -150,15 +152,15 @@ julia> T
    3 │ 0      29/8   -1/8   0      1      0      9
    4 │ 0      -1/4   1/4    0      0      1      6
 
-julia> T = restore(T)
+julia> restore!(T)
 4×7 DataFrame
  Row │ x1     x2     s1     s2     s3     val    RHS   
      │ Exact  Exact  Exact  Exact  Exact  Exact  Exact 
 ─────┼─────────────────────────────────────────────────
-   1 │ 8      3      1      0      0      0      24
-   2 │ 1      1      0      1      0      0      4
-   3 │ 1      4      0      0      1      0      12
-   4 │ -2     -1     0      0      0      1      0
+   1 │ 8      3      1/5    -3/5   0      0      12/5
+   2 │ 1      1      -1/5   8/5    0      0      8/5
+   3 │ 1      4      3/5    -29/5  1      0      16/5
+   4 │ 0      0      1/5    2/5    0      1      32/5
 ```
 
 

@@ -13,7 +13,7 @@ As a demonstration project, this is not suitable for solving actual linear progr
 At present it will fail if:
 * The LP is infeasible.
 * The LP is unbounded.
-* Other unidentified reasons.
+* Other unidentified reasons. (In other words, still buggy.)
 
 It is also set up for maximization problems only. To solve a minimization problem use the dual LP by
 replacing the inputs `A`, `b`, and `c` with `A'`, `c`, and `b` respectively. 
