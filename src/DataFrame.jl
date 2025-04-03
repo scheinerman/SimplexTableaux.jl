@@ -1,4 +1,4 @@
-show_row_labels::Bool = false
+show_row_labels = false
 
 """
     DataFrame(T::Tableau)
