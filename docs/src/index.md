@@ -113,6 +113,16 @@ To supress the illustrative output and just present the solution, use `pivot_sol
 
 The alternative `pivot_solve!` performs the same operations as `pivot_solve` but modifies `T` as it goes.
 
+### Solution by use of an LP solver
+
+The function `lp_solve` also solves the LP, but uses a standard solver (by default, [HiGHS](https://highs.dev/)):
+```
+julia> lp_solve(T)
+2-element Vector{Float64}:
+ 2.4000000000000004
+ 1.599999999999999
+```
+
 ## The `restore` function
 
 As mentioned, the `pivot!` and `pivot_solve!` functions modify the `Tableau`. Use `restore` to return a `Tableau` to its original state like this: `T = restore(T)`. 
@@ -151,15 +161,6 @@ julia> T = restore(T)
    4 │ -2     -1     0      0      0      1      0
 ```
 
-### Solution by use of an LP solver
-
-The function `lp_solve` also solves the LP, but uses a standard solver (HiGHS):
-```
-julia> lp_solve(T)
-2-element Vector{Float64}:
- 2.4000000000000004
- 1.599999999999999
-```
 
 
 ## Visualization 
