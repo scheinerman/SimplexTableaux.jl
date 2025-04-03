@@ -11,6 +11,26 @@ function find_pivot_column(T::Tableau)
 end
 
 """
+    find_least_nonnegative(v::Vector)
+
+Find the index of the least nonnegative entry in `v` or `0` if all entries are negative. 
+"""
+function find_least_nonnegative(v::Vector)
+    m = maximum(v)
+    if m < 0
+        return 0  # no nonegative values
+    end
+    idx = 0
+    for k in 1:length(v)
+        if v[k] >= 0 && v[k] < m
+            m = v[k]
+            idx = k
+        end
+    end
+    return idx
+end
+
+"""
     find_pivot_row(T::Tableau, j::Int)
 
 Determine the pivot row for column `j` of `T`.
@@ -19,7 +39,8 @@ function find_pivot_row(T::Tableau, j::Int)
     rhs = T.M[1:(end - 1), end]
     col = T.M[1:(end - 1), j]
     vals = rhs .// col
-    _, i = findmin(vals)
+    # _, i = findmin(vals)
+    i = find_least_nonnegative(vals)
     return i
 end
 

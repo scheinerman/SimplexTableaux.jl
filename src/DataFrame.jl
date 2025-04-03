@@ -1,3 +1,5 @@
+show_row_labels::Bool = false
+
 """
     DataFrame(T::Tableau)
 
@@ -6,10 +8,12 @@ Present a `Tableau` as a `DataFrame`.
 function DataFrame(T::Tableau)
     df = DataFrame()
 
-    # # Name the rows
-    # rownames = ["cons" * string(k) for k in 1:(T.n_cons)]
-    # push!(rownames, "obj")
-    # df[:, "Row Name"] = rownames
+    if show_row_labels
+        # Name the rows
+        rownames = ["cons" * string(k) for k in 1:(T.n_cons)]
+        push!(rownames, "obj")
+        df[:, "Row Name"] = rownames
+    end
 
     # Variable columns
     for i in 1:(T.n_vars)

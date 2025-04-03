@@ -1,7 +1,5 @@
 # SimpleTableaux
 
-
-
 This is an illustration project for solving 
 feasible optimization problems (Linear Programs) of the form 
 $\max c^t x$ subject to $Ax ≤ b$ and $x \ge 0$.
@@ -123,7 +121,7 @@ julia> lp_solve(T)
  1.599999999999999
 ```
 
-## The `restore!` function
+## The `restore!` Function
 
 As mentioned, the `pivot!` and `pivot_solve!` functions modify the `Tableau`. Use `restore!` to return a `Tableau` to its original state like this: `restore!(T)`. 
 
@@ -175,3 +173,33 @@ julia> visualize(T)
 
 
 ![](visual.png)
+
+## Changing the Display Format
+
+The usual way a `Tableau` is printed looks like this:
+```
+4×7 DataFrame
+ Row │ x1     x2     s1     s2     s3     val    RHS   
+     │ Exact  Exact  Exact  Exact  Exact  Exact  Exact 
+─────┼─────────────────────────────────────────────────
+   1 │ 8      3      1      0      0      0      24
+   2 │ 1      1      0      1      0      0      4
+   3 │ 1      4      0      0      1      0      12
+   4 │ -2     -1     0      0      0      1      0
+```
+
+The column headings are (should be) self-explanatory. As usual we begin with the LP variables, $x_1$, $x_2$, and so forth (rendered as `x1`, `x2`, etc.), and then the slack variables, and the right hand side. There are no row labels. To remedy that, set the (nonexported) variable `SimpleTableaux.show_row_labels` to true.
+```
+julia> SimpleTableaux.show_row_labels=true;
+
+julia> T
+4×8 DataFrame
+ Row │ Row Name  x1     x2     s1     s2     s3     val    RHS   
+     │ String    Exact  Exact  Exact  Exact  Exact  Exact  Exact 
+─────┼───────────────────────────────────────────────────────────
+   1 │ cons1     8      3      1      0      0      0      24
+   2 │ cons2     1      1      0      1      0      0      4
+   3 │ cons3     1      4      0      0      1      0      12
+   4 │ obj       -2     -1     0      0      0      1      0
+```
+We now see that rows 1, 2, and 3 correspond to constraints and row 4 to the objective function. 

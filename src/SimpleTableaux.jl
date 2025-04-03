@@ -45,7 +45,7 @@ struct Tableau
         end
         body = hcat(A, Matrix(I, m, m), zeros(Int, m), b)
 
-        obj = [-c; zeros(Int, m); 1; 0]'
+        obj = collect([-c; zeros(Int, m); 1; 0]')
 
         return new(vcat(body, obj), A, b, c, n, m)
     end
@@ -69,8 +69,9 @@ Restore a `Tableau` based on the original data used to create it.
 """
 function restore!(T::Tableau)
     TT = restore(T)
-    for i in 1:(T.n_cons)
-        for j in 1:(T.n_vars)
+    m, n = size(TT.M)
+    for i in 1:m
+        for j in 1:n
             T.M[i, j] = TT.M[i, j]
         end
     end
