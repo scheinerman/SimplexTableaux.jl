@@ -4,6 +4,8 @@ using ChooseOptimizer
 using DataFrames
 using JuMP
 using LinearAlgebra
+using SimpleDrawing
+using SimpleDrawingObjects
 
 import DataFrames: DataFrame
 import Base: show
@@ -19,7 +21,8 @@ export Tableau,
     pivot!,
     pivot_solve,
     pivot_solve!,
-    restore
+    restore,
+    visualize
 
 """
 Tableau(A::Matrix, b::Vector, c::Vector)
@@ -69,5 +72,6 @@ end
 include("Pivoting.jl")
 include("Solver.jl")
 include("LPsolve.jl")
+include("Visualize.jl")
 
 end # module SimpleTableaux

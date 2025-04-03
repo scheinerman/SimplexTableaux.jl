@@ -1,9 +1,7 @@
-using SimpleTableaux, SimpleDrawing, SimpleDrawingObjects, Plots
-
 """
     visualize(T::Tableau)
 
-If `T` is a linear program in just two variables, this will (attempt to) draw 
+If `T` is a linear program in two variables, this will (attempt to) draw 
 a picture of the constraints and the optimal solution. 
 """
 function visualize(T::Tableau)

@@ -1,49 +1,103 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>SimpleTableaux · SimpleTableaux</title><meta name="title" content="SimpleTableaux · SimpleTableaux"/><meta property="og:title" content="SimpleTableaux · SimpleTableaux"/><meta property="twitter:title" content="SimpleTableaux · SimpleTableaux"/><meta name="description" content="Documentation for SimpleTableaux."/><meta property="og:description" content="Documentation for SimpleTableaux."/><meta property="twitter:description" content="Documentation for SimpleTableaux."/><script data-outdated-warner src="assets/warner.js"></script><link href="https://cdnjs.cloudflare.com/ajax/libs/lato-font/3.0.0/css/lato-font.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/juliamono/0.050/juliamono.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL="."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="assets/documenter.js"></script><script src="search_index.js"></script><script src="siteinfo.js"></script><script src="../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="assets/themes/catppuccin-mocha.css" data-theme-name="catppuccin-mocha"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="assets/themes/catppuccin-macchiato.css" data-theme-name="catppuccin-macchiato"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="assets/themes/catppuccin-frappe.css" data-theme-name="catppuccin-frappe"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="assets/themes/catppuccin-latte.css" data-theme-name="catppuccin-latte"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><div class="docs-package-name"><span class="docs-autofit"><a href>SimpleTableaux</a></span></div><button class="docs-search-query input is-rounded is-small is-clickable my-2 mx-auto py-1 px-2" id="documenter-search-query">Search docs (Ctrl + /)</button><ul class="docs-menu"><li class="is-active"><a class="tocitem" href>SimpleTableaux</a><ul class="internal"><li><a class="tocitem" href="#Set-up-the-problem"><span>Set up the problem</span></a></li><li><a class="tocitem" href="#Solve-the-problem"><span>Solve the problem</span></a></li><li><a class="tocitem" href="#Check-the-results"><span>Check the results</span></a></li><li><a class="tocitem" href="#Repeat-using-an-LP-solver-(HiGHS)"><span>Repeat using an LP solver (HiGHS)</span></a></li></ul></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><a class="docs-sidebar-button docs-navbar-link fa-solid fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a><nav class="breadcrumb"><ul class="is-hidden-mobile"><li class="is-active"><a href>SimpleTableaux</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>SimpleTableaux</a></li></ul></nav><div class="docs-right"><a class="docs-navbar-link" href="https://github.com/scheinerman/SimpleTableaux.jl" title="View the repository on GitHub"><span class="docs-icon fa-brands"></span><span class="docs-label is-hidden-touch">GitHub</span></a><a class="docs-navbar-link" href="https://github.com/scheinerman/SimpleTableaux.jl/blob/main/docs/src/index.md" title="Edit source on GitHub"><span class="docs-icon fa-solid"></span></a><a class="docs-settings-button docs-navbar-link fa-solid fa-gear" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-article-toggle-button fa-solid fa-chevron-up" id="documenter-article-toggle-button" href="javascript:;" title="Collapse all docstrings"></a></div></header><article class="content" id="documenter-page"><h1 id="SimpleTableaux"><a class="docs-heading-anchor" href="#SimpleTableaux">SimpleTableaux</a><a id="SimpleTableaux-1"></a><a class="docs-heading-anchor-permalink" href="#SimpleTableaux" title="Permalink"></a></h1><p>Solve linear programming problems using the simplex method by pivoting tableaux. </p><p>This is an illusration project for solving  feasible optimization problems of the form  <span>$\max c^t x$</span> subject to <span>$Ax ≤ b$</span> and <span>$x \ge 0$</span>.</p><p>Here are some quick start instructions. </p><h2 id="Set-up-the-problem"><a class="docs-heading-anchor" href="#Set-up-the-problem">Set up the problem</a><a id="Set-up-the-problem-1"></a><a class="docs-heading-anchor-permalink" href="#Set-up-the-problem" title="Permalink"></a></h2><p>This example comes from <a href="https://www.youtube.com/watch?v=rzRZLGD_aeE">this video</a>.</p><p>Create the matrix <code>A</code>, the RHS vector <code>b</code>, and the objective function coefficients <code>c</code>:</p><pre><code class="nohighlight hljs">julia&gt; A = [3 5; 4 1];
-julia&gt; b = [78; 36];
-julia&gt; c = [5; 4];</code></pre><p>Then set up the <code>Tableau</code> as follows:</p><pre><code class="nohighlight hljs">julia&gt; T = Tableau(A, b, c)
-3×6 DataFrame
- Row │ x1     x2     s1     s2     val    RHS   
-     │ Exact  Exact  Exact  Exact  Exact  Exact 
-─────┼──────────────────────────────────────────
-   1 │ 3      5      1      0      0      78
-   2 │ 4      1      0      1      0      36
-   3 │ -5     -4     0      0      1      0</code></pre><p>Notice that the last row is the encoding of the objective function.</p><h2 id="Solve-the-problem"><a class="docs-heading-anchor" href="#Solve-the-problem">Solve the problem</a><a id="Solve-the-problem-1"></a><a class="docs-heading-anchor-permalink" href="#Solve-the-problem" title="Permalink"></a></h2><pre><code class="nohighlight hljs">julia&gt; x = pivot_solve(T)
-Iteration 0
-3×6 DataFrame
- Row │ x1     x2     s1     s2     val    RHS   
-     │ Exact  Exact  Exact  Exact  Exact  Exact 
-─────┼──────────────────────────────────────────
-   1 │ 3      5      1      0      0      78
-   2 │ 4      1      0      1      0      36
-   3 │ -5     -4     0      0      1      0
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>SimpleTableaux · SimpleTableaux</title><meta name="title" content="SimpleTableaux · SimpleTableaux"/><meta property="og:title" content="SimpleTableaux · SimpleTableaux"/><meta property="twitter:title" content="SimpleTableaux · SimpleTableaux"/><meta name="description" content="Documentation for SimpleTableaux."/><meta property="og:description" content="Documentation for SimpleTableaux."/><meta property="twitter:description" content="Documentation for SimpleTableaux."/><script data-outdated-warner src="assets/warner.js"></script><link href="https://cdnjs.cloudflare.com/ajax/libs/lato-font/3.0.0/css/lato-font.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/juliamono/0.050/juliamono.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL="."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="assets/documenter.js"></script><script src="search_index.js"></script><script src="siteinfo.js"></script><script src="../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="assets/themes/catppuccin-mocha.css" data-theme-name="catppuccin-mocha"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="assets/themes/catppuccin-macchiato.css" data-theme-name="catppuccin-macchiato"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="assets/themes/catppuccin-frappe.css" data-theme-name="catppuccin-frappe"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="assets/themes/catppuccin-latte.css" data-theme-name="catppuccin-latte"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><div class="docs-package-name"><span class="docs-autofit"><a href>SimpleTableaux</a></span></div><button class="docs-search-query input is-rounded is-small is-clickable my-2 mx-auto py-1 px-2" id="documenter-search-query">Search docs (Ctrl + /)</button><ul class="docs-menu"><li class="is-active"><a class="tocitem" href>SimpleTableaux</a><ul class="internal"><li><a class="tocitem" href="#Creating-a-Tableau"><span>Creating a <code>Tableau</code></span></a></li><li><a class="tocitem" href="#Pivoting"><span>Pivoting</span></a></li><li><a class="tocitem" href="#Solving-the-LP"><span>Solving the LP</span></a></li><li><a class="tocitem" href="#The-restore-function"><span>The <code>restore</code> function</span></a></li><li><a class="tocitem" href="#Visualization"><span>Visualization</span></a></li></ul></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><a class="docs-sidebar-button docs-navbar-link fa-solid fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a><nav class="breadcrumb"><ul class="is-hidden-mobile"><li class="is-active"><a href>SimpleTableaux</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>SimpleTableaux</a></li></ul></nav><div class="docs-right"><a class="docs-navbar-link" href="https://github.com/scheinerman/SimpleTableaux.jl" title="View the repository on GitHub"><span class="docs-icon fa-brands"></span><span class="docs-label is-hidden-touch">GitHub</span></a><a class="docs-navbar-link" href="https://github.com/scheinerman/SimpleTableaux.jl/blob/main/docs/src/index.md" title="Edit source on GitHub"><span class="docs-icon fa-solid"></span></a><a class="docs-settings-button docs-navbar-link fa-solid fa-gear" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-article-toggle-button fa-solid fa-chevron-up" id="documenter-article-toggle-button" href="javascript:;" title="Collapse all docstrings"></a></div></header><article class="content" id="documenter-page"><h1 id="SimpleTableaux"><a class="docs-heading-anchor" href="#SimpleTableaux">SimpleTableaux</a><a id="SimpleTableaux-1"></a><a class="docs-heading-anchor-permalink" href="#SimpleTableaux" title="Permalink"></a></h1><p>This is an illusration project for solving  feasible optimization problems of the form  <span>$\max c^t x$</span> subject to <span>$Ax ≤ b$</span> and <span>$x \ge 0$</span>.</p><p>For a quick introduction (and caveats), see the  <a href="https://github.com/scheinerman/SimpleTableaux.jl/blob/main/README.md">README</a> on GitHub.</p><h2 id="Creating-a-Tableau"><a class="docs-heading-anchor" href="#Creating-a-Tableau">Creating a <code>Tableau</code></a><a id="Creating-a-Tableau-1"></a><a class="docs-heading-anchor-permalink" href="#Creating-a-Tableau" title="Permalink"></a></h2><p>To set up a <code>Tableau</code> for the LP <span>$\max c^t x$</span> subject to <span>$Ax ≤ b$</span> and <span>$x \ge 0$</span> use <code>Tableau(A,b,c)</code>. </p><pre><code class="language-julia hljs">A = [8 3; 1 1; 1 4]
+b = [24; 4; 12]
+c = [2; 1]
+T = Tableau(A, b, c)</code></pre><p>This is the result:</p><pre><code class="nohighlight hljs">4×7 DataFrame
+ Row │ x1     x2     s1     s2     s3     val    RHS   
+     │ Exact  Exact  Exact  Exact  Exact  Exact  Exact 
+─────┼─────────────────────────────────────────────────
+   1 │ 8      3      1      0      0      0      24
+   2 │ 1      1      0      1      0      0      4
+   3 │ 1      4      0      0      1      0      12
+   4 │ -2     -1     0      0      0      1      0</code></pre><h2 id="Pivoting"><a class="docs-heading-anchor" href="#Pivoting">Pivoting</a><a id="Pivoting-1"></a><a class="docs-heading-anchor-permalink" href="#Pivoting" title="Permalink"></a></h2><p>The functions <code>pivot(T,i,j)</code> and <code>pivot!(T,i,j)</code> are used to peform a pivot operation at row <code>i</code> and column <code>j</code>.  The first version (<code>pivot</code>) does returns the result of the pivot, but does not alter <code>T</code>.  The second version (<code>pivot!</code>) also performs the pivot, but modifies <code>T</code>.</p><p>The function <code>find_pivot</code> returns the location of the pivot operation that the simplex method would use to solve the LP.</p><pre><code class="nohighlight hljs">julia&gt; T
+4×7 DataFrame
+ Row │ x1     x2     s1     s2     s3     val    RHS   
+     │ Exact  Exact  Exact  Exact  Exact  Exact  Exact 
+─────┼─────────────────────────────────────────────────
+   1 │ 8      3      1      0      0      0      24
+   2 │ 1      1      0      1      0      0      4
+   3 │ 1      4      0      0      1      0      12
+   4 │ -2     -1     0      0      0      1      0
 
-Iteration 1
-3×6 DataFrame
- Row │ x1     x2     s1     s2     val    RHS   
-     │ Exact  Exact  Exact  Exact  Exact  Exact 
-─────┼──────────────────────────────────────────
-   1 │ 0      17/4   1      -3/4   0      51
-   2 │ 1      1/4    0      1/4    0      9
-   3 │ 0      -11/4  0      5/4    1      45
+julia&gt; find_pivot(T)
+(1, 1)
 
-Iteration 2
-3×6 DataFrame
- Row │ x1     x2     s1     s2     val    RHS   
-     │ Exact  Exact  Exact  Exact  Exact  Exact 
-─────┼──────────────────────────────────────────
-   1 │ 0      1      4/17   -3/17  0      12
-   2 │ 1      0      -1/17  5/17   0      6
-   3 │ 0      0      11/17  13/17  1      78
+julia&gt; pivot(T,1,1)
+4×7 DataFrame
+ Row │ x1     x2     s1     s2     s3     val    RHS   
+     │ Exact  Exact  Exact  Exact  Exact  Exact  Exact 
+─────┼─────────────────────────────────────────────────
+   1 │ 1      3/8    1/8    0      0      0      3
+   2 │ 0      5/8    -1/8   1      0      0      1
+   3 │ 0      29/8   -1/8   0      1      0      9
+   4 │ 0      -1/4   1/4    0      0      1      6</code></pre><h2 id="Solving-the-LP"><a class="docs-heading-anchor" href="#Solving-the-LP">Solving the LP</a><a id="Solving-the-LP-1"></a><a class="docs-heading-anchor-permalink" href="#Solving-the-LP" title="Permalink"></a></h2><h3 id="Solution-by-pivoting"><a class="docs-heading-anchor" href="#Solution-by-pivoting">Solution by pivoting</a><a id="Solution-by-pivoting-1"></a><a class="docs-heading-anchor-permalink" href="#Solution-by-pivoting" title="Permalink"></a></h3><p>The function <code>pivot_solve</code> produces the optimal solution to the LP. </p><pre><code class="nohighlight hljs">julia&gt; pivot_solve(T)
+4×7 DataFrame
+ Row │ x1     x2     s1     s2     s3     val    RHS   
+     │ Exact  Exact  Exact  Exact  Exact  Exact  Exact 
+─────┼─────────────────────────────────────────────────
+   1 │ 8      3      1      0      0      0      24
+   2 │ 1      1      0      1      0      0      4
+   3 │ 1      4      0      0      1      0      12
+   4 │ -2     -1     0      0      0      1      0
 
-Optimum value = 78
+
+Pivot at (1,1)
+
+4×7 DataFrame
+ Row │ x1     x2     s1     s2     s3     val    RHS   
+     │ Exact  Exact  Exact  Exact  Exact  Exact  Exact 
+─────┼─────────────────────────────────────────────────
+   1 │ 1      3/8    1/8    0      0      0      3
+   2 │ 0      5/8    -1/8   1      0      0      1
+   3 │ 0      29/8   -1/8   0      1      0      9
+   4 │ 0      -1/4   1/4    0      0      1      6
+
+
+Pivot at (2,2)
+
+4×7 DataFrame
+ Row │ x1     x2     s1     s2     s3     val    RHS   
+     │ Exact  Exact  Exact  Exact  Exact  Exact  Exact 
+─────┼─────────────────────────────────────────────────
+   1 │ 1      0      1/5    -3/5   0      0      12/5
+   2 │ 0      1      -1/5   8/5    0      0      8/5
+   3 │ 0      0      3/5    -29/5  1      0      16/5
+   4 │ 0      0      1/5    2/5    0      1      32/5
+
+Optimum value after 2 iterations = 32/5
 2-element Vector{Rational{BigInt}}:
-  6
- 12</code></pre><h2 id="Check-the-results"><a class="docs-heading-anchor" href="#Check-the-results">Check the results</a><a id="Check-the-results-1"></a><a class="docs-heading-anchor-permalink" href="#Check-the-results" title="Permalink"></a></h2><p>Checking feasibility:</p><pre><code class="nohighlight hljs">julia&gt; A*x .&lt;= b
-2-element BitVector:
- 1
- 1</code></pre><p>Checking value:</p><pre><code class="nohighlight hljs">julia&gt; c&#39; * x == 78
-true</code></pre><h2 id="Repeat-using-an-LP-solver-(HiGHS)"><a class="docs-heading-anchor" href="#Repeat-using-an-LP-solver-(HiGHS)">Repeat using an LP solver (HiGHS)</a><a id="Repeat-using-an-LP-solver-(HiGHS)-1"></a><a class="docs-heading-anchor-permalink" href="#Repeat-using-an-LP-solver-(HiGHS)" title="Permalink"></a></h2><pre><code class="nohighlight hljs">julia&gt; lp_solve(T)
+ 12//5
+  8//5</code></pre><p>To supress the illustrative output and just present the solution, use <code>pivot_solve(T, false)</code>.</p><p>The alternative <code>pivot_solve!</code> performs the same operations as <code>pivot_solve</code> but modifies <code>T</code> as it goes.</p><h2 id="The-restore-function"><a class="docs-heading-anchor" href="#The-restore-function">The <code>restore</code> function</a><a id="The-restore-function-1"></a><a class="docs-heading-anchor-permalink" href="#The-restore-function" title="Permalink"></a></h2><p>As mentioned, the <code>pivot!</code> and <code>pivot_solve!</code> functions modify the <code>Tableau</code>. Use <code>restore</code> to return a <code>Tableau</code> to its original state like this: <code>T = restore(T)</code>. </p><pre><code class="nohighlight hljs">julia&gt; T
+4×7 DataFrame
+ Row │ x1     x2     s1     s2     s3     val    RHS   
+     │ Exact  Exact  Exact  Exact  Exact  Exact  Exact 
+─────┼─────────────────────────────────────────────────
+   1 │ 8      3      1      0      0      0      24
+   2 │ 1      1      0      1      0      0      4
+   3 │ 1      4      0      0      1      0      12
+   4 │ -2     -1     0      0      0      1      0
+
+julia&gt; pivot!(T,1,1);
+
+julia&gt; T
+4×7 DataFrame
+ Row │ x1     x2     s1     s2     s3     val    RHS   
+     │ Exact  Exact  Exact  Exact  Exact  Exact  Exact 
+─────┼─────────────────────────────────────────────────
+   1 │ 1      3/8    1/8    0      0      0      3
+   2 │ 0      5/8    -1/8   1      0      0      1
+   3 │ 0      29/8   -1/8   0      1      0      9
+   4 │ 0      -1/4   1/4    0      0      1      6
+
+julia&gt; T = restore(T)
+4×7 DataFrame
+ Row │ x1     x2     s1     s2     s3     val    RHS   
+     │ Exact  Exact  Exact  Exact  Exact  Exact  Exact 
+─────┼─────────────────────────────────────────────────
+   1 │ 8      3      1      0      0      0      24
+   2 │ 1      1      0      1      0      0      4
+   3 │ 1      4      0      0      1      0      12
+   4 │ -2     -1     0      0      0      1      0</code></pre><h3 id="Solution-by-use-of-an-LP-solver"><a class="docs-heading-anchor" href="#Solution-by-use-of-an-LP-solver">Solution by use of an LP solver</a><a id="Solution-by-use-of-an-LP-solver-1"></a><a class="docs-heading-anchor-permalink" href="#Solution-by-use-of-an-LP-solver" title="Permalink"></a></h3><p>The function <code>lp_solve</code> also solves the LP, but uses a standard solver (HiGHS):</p><pre><code class="nohighlight hljs">julia&gt; lp_solve(T)
 2-element Vector{Float64}:
-  6.0
- 12.0</code></pre></article><nav class="docs-footer"><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.10.0 on <span class="colophon-date" title="Wednesday 2 April 2025 09:06">Wednesday 2 April 2025</span>. Using Julia version 1.11.4.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+ 2.4000000000000004
+ 1.599999999999999</code></pre><h2 id="Visualization"><a class="docs-heading-anchor" href="#Visualization">Visualization</a><a id="Visualization-1"></a><a class="docs-heading-anchor-permalink" href="#Visualization" title="Permalink"></a></h2><p>For LPs with exactly two variables, the <code>visualize</code> function creates a plot of the  constraints as lines that bound the feasible region and the solution (as a dot).</p><pre><code class="nohighlight hljs">julia&gt; visualize(T)</code></pre><p><img src="visual.png" alt/></p></article><nav class="docs-footer"><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.10.0 on <span class="colophon-date" title="Thursday 3 April 2025 11:02">Thursday 3 April 2025</span>. Using Julia version 1.11.4.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
