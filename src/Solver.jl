@@ -7,21 +7,23 @@ function pivot_solve!(T::Tableau, verbose::Bool=true)
     count = 0
     while true
         if verbose
-            println("Iteration $count")
+            #println("Iteration $count")
             println(T)
             println()
-            count += 1
         end
         i, j = find_pivot(T)
         if i == 0 || j == 0
             break
         end
+        verbose && println("\nPivot at ($i,$j)\n")
         pivot!(T, i, j)
+
+        count += 1
     end # end while
 
     if verbose
         val = Exact(T.M[end, end])
-        println("Optimum value = $val")
+        println("Optimum value after $count iterations = $val")
     end
 
     return _get_x(T)

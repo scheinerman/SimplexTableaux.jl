@@ -52,4 +52,12 @@ function unbounded_example()
     return Tableau(A, b, c)
 end
 
+function random_example(n_vars::Int, n_cons::Int, modulus::Int=10)
+    f(x::Int) = mod1(x, modulus)
+    A = f.(rand(Int, n_cons, n_vars))
+    b = f.(rand(Int, n_cons))
+    c = f.(rand(Int, n_vars))
+    return Tableau(A, b, c)
+end
+
 nothing

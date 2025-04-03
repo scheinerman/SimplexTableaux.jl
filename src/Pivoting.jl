@@ -16,7 +16,7 @@ end
 Determine the pivot row for column `j` of `T`.
 """
 function find_pivot_row(T::Tableau, j::Int)
-    rhs = T.b
+    rhs = T.M[1:(end - 1), end]
     col = T.M[1:(end - 1), j]
     vals = rhs .// col
     _, i = findmin(vals)
