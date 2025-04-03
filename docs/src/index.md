@@ -13,7 +13,7 @@ For a quick introduction (and caveats), see the
 
 To set up a `Tableau` for the LP $\max c^t x$ subject to $Ax ≤ b$ and $x \ge 0$ use `Tableau(A,b,c)`. 
 
-```julia
+```
 A = [8 3; 1 1; 1 4]
 b = [24; 4; 12]
 c = [2; 1]
