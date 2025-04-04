@@ -52,19 +52,22 @@ function check_solution(T::Tableau)::Bool
     T = deepcopy(T)
     x = pivot_solve!(T, false)
     if any(T.A * x .> T.b)
+        @info "Feasibility error"
         return false
     end
 
     if any(x .< 0)
+        @info "Nonnegativity error"
         return false
     end
 
-    if dot(T.c, x) != T.M[end, end]
-        return false
-    end
+    val1 = dot(T.c, x)
 
     xx = lp_solve(T, false)
-    if norm(x - xx) > 1e-6
+
+    val2 = dot(T.c, xx)
+    if abs(val1 - val2) > 1e-6
+        @info "Different optimum values error"
         return false
     end
 
