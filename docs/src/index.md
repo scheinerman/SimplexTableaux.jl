@@ -118,10 +118,12 @@ The function `lp_solve` also solves the LP, but uses a standard solver (by defau
 ```
 julia> lp_solve(T)
 Optimum value = 6.3999999999999995
+
 2-element Vector{Float64}:
  2.4000000000000004
  1.599999999999999
 ```
+Use `lp_solve(T, false)` to supress the reporting of the optimum value. 
 
 ## The `restore!` Function
 

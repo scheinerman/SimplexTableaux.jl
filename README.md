@@ -114,6 +114,7 @@ true
 ```
 julia> lp_solve(T)
 Optimum value = 78.0
+
 2-element Vector{Float64}:
   6.0
  12.0
