@@ -38,7 +38,7 @@ function check_solution(T::Tableau)::Bool
         return false
     end
 
-    xx = lp_solve(T)
+    xx = lp_solve(T, false)
     if norm(Float64.(x) - xx) > 1e-6
         return false
     end

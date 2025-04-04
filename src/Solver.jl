@@ -23,7 +23,14 @@ function pivot_solve!(T::Tableau, verbose::Bool=true)
 
     if verbose
         val = Exact(T.M[end, end])
-        println("Optimum value after $count iterations = $val")
+        print("Optimum value after $count iterations = $val")
+        if denominator(val.val) ≠ 1
+            obj_val = Float64.(val.val)
+            println(" = $obj_val")
+        else
+            println()
+        end
+        println()
     end
 
     return _get_x(T)

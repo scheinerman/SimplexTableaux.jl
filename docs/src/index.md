@@ -102,7 +102,8 @@ Pivot at (2,2)
    3 │ 0      0      3/5    -29/5  1      0      16/5
    4 │ 0      0      1/5    2/5    0      1      32/5
 
-Optimum value after 2 iterations = 32/5
+Optimum value after 2 iterations = 32/5 = 6.4
+
 2-element Vector{Rational{BigInt}}:
  12//5
   8//5
@@ -116,6 +117,7 @@ The alternative `pivot_solve!` performs the same operations as `pivot_solve` but
 The function `lp_solve` also solves the LP, but uses a standard solver (by default, [HiGHS](https://highs.dev/)):
 ```
 julia> lp_solve(T)
+Optimum value = 6.3999999999999995
 2-element Vector{Float64}:
  2.4000000000000004
  1.599999999999999

@@ -1,3 +1,6 @@
+
+> **Note**: Any version numbered 0.0.x is likely to be buggy and it just preliminary before the 0.1.0 release. 
+
 # SimplexTableaux
 
 This module can be used to show how to solve linear programming problems using the simplex method by pivoting
@@ -83,6 +86,7 @@ Pivot at (1,2)
    3 │ 0      0      11/17  13/17  1      78
 
 Optimum value after 2 iterations = 78
+
 2-element Vector{Rational{BigInt}}:
   6
  12
@@ -109,6 +113,7 @@ true
 
 ```
 julia> lp_solve(T)
+Optimum value = 78.0
 2-element Vector{Float64}:
   6.0
  12.0
