@@ -16,7 +16,7 @@ At present it will fail if:
 * Other unidentified reasons. (In other words, still buggy.)
 
 
-This module also set up for maximization problems only. To solve a minimization problem use the dual LP by
+This module is only set up for maximization problems only. To solve a minimization problem use the dual LP by
 replacing the inputs `A`, `b`, and `c` with `A'`, `c`, and `b` respectively. 
 
 This module solves LPs using the simplex algorithm which is not the most performant method. Further, all data is stored using arbitrary precision integers (that is, `Rational{BigInt}`) which gives exact answer, but is much slower than floating point arithmetic. These issues are negligible for small problems. 
