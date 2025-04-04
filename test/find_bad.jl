@@ -42,20 +42,6 @@ function check_solution(T::Tableau)::Bool
 
     return true
 end
-"""
-    random_example(n_vars::Int, n_cons::Int, modulus::Int=10)
-
-Create a random instance of a `Tableau` with `n_vars` variables, 
-`n_cons` constraints in which all data are chosen IID uniformly
-from `{1,2,...,modulus}`.
-"""
-function random_example(n_vars::Int, n_cons::Int, modulus::Int=10)::Tableau
-    f(x::Int) = mod1(x, modulus)
-    A = f.(rand(Int, n_cons, n_vars))
-    b = f.(rand(Int, n_cons))
-    c = f.(rand(Int, n_vars))
-    return Tableau(A, b, c)
-end
 
 """
     check_solution(T::Tableau, x::Vector)::Bool
@@ -77,7 +63,7 @@ function check_solution(T::Tableau)::Bool
         return false
     end
 
-    xx = lp_solve(T)
+    xx = lp_solve(T, false)
     if norm(x - xx) > 1e-6
         return false
     end
