@@ -77,7 +77,9 @@ function _get_x(T::Tableau)
     x = zeros(TabEntry, T.n_vars)
 
     for i in 1:(T.n_vars)
-        col = T.M[1:(T.n_cons), i]
+        # col = T.M[1:(T.n_cons), i]
+        col = T.M[:, i]
+
         if _is_basis_vector(col)
             j = findfirst(col .== 1)
             x[i] = T.M[j, end]

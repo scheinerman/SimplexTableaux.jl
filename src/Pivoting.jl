@@ -38,7 +38,31 @@ Determine the pivot row for column `j` of `T`.
 function find_pivot_row(T::Tableau, j::Int)
     rhs = T.M[1:(end - 1), end]
     col = T.M[1:(end - 1), j]
-    vals = rhs .// col
+
+    m = length(col)
+    vals = 0 * col
+
+    for i in 1:m
+        if col[i] <= 0
+            vals[i] = -1
+            continue
+        else
+            vals[i] = rhs[i]//col[i]
+        end
+    end
+
+    # vals = rhs .// col
+
+    # @show Float64.(vals)
+
+    # for idx in 1:length(col)
+    #     if col[idx] <= 0
+    #         vals[idx] = -1
+    #     end
+    # end
+
+    #@show Float64.(vals)
+
     # _, i = findmin(vals)
     i = find_least_nonnegative(vals)
     return i

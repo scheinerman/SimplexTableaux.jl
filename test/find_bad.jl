@@ -61,11 +61,11 @@ function check_solution(T::Tableau)::Bool
         return false
     end
 
-    val1 = dot(T.c, x)
+    val1 = dot(T.c, x)   # opt from pivoting
 
     xx = lp_solve(T, false)
+    val2 = dot(T.c, xx)  # opt from LP solver
 
-    val2 = dot(T.c, xx)
     if abs(val1 - val2) > 1e-6
         @info "Different optimum values error"
         return false
