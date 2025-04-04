@@ -22,7 +22,7 @@ function find_least_nonnegative(v::Vector)
     end
     idx = 0
     for k in 1:length(v)
-        if v[k] >= 0 && v[k] < m
+        if v[k] >= 0 && v[k] <= m
             m = v[k]
             idx = k
         end
