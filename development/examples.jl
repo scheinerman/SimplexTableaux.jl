@@ -1,4 +1,4 @@
-using SimpleTableaux
+using SimplexTableaux
 
 """
     example1()

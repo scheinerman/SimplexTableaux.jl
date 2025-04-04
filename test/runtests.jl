@@ -1,5 +1,5 @@
 using Test
-using SimpleTableaux
+using SimplexTableaux
 using LinearAlgebra
 using DataFrames
 

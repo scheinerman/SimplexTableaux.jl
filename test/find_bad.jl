@@ -1,4 +1,4 @@
-using SimpleTableaux, LinearAlgebra, ProgressMeter
+using SimplexTableaux, LinearAlgebra, ProgressMeter
 
 """
     random_example(n_vars::Int, n_cons::Int, modulus::Int=10)

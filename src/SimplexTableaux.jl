@@ -1,4 +1,4 @@
-module SimpleTableaux
+module SimplexTableaux
 
 using ChooseOptimizer
 using DataFrames

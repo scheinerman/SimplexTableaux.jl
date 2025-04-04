@@ -1,4 +1,4 @@
-# SimpleTableaux
+# SimplexTableaux
 
 This is an illustration project for solving 
 feasible optimization problems (Linear Programs) of the form 
