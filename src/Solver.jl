@@ -5,6 +5,7 @@ Same as `pivot_solve` but this version modifies `T`.
 """
 function pivot_solve!(T::Tableau, verbose::Bool=true)
     count = 0
+    max_pivots = T.n_vars * T.n_cons
     while true
         if verbose
             #println("Iteration $count")
@@ -19,6 +20,10 @@ function pivot_solve!(T::Tableau, verbose::Bool=true)
         pivot!(T, i, j)
 
         count += 1
+        if count > max_pivots
+            verbose && @info "Max pivots exceeded"
+            break
+        end
     end # end while
 
     if verbose
