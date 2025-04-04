@@ -30,7 +30,7 @@ This example comes from [this video](https://www.youtube.com/watch?v=rzRZLGD_aeE
 
 Create the matrix `A`, the RHS vector `b`, and the objective function coefficients `c`:
 ```
-julia> using SimpleTableaux
+julia> using SimplexTableaux
 julia> A = [3 5; 4 1];
 julia> b = [78; 36];
 julia> c = [5; 4];
