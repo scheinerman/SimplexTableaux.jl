@@ -1,5 +1,5 @@
 
-> **Note**: Any version numbered 0.0.x is likely to be buggy and it just preliminary before the 0.1.0 release. 
+> **Note**: Any version numbered 0.0.x is likely to be buggy and just preliminary before the 0.1.0 release. 
 
 # SimplexTableaux
 
@@ -26,6 +26,8 @@ This module solves LPs using the simplex algorithm which is not the most perform
 
 
 # Quick Start Instructions
+
+This is an overview. More extensive documentation is [housed here](https://docs.juliahub.com/General/SimplexTableaux/).
 
 ## Set up the problem
 

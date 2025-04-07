@@ -4,8 +4,11 @@ This is an illustration project for solving
 feasible optimization problems (Linear Programs) of the form 
 $\max c^t x$ subject to $Ax ≤ b$ and $x \ge 0$.
 
+> **Note**: Any version numbered 0.0.x is likely to be buggy and just preliminary before the 0.1.0 release. 
+
+
 For a quick introduction (and caveats), see the 
-[README](https://github.com/scheinerman/SimpleTableaux.jl/blob/main/README.md).
+[README](https://github.com/scheinerman/SimplexTableaux.jl/blob/main/README.md).
 
 ## Creating a `Tableau`
 
@@ -62,9 +65,14 @@ julia> pivot(T,1,1)
    4 │ 0      -1/4   1/4    0      0      1      6
 ```
 
+To manually solve a linear program, use `pivot!` at each step so the `Tableau` is modified by the operation. 
+
+
 ## Solving the LP 
 
 ### Solution by pivoting
+
+> **Note**: As of this release, this mostly works; however, it may reach a maximum number of iterations without finding an optimal solution. Also, if the LP is unbounded or infeasible, it will likely fail. 
 
 The function `pivot_solve` produces the optimal solution to the LP. 
 ```
