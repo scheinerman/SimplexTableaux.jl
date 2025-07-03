@@ -5,6 +5,7 @@
 
 
 <hr>
+
 # SimplexTableaux
 
 This module can be used to show how to solve linear programming problems using the simplex method by pivoting
