@@ -1,5 +1,5 @@
 
-> **Note**: Any version numbered 0.0.x is likely to be buggy and just preliminary before the 0.1.0 release. 
+> **Note**: Any version numbered 0.0.x is likely to be buggy and just preliminary before the 0.1.0 release. I also will probably change to minimization as the default.
 
 # SimplexTableaux
 
