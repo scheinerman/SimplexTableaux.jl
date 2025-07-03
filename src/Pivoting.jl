@@ -157,3 +157,35 @@ function negate(T::Tableau, r::Int)
     TT = deepcopy(T)
     negate!(T, r)
 end
+
+"""
+    swap!(T::Tableau, i::Int, j::Int)
+
+Swap rows `i` and `j` of the Tableau.
+"""
+function swap!(T::Tableau, i::Int, j::Int)
+    if i<2 || j<2
+        error(_not_row_one)
+    end
+
+    if i==j
+        return T
+    end
+
+    row_i = T.M[i, :]
+    row_j = T.M[j, :]
+
+    T.M[j, :] = row_i
+    T.M[i, :] = row_j
+
+    T
+end
+"""
+    swap!(T::Tableau, i::Int, j::Int)
+
+Swap rows `i` and `j` of a copy of the Tableau.
+"""
+function swap(T::Tableau, i::Int, j::Int)
+    TT = deepcopy(T)
+    swap!(TT, i, j)
+end

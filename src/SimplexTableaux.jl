@@ -33,6 +33,8 @@ export Tableau,
     restore,
     restore!,
     show_row_labels,
+    swap,
+    swap!,
     visualize
 
 # Tableau struture is based on standard minimization LP:
@@ -73,7 +75,7 @@ struct Tableau
         M = vcat(top_row, body)
 
         # test rank of M[2:end,2:end-1]
-        if rankx(M[2:end, 2:end-1]) ≠ m 
+        if rankx(M[2:end, 2:(end - 1)]) ≠ m
             @warn("Rank difficient Tableau")
         end
 
