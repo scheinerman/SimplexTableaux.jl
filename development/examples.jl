@@ -60,4 +60,11 @@ function random_example(n_vars::Int, n_cons::Int, modulus::Int=10)
     return Tableau(A, b, c)
 end
 
+function dog_food()
+    A = [3 10; 5 6; 10 2]
+    b = [100; 100; 100]
+    c = [25; 10]
+    return A, b, c
+end
+
 nothing

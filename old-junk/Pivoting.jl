@@ -1,6 +1,3 @@
-_not_row_one = "May not modify the first row of the Tableau"
-_not_col_one = "May not modify the first column of the Tableau"
-
 """
     find_pivot_column(T::Tableau)
 
@@ -133,27 +130,4 @@ end
 function pivot(T::Tableau)
     TT = deepcopy(T)
     return pivot!(TT)
-end
-
-"""
-    negate!(T::Tableau, r::Int)
-
-Replace row `r` with its negative.
-"""
-function negate!(T::Tableau, r::Int)
-    if r==1
-        error(_not_row_one)
-    end
-    T.M[r, :] = -T.M[r, :]
-    return T
-end
-
-"""
-    negate(T::Tableau, r::Int)
-
-Replace row `r` with its negative. Nonmodifying version of `negate!`.
-"""
-function negate(T::Tableau, r::Int)
-    TT = deepcopy(T)
-    negate!(T, r)
 end

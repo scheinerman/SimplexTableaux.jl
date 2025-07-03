@@ -1,6 +1,10 @@
 
-> **Note**: Any version numbered 0.0.x is likely to be buggy and just preliminary before the 0.1.0 release. I also will probably change to minimization as the default.
+> **Note**: DO NOT USE THIS YET! Any version numbered 0.0.x is likely to be buggy and just preliminary before the 0.1.0 release. I am going to change to minimization as the default. 
 
+# Everything below here is a lie!
+
+
+<hr>
 # SimplexTableaux
 
 This module can be used to show how to solve linear programming problems using the simplex method by pivoting
