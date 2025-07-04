@@ -3,6 +3,7 @@ module SimplexTableaux
 using ChooseOptimizer
 using DataFrames
 using JuMP
+using LatexPrint
 using LinearAlgebra
 using LinearAlgebraX
 using SimpleDrawing
@@ -141,5 +142,6 @@ include("Pivoting.jl")
 include("Solver.jl")
 include("LPsolve.jl")
 include("Visualize.jl")
+include("lap.jl")
 
 end # module SimpleTableaux
