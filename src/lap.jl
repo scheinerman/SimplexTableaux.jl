@@ -14,7 +14,8 @@ function latex_form(T::Tableau)::String
 end
 
 function _header(T::Tableau)::String
-    align = "{c|" * "c"^T.n_vars * "|c}"
+    align_ch = "r"
+    align = "{" * align_ch * "|" * align_ch^T.n_vars * "|" * align_ch * "}"
     return "\\begin{array}" * align * "\n"
 end
 
