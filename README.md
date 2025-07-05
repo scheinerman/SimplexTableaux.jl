@@ -18,7 +18,7 @@ At present it will fail if:
 * The LP is unbounded.
 * Other unidentified reasons. (In other words, still buggy.)
 
-This module is only set up for minimization problems only. 
+This module is set up for minimization problems only. 
 
 This module solves LPs using the simplex algorithm which is not the most performant method. 
 Further, all data is stored using arbitrary precision integers (that is, `Rational{BigInt}`) which gives 
