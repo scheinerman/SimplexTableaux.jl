@@ -20,7 +20,7 @@ At present it will fail if:
 
 This module is set up for minimization problems only. 
 
-This module solves LPs using the simplex algorithm which is not the most performant method. 
+This module solves [not yet!!] LPs using the simplex algorithm which is not the most performant method. 
 Further, all data is stored using arbitrary precision integers (that is, `Rational{BigInt}`) which gives 
 exact answer, but is much slower than floating point arithmetic. These issues are negligible for small problems. 
 
