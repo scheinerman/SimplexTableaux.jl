@@ -1,7 +1,8 @@
 import LatexPrint.latex_form
 
 function latex_form(T::Tableau)::String
-    result = _header(T) * _any_row(T, 1) * "\\hline"
+    set_slash()
+    result = _latex_header(T) * _any_row(T, 1) * "\\hline \n"
 
     r, _ = size(T.M)
     for i in 2:r
@@ -13,7 +14,7 @@ function latex_form(T::Tableau)::String
     return result
 end
 
-function _header(T::Tableau)::String
+function _latex_header(T::Tableau)::String
     align_ch = "r"
     align = "{" * align_ch * "|" * align_ch^T.n_vars * "|" * align_ch * "}"
     return "\\begin{array}" * align * "\n"

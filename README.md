@@ -1,5 +1,5 @@
 
-> **Note**: DO NOT USE THIS YET! Any version numbered 0.0.x is likely to be buggy and just preliminary before the 0.1.0 release. I am going to change to minimization as the default. 
+> **Note**: This is early days for this module. Anything before 0.1.0 is subject to massive changes. 
 
 # SimplexTableaux
 
@@ -30,10 +30,7 @@ exact answer, but is much slower than floating point arithmetic. These issues ar
 
 A linear program in canonical form is $\min c^T x$ s.t. $Ax ≥ b$, $x ≥ 0$. 
 
-For example, let
-$A = \left[\begin{smallmatrix}3&10 \\ 5&6 \\ 10 & 2\end{smallmatrix}\right]$, 
-$b = \left[\begin{smallmatrix}100 \\100 \\100 \end{smallmatrix}\right]$, and 
-$c = \left[\begin{smallmatrix}25\\10 \end{smallmatrix}\right]$.
+For example, let `A`, `b`, and `c` be as follows:
 ```
 julia> A = [3 10; 5 6; 10 2];
 
@@ -92,121 +89,245 @@ julia> T = Tableau(A, b, c, false)
 
 # Operations
 
+Operations on a `Tableau` may include row and/or column indices. A row index refers
+to the constraint number. That is, row 1 corresponds to the `Cons 1` row. A column index refers 
+to a decision variable. That is, column 1 corresonds to the $x_1$ column. 
 
+## Pivot operations 
 
+### Basic pivot
 
-
-
-<hr>
-<hr>
-<hr>
-
-# Everything below here is unreliable.
-
-
-<hr>
-
-
-
-
-
-
-
-# Quick Start Instructions
-
-This is an overview. More extensive documentation is [housed here](https://docs.juliahub.com/General/SimplexTableaux/).
-
-## Set up the problem
-
-This example comes from [this video](https://www.youtube.com/watch?v=rzRZLGD_aeE).
-
-Create the matrix `A`, the RHS vector `b`, and the objective function coefficients `c`:
+Use `pivot!(T, i, j)` to perform a pivot on row `i` and contraint `j`. The entry at that 
+location must not be `0`.
 ```
-julia> using SimplexTableaux
-julia> A = [3 5; 4 1];
-julia> b = [78; 36];
-julia> c = [5; 4];
+julia> T
+┌──────────┬───┬─────┬─────┬─────┬─────┬─────┬─────┐
+│          │ z │ x_1 │ x_2 │ x_3 │ x_4 │ x_5 │ RHS │
+│ Obj Func │ 1 │  -2 │  -4 │  -2 │  -1 │   1 │   0 │
+├──────────┼───┼─────┼─────┼─────┼─────┼─────┼─────┤
+│   Cons 1 │ 0 │   2 │   1 │   0 │   9 │  -1 │   9 │
+│   Cons 2 │ 0 │   1 │   1 │  -1 │   5 │   1 │   7 │
+└──────────┴───┴─────┴─────┴─────┴─────┴─────┴─────┘
+
+julia> pivot!(T,1,4)
+┌──────────┬───┬───────┬───────┬─────┬─────┬──────┬─────┐
+│          │ z │   x_1 │   x_2 │ x_3 │ x_4 │  x_5 │ RHS │
+│ Obj Func │ 1 │ -16/9 │ -35/9 │  -2 │   0 │  8/9 │   1 │
+├──────────┼───┼───────┼───────┼─────┼─────┼──────┼─────┤
+│   Cons 1 │ 0 │   2/9 │   1/9 │   0 │   1 │ -1/9 │   1 │
+│   Cons 2 │ 0 │  -1/9 │   4/9 │  -1 │   0 │ 14/9 │   2 │
+└──────────┴───┴───────┴───────┴─────┴─────┴──────┴─────┘
 ```
-Then set up the `Tableau` as follows:
+The function `pivot` has works the same, but does not modify the `Tableau`. It returns a 
+copy with the result of the pivot.
+
+### Basis pivot
+
+Let `B` be a list of columns (with as many columns specified as there are constraints).
+`basis_pivot!(T, B)` makes that selection of columns into basic variables.
 ```
-julia> T = Tableau(A, b, c)
-3×6 DataFrame
- Row │ x1     x2     s1     s2     val    RHS   
-     │ Exact  Exact  Exact  Exact  Exact  Exact 
-─────┼──────────────────────────────────────────
-   1 │ 3      5      1      0      0      78
-   2 │ 4      1      0      1      0      36
-   3 │ -5     -4     0      0      1      0
-```
-Notice that the last row is the encoding of the objective function.
+julia> T
+┌──────────┬───┬─────┬─────┬─────┬─────┬─────┬─────┐
+│          │ z │ x_1 │ x_2 │ x_3 │ x_4 │ x_5 │ RHS │
+│ Obj Func │ 1 │  -2 │  -4 │  -2 │  -1 │   1 │   0 │
+├──────────┼───┼─────┼─────┼─────┼─────┼─────┼─────┤
+│   Cons 1 │ 0 │   2 │   1 │   0 │   9 │  -1 │   9 │
+│   Cons 2 │ 0 │   1 │   1 │  -1 │   5 │   1 │   7 │
+└──────────┴───┴─────┴─────┴─────┴─────┴─────┴─────┘
 
-## Solve the problem 
+julia> B = [3,5];
 
-```
-julia> x = pivot_solve(T)
-3×6 DataFrame
- Row │ x1     x2     s1     s2     val    RHS   
-     │ Exact  Exact  Exact  Exact  Exact  Exact 
-─────┼──────────────────────────────────────────
-   1 │ 3      5      1      0      0      78
-   2 │ 4      1      0      1      0      36
-   3 │ -5     -4     0      0      1      0
-
-
-Pivot at (2,1)
-
-3×6 DataFrame
- Row │ x1     x2     s1     s2     val    RHS   
-     │ Exact  Exact  Exact  Exact  Exact  Exact 
-─────┼──────────────────────────────────────────
-   1 │ 0      17/4   1      -3/4   0      51
-   2 │ 1      1/4    0      1/4    0      9
-   3 │ 0      -11/4  0      5/4    1      45
-
-
-Pivot at (1,2)
-
-3×6 DataFrame
- Row │ x1     x2     s1     s2     val    RHS   
-     │ Exact  Exact  Exact  Exact  Exact  Exact 
-─────┼──────────────────────────────────────────
-   1 │ 0      1      4/17   -3/17  0      12
-   2 │ 1      0      -1/17  5/17   0      6
-   3 │ 0      0      11/17  13/17  1      78
-
-Optimum value after 2 iterations = 78
-
-2-element Vector{Rational{BigInt}}:
-  6
- 12
+julia> basis_pivot!(T, B)
+┌──────────┬───┬─────┬─────┬─────┬─────┬─────┬─────┐
+│          │ z │ x_1 │ x_2 │ x_3 │ x_4 │ x_5 │ RHS │
+│ Obj Func │ 1 │  -6 │  -7 │   0 │ -20 │   0 │ -23 │
+├──────────┼───┼─────┼─────┼─────┼─────┼─────┼─────┤
+│   Cons 1 │ 0 │  -3 │  -2 │   1 │ -14 │   0 │ -16 │
+│   Cons 2 │ 0 │  -2 │  -1 │   0 │  -9 │   1 │  -9 │
+└──────────┴───┴─────┴─────┴─────┴─────┴─────┴─────┘
 ```
 
 
-## Check the results
+## Other operations
 
-Checking feasibility:
+### Swap rows
+
+Use `swap!(T, i, j)` to swap rows `i` and `j` of the `Tableau`.
 ```
-julia> A*x .<= b
-2-element BitVector:
- 1
- 1
+julia> T
+┌──────────┬───┬─────┬─────┬─────┬─────┬─────┬─────┐
+│          │ z │ x_1 │ x_2 │ x_3 │ x_4 │ x_5 │ RHS │
+│ Obj Func │ 1 │  -2 │  -4 │  -2 │  -1 │   1 │   0 │
+├──────────┼───┼─────┼─────┼─────┼─────┼─────┼─────┤
+│   Cons 1 │ 0 │   2 │   1 │   0 │   9 │  -1 │   9 │
+│   Cons 2 │ 0 │   1 │   1 │  -1 │   5 │   1 │   7 │
+└──────────┴───┴─────┴─────┴─────┴─────┴─────┴─────┘
+
+julia> swap!(T, 1, 2)
+┌──────────┬───┬─────┬─────┬─────┬─────┬─────┬─────┐
+│          │ z │ x_1 │ x_2 │ x_3 │ x_4 │ x_5 │ RHS │
+│ Obj Func │ 1 │  -2 │  -4 │  -2 │  -1 │   1 │   0 │
+├──────────┼───┼─────┼─────┼─────┼─────┼─────┼─────┤
+│   Cons 1 │ 0 │   1 │   1 │  -1 │   5 │   1 │   7 │
+│   Cons 2 │ 0 │   2 │   1 │   0 │   9 │  -1 │   9 │
+└──────────┴───┴─────┴─────┴─────┴─────┴─────┴─────┘
 ```
 
-Checking value:
+### Negating a row 
+
+Use `negate!(T, i)` to negate row `i`. 
 ```
-julia> c' * x == 78
+julia> T
+┌──────────┬───┬─────┬─────┬─────┬─────┬─────┬─────┐
+│          │ z │ x_1 │ x_2 │ x_3 │ x_4 │ x_5 │ RHS │
+│ Obj Func │ 1 │  -2 │  -4 │  -2 │  -1 │   1 │   0 │
+├──────────┼───┼─────┼─────┼─────┼─────┼─────┼─────┤
+│   Cons 1 │ 0 │   2 │   1 │   0 │   9 │  -1 │   9 │
+│   Cons 2 │ 0 │   1 │   1 │  -1 │   5 │   1 │   7 │
+└──────────┴───┴─────┴─────┴─────┴─────┴─────┴─────┘
+
+julia> negate!(T,2)
+┌──────────┬───┬─────┬─────┬─────┬─────┬─────┬─────┐
+│          │ z │ x_1 │ x_2 │ x_3 │ x_4 │ x_5 │ RHS │
+│ Obj Func │ 1 │  -2 │  -4 │  -2 │  -1 │   1 │   0 │
+├──────────┼───┼─────┼─────┼─────┼─────┼─────┼─────┤
+│   Cons 1 │ 0 │   2 │   1 │   0 │   9 │  -1 │   9 │
+│   Cons 2 │ 0 │  -1 │  -1 │   1 │  -5 │  -1 │  -7 │
+└──────────┴───┴─────┴─────┴─────┴─────┴─────┴─────┘
+```
+
+### Return to start
+
+Use `restore!(T)` to return `T` to its original values. 
+```
+julia> T
+┌──────────┬───┬─────┬─────┬─────┬─────┬─────┬─────┐
+│          │ z │ x_1 │ x_2 │ x_3 │ x_4 │ x_5 │ RHS │
+│ Obj Func │ 1 │  -2 │  -4 │  -2 │  -1 │   1 │   0 │
+├──────────┼───┼─────┼─────┼─────┼─────┼─────┼─────┤
+│   Cons 1 │ 0 │   2 │   1 │   0 │   9 │  -1 │   9 │
+│   Cons 2 │ 0 │   1 │   1 │  -1 │   5 │   1 │   7 │
+└──────────┴───┴─────┴─────┴─────┴─────┴─────┴─────┘
+
+julia> pivot!(T,2,4)
+┌──────────┬───┬──────┬───────┬───────┬─────┬───────┬───────┐
+│          │ z │  x_1 │   x_2 │   x_3 │ x_4 │   x_5 │   RHS │
+│ Obj Func │ 1 │ -9/5 │ -19/5 │ -11/5 │   0 │   6/5 │   7/5 │
+├──────────┼───┼──────┼───────┼───────┼─────┼───────┼───────┤
+│   Cons 1 │ 0 │  1/5 │  -4/5 │   9/5 │   0 │ -14/5 │ -18/5 │
+│   Cons 2 │ 0 │  1/5 │   1/5 │  -1/5 │   1 │   1/5 │   7/5 │
+└──────────┴───┴──────┴───────┴───────┴─────┴───────┴───────┘
+
+julia> restore!(T)
+┌──────────┬───┬─────┬─────┬─────┬─────┬─────┬─────┐
+│          │ z │ x_1 │ x_2 │ x_3 │ x_4 │ x_5 │ RHS │
+│ Obj Func │ 1 │  -2 │  -4 │  -2 │  -1 │   1 │   0 │
+├──────────┼───┼─────┼─────┼─────┼─────┼─────┼─────┤
+│   Cons 1 │ 0 │   2 │   1 │   0 │   9 │  -1 │   9 │
+│   Cons 2 │ 0 │   1 │   1 │  -1 │   5 │   1 │   7 │
+└──────────┴───┴─────┴─────┴─────┴─────┴─────┴─────┘
+```
+
+# Solving Linear Programs
+
+## Manually
+
+User can use `pivot!` to emulate the Simple Algorithm. We plan to automate this, but 
+that will take a bit of time.
+
+## Feasible basic vector
+
+Assuming the `Tableau` has been pivoted to a basic vector, check that the current 
+state is feasible (i.e., the RHS for all the constraints is non-negative).
+
+```
+julia> T
+┌──────────┬───┬─────┬─────┬─────┬─────┬─────┬─────┐
+│          │ z │ x_1 │ x_2 │ x_3 │ x_4 │ x_5 │ RHS │
+│ Obj Func │ 1 │  -2 │  -4 │  -2 │  -1 │   1 │   0 │
+├──────────┼───┼─────┼─────┼─────┼─────┼─────┼─────┤
+│   Cons 1 │ 0 │   2 │   1 │   0 │   9 │  -1 │   9 │
+│   Cons 2 │ 0 │   1 │   1 │  -1 │   5 │   1 │   7 │
+└──────────┴───┴─────┴─────┴─────┴─────┴─────┴─────┘
+
+julia> basis_pivot!(T,[2,4])
+┌──────────┬───┬───────┬─────┬───────┬─────┬──────┬──────┐
+│          │ z │   x_1 │ x_2 │   x_3 │ x_4 │  x_5 │  RHS │
+│ Obj Func │ 1 │ -11/4 │   0 │ -43/4 │   0 │ 29/2 │ 37/2 │
+├──────────┼───┼───────┼─────┼───────┼─────┼──────┼──────┤
+│   Cons 1 │ 0 │  -1/4 │   1 │  -9/4 │   0 │  7/2 │  9/2 │
+│   Cons 2 │ 0 │   1/4 │   0 │   1/4 │   1 │ -1/2 │  1/2 │
+└──────────┴───┴───────┴─────┴───────┴─────┴──────┴──────┘
+
+julia> is_feasible(T)
 true
+
+julia> basis_pivot!(T,[1,3])
+┌──────────┬───┬─────┬──────┬─────┬──────┬──────┬──────┐
+│          │ z │ x_1 │  x_2 │ x_3 │  x_4 │  x_5 │  RHS │
+│ Obj Func │ 1 │   0 │   -4 │   0 │    7 │   -3 │    4 │
+├──────────┼───┼─────┼──────┼─────┼──────┼──────┼──────┤
+│   Cons 1 │ 0 │   1 │  1/2 │   0 │  9/2 │ -1/2 │  9/2 │
+│   Cons 2 │ 0 │   0 │ -1/2 │   1 │ -1/2 │ -3/2 │ -5/2 │
+└──────────┴───┴─────┴──────┴─────┴──────┴──────┴──────┘
+
+julia> is_feasible(T)
+false
 ```
 
-## Repeat using a proper LP solver
+
+
+## Using a solver
+
+The function `lp_solve` finds a numerical solution to the linear program 
+using a Julia solver (default: HiGHS).
 
 ```
+julia> T
+┌──────────┬───┬─────┬─────┬─────┬─────┬─────┬─────┐
+│          │ z │ x_1 │ x_2 │ x_3 │ x_4 │ x_5 │ RHS │
+│ Obj Func │ 1 │  -2 │  -4 │  -2 │  -1 │   1 │   0 │
+├──────────┼───┼─────┼─────┼─────┼─────┼─────┼─────┤
+│   Cons 1 │ 0 │   2 │   1 │   0 │   9 │  -1 │   9 │
+│   Cons 2 │ 0 │   1 │   1 │  -1 │   5 │   1 │   7 │
+└──────────┴───┴─────┴─────┴─────┴─────┴─────┴─────┘
+
 julia> lp_solve(T)
-Optimum value = 78.0
+Optimum value = -0.14285714285714324
 
-2-element Vector{Float64}:
-  6.0
- 12.0
+5-element Vector{Float64}:
+ 0.0
+ 0.0
+ 0.0
+ 1.1428571428571428
+ 1.285714285714286
 ```
 
-The `lp_solve` function uses the [HiGHS](https://highs.dev/) solver. 
+
+# LaTeX output
+
+Using [LatexPrint](https://github.com/scheinerman/LatexPrint.jl) users can get the 
+code for pasting into a LaTeX document.
+```
+julia> using LatexPrint
+
+julia> T
+┌──────────┬───┬─────┬─────┬─────┬─────┬─────┬─────┐
+│          │ z │ x_1 │ x_2 │ x_3 │ x_4 │ x_5 │ RHS │
+│ Obj Func │ 1 │  -2 │  -4 │  -2 │  -1 │   1 │   0 │
+├──────────┼───┼─────┼─────┼─────┼─────┼─────┼─────┤
+│   Cons 1 │ 0 │   2 │   1 │   0 │   9 │  -1 │   9 │
+│   Cons 2 │ 0 │   1 │   1 │  -1 │   5 │   1 │   7 │
+└──────────┴───┴─────┴─────┴─────┴─────┴─────┴─────┘
+
+julia> laprintln(T)
+
+\begin{array}{r|rrrrr|r}
+1 & -2 & -4 & -2 & -1 & 1 & 0\\
+\hline 
+0 & 2 & 1 & 0 & 9 & -1 & 9\\
+0 & 1 & 1 & -1 & 5 & 1 & 7\\
+\end{array}
+```
+
+![](tableau.png)

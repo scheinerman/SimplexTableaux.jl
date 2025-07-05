@@ -1,33 +1,29 @@
 module SimplexTableaux
 
 using ChooseOptimizer
-using DataFrames
 using JuMP
 using LatexPrint
 using LinearAlgebraX
 using PrettyTables
-using SimpleDrawing
-using SimpleDrawingObjects
 
 import Base: show
 
-function __init__()
-    LatexPrint.set_slash()
-end
+# function __init__()
+#     LatexPrint.set_slash()
+# end
 
 include("Exact.jl")
 
 export Tableau,
     basis_pivot!,
+    is_feasible,
     lp_solve,
-    make_standard,
     negate,
     negate!,
     pivot,
     pivot!,
     restore,
     restore!,
-    show_row_labels,
     swap,
     swap!
 
@@ -126,8 +122,17 @@ end
 include("Pivoting.jl")
 include("Solver.jl")
 include("LPsolve.jl")
-# include("Visualize.jl")
 include("lap.jl")
 include("Pretty.jl")
+
+"""
+    is_feasible(T::Tableau)::Bool
+
+Return `true` is the current state of `T` is at a feasible vector.
+"""
+function is_feasible(T::Tableau)::Bool
+    b = T.M[2:end, end]
+    all(b .>= 0)
+end
 
 end # module SimpleTableaux
