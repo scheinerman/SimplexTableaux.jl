@@ -50,7 +50,7 @@ julia> Tableau(A, b, c)
 ```
 Notice that extra variables $x_3$, $x_4$, and $x_5$ are added to the `Tableau` 
 as slack variables to convert inequalities into equations. That is, canonical 
-from LPs are automatically converted into standard form. 
+form LPs are automatically converted into standard form. 
 
 
 
@@ -232,7 +232,7 @@ julia> restore!(T)
 
 ## Manually
 
-User can use `pivot!` to emulate the Simple Algorithm. We plan to automate this, but 
+User can use `pivot!` to emulate the Simplex Algorithm. We plan to automate this, but 
 that will take a bit of time.
 
 ## Feasible basic vector
