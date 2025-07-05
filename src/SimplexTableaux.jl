@@ -4,7 +4,6 @@ using ChooseOptimizer
 using DataFrames
 using JuMP
 using LatexPrint
-using LinearAlgebra
 using LinearAlgebraX
 using PrettyTables
 using SimpleDrawing

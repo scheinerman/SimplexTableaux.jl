@@ -20,22 +20,86 @@ At present it will fail if:
 
 This module is only set up for minimization problems only. 
 
-This module solves LPs using the simplex algorithm which is not the most performant method. Further, all data is stored using arbitrary precision integers (that is, `Rational{BigInt}`) which gives exact answer, but is much slower than floating point arithmetic. These issues are negligible for small problems. 
+This module solves LPs using the simplex algorithm which is not the most performant method. 
+Further, all data is stored using arbitrary precision integers (that is, `Rational{BigInt}`) which gives 
+exact answer, but is much slower than floating point arithmetic. These issues are negligible for small problems. 
+
+# Setting up a `Tableau`
+
+## Canonical form LPs
+
+A linear program in canonical form is $\min c^T x$ s.t. $Ax ≥ b$, $x ≥ 0$. 
+
+For example, let
+$A = \left[\begin{smallmatrix}3&10 \\ 5&6 \\ 10 & 2\end{smallmatrix}\right]$, 
+$b = \left[\begin{smallmatrix}100 \\100 \\100 \end{smallmatrix}\right]$, and 
+$c = \left[\begin{smallmatrix}25\\10 \end{smallmatrix}\right]$.
+```
+julia> A = [3 10; 5 6; 10 2];
+
+julia> b = [100, 100, 100];
+
+julia> c = [25, 10];
+
+julia> Tableau(A, b, c)
+┌──────────┬───┬─────┬─────┬─────┬─────┬─────┬─────┐
+│          │ z │ x_1 │ x_2 │ x_3 │ x_4 │ x_5 │ RHS │
+│ Obj Func │ 1 │ -25 │ -10 │   0 │   0 │   0 │   0 │
+├──────────┼───┼─────┼─────┼─────┼─────┼─────┼─────┤
+│   Cons 1 │ 0 │   3 │  10 │  -1 │   0 │   0 │ 100 │
+│   Cons 2 │ 0 │   5 │   6 │   0 │  -1 │   0 │ 100 │
+│   Cons 3 │ 0 │  10 │   2 │   0 │   0 │  -1 │ 100 │
+└──────────┴───┴─────┴─────┴─────┴─────┴─────┴─────┘
+```
+Notice that extra variables $x_3$, $x_4$, and $x_5$ are added to the `Tableau` 
+as slack variables to convert inequalities into equations. That is, canonical 
+from LPs are automatically converted into standard form. 
+
+
+
+## Standard form LPs
+
+A linear program in standard form is $\min c^T x$ s.t. $Ax = b$, $x ≥ 0$. 
+For example,
+```
+julia> A = [2 1 0 9 -1; 1 1 -1 5 1]
+2×5 Matrix{Int64}:
+ 2  1   0  9  -1
+ 1  1  -1  5   1
+
+julia> b = [9, 7]
+2-element Vector{Int64}:
+ 9
+ 7
+
+julia> c = [2, 4, 2, 1, -1]
+5-element Vector{Int64}:
+  2
+  4
+  2
+  1
+ -1
+
+julia> T = Tableau(A, b, c, false)
+┌──────────┬───┬─────┬─────┬─────┬─────┬─────┬─────┐
+│          │ z │ x_1 │ x_2 │ x_3 │ x_4 │ x_5 │ RHS │
+│ Obj Func │ 1 │  -2 │  -4 │  -2 │  -1 │   1 │   0 │
+├──────────┼───┼─────┼─────┼─────┼─────┼─────┼─────┤
+│   Cons 1 │ 0 │   2 │   1 │   0 │   9 │  -1 │   9 │
+│   Cons 2 │ 0 │   1 │   1 │  -1 │   5 │   1 │   7 │
+└──────────┴───┴─────┴─────┴─────┴─────┴─────┴─────┘
+```
+
+# Operations
+
+
+
 
 
 
 <hr>
-
-
-```
-┌──────────┬───┬───────┬───────┬───────┬─────┬─────┬──────┐
-│          │ z │   x_1 │   x_2 │   x_3 │ x_4 │ x_5 │  RHS │
-│ Obj Func │ 1 │ -12/7 │ -29/7 │ -10/7 │   0 │   0 │ -1/7 │
-├──────────┼───┼───────┼───────┼───────┼─────┼─────┼──────┤
-│   Cons 1 │ 0 │  3/14 │   1/7 │ -1/14 │   1 │   0 │  8/7 │
-│   Cons 2 │ 0 │ -1/14 │   2/7 │ -9/14 │   0 │   1 │  9/7 │
-└──────────┴───┴───────┴───────┴───────┴─────┴─────┴──────┘
-```
+<hr>
+<hr>
 
 # Everything below here is unreliable.
 
