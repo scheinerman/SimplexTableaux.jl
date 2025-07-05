@@ -74,7 +74,7 @@ end
 Extract the values of the solution to `T` after finish pivoting.
 """
 function _get_x(T::Tableau)
-    x = zeros(TabEntry, T.n_vars)
+    x = zeros(_Exact, T.n_vars)
 
     for i in 1:(T.n_vars)
         # col = T.M[1:(T.n_cons), i]

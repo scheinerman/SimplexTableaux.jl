@@ -6,23 +6,17 @@ using JuMP
 using LatexPrint
 using LinearAlgebra
 using LinearAlgebraX
+using PrettyTables
 using SimpleDrawing
 using SimpleDrawingObjects
 
-import DataFrames: DataFrame
 import Base: show
 
-
-function __init__() 
+function __init__()
     LatexPrint.set_slash()
 end
 
-"""
-    TabEntry
-
-This is the data type for the entries in the Tableau: `Ration{BigInt}`. 
-"""
-TabEntry = Rational{BigInt}
+include("Exact.jl")
 
 export Tableau,
     basis_pivot!,
@@ -53,7 +47,7 @@ Create a `Tableau` data structure for the linear program minimize `c' * x` subje
 If matrix and vectors are already in standard form, then use `Tableau(A, b, c, false)`.
 """
 struct Tableau
-    M::Matrix{TabEntry}   # place to hold the entire Tableau
+    M::Matrix{_Exact}     # place to hold the entire Tableau
     A::Matrix             # (original) A matrix
     b::Vector             # (original) RHS, b vector
     c::Vector             # (original) objective coefficients, c vector
@@ -130,18 +124,11 @@ function restore!(T::Tableau)
     return T
 end
 
-include("Exact.jl")
-include("DataFrame.jl")
-
-function show(io::IO, T::Tableau)
-    df = DataFrame(T)
-    return show(io, df)
-end
-
 include("Pivoting.jl")
 include("Solver.jl")
 include("LPsolve.jl")
-include("Visualize.jl")
+# include("Visualize.jl")
 include("lap.jl")
+include("Pretty.jl")
 
 end # module SimpleTableaux

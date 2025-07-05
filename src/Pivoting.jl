@@ -1,5 +1,5 @@
-_not_row_one = "May not modify the first row of the Tableau"
-_not_col_one = "May not modify the first column of the Tableau"
+_not_row_one = "May not modify the header row of the Tableau"
+_not_col_one = "May not modify the z column of the Tableau"
 
 """
     pivot!(T::Tableau, i::Int, j::Int)
@@ -31,30 +31,30 @@ end
 """
     pivot(T::Tableau, i::Int, j::Int)
 
-Non-modifying version of `pivot!`
+Non-modifying version of `pivot!`.
 """
 function pivot(T::Tableau, i::Int, j::Int)
     TT = deepcopy(T)
     return pivot!(TT, i, j)
 end
 
-function pivot!(T::Tableau)
-    i, j = find_pivot(T)
-    if i == 0 || j == 0
-        return T
-    end
-    return pivot!(T, i, j)
-end
+# function pivot!(T::Tableau)
+#     i, j = find_pivot(T)
+#     if i == 0 || j == 0
+#         return T
+#     end
+#     return pivot!(T, i, j)
+# end
 
-function pivot(T::Tableau)
-    TT = deepcopy(T)
-    return pivot!(TT)
-end
+# function pivot(T::Tableau)
+#     TT = deepcopy(T)
+#     return pivot!(TT)
+# end
 
 """
     negate!(T::Tableau, r::Int)
 
-Replace row `r` with its negative.
+Replace constraint `r` with its negative.
 """
 function negate!(T::Tableau, r::Int)
     r += 1
@@ -100,9 +100,9 @@ function swap!(T::Tableau, i::Int, j::Int)
     T
 end
 """
-    swap!(T::Tableau, i::Int, j::Int)
+    swap(T::Tableau, i::Int, j::Int)
 
-Swap rows `i` and `j` of a copy of the Tableau.
+Non-modifying version of `swap!`.
 """
 function swap(T::Tableau, i::Int, j::Int)
     TT = deepcopy(T)

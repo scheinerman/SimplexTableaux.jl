@@ -1,6 +1,5 @@
 import LatexPrint.latex_form
 
-
 function latex_form(T::Tableau)::String
     result = _header(T) * _any_row(T, 1) * "\\hline"
 
