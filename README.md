@@ -24,9 +24,9 @@ This module solves LPs using the simplex algorithm which is not the most perform
 Further, all data is stored using arbitrary precision integers (that is, `Rational{BigInt}`) which gives 
 exact answer, but is much slower than floating point arithmetic. These issues are negligible for small problems. 
 
-# Setting up a `Tableau`
+## Setting up a `Tableau`
 
-## Canonical form LPs
+### Canonical form LPs
 
 A linear program in canonical form is $\min c^T x$ s.t. $Ax ≥ b$, $x ≥ 0$. 
 
@@ -54,7 +54,7 @@ form LPs are automatically converted into standard form.
 
 
 
-## Standard form LPs
+### Standard form LPs
 
 A linear program in standard form is $\min c^T x$ s.t. $Ax = b$, $x ≥ 0$. 
 For example,
@@ -87,15 +87,15 @@ julia> T = Tableau(A, b, c, false)
 └──────────┴───┴─────┴─────┴─────┴─────┴─────┴─────┘
 ```
 
-# Operations
+## Operations
 
 Operations on a `Tableau` may include row and/or column indices. A row index refers
 to the constraint number. That is, row 1 corresponds to the `Cons 1` row. A column index refers 
 to a decision variable. That is, column 1 corresonds to the $x_1$ column. 
 
-## Pivot operations 
+### Pivot operations 
 
-### Basic pivot
+#### Basic pivot
 
 Use `pivot!(T, i, j)` to perform a pivot on row `i` and contraint `j`. The entry at that 
 location must not be `0`.
@@ -121,7 +121,7 @@ julia> pivot!(T,1,4)
 The function `pivot` has works the same, but does not modify the `Tableau`. It returns a 
 copy with the result of the pivot.
 
-### Basis pivot
+#### Basis pivot
 
 Let `B` be a list of columns (with as many columns specified as there are constraints).
 `basis_pivot!(T, B)` makes that selection of columns into basic variables.
@@ -148,9 +148,9 @@ julia> basis_pivot!(T, B)
 ```
 
 
-## Other operations
+### Other operations
 
-### Swap rows
+#### Swap rows
 
 Use `swap!(T, i, j)` to swap rows `i` and `j` of the `Tableau`.
 ```
@@ -173,7 +173,7 @@ julia> swap!(T, 1, 2)
 └──────────┴───┴─────┴─────┴─────┴─────┴─────┴─────┘
 ```
 
-### Negating a row 
+#### Negating a row 
 
 Use `negate!(T, i)` to negate row `i`. 
 ```
@@ -196,7 +196,7 @@ julia> negate!(T,2)
 └──────────┴───┴─────┴─────┴─────┴─────┴─────┴─────┘
 ```
 
-### Return to start
+#### Return to start
 
 Use `restore!(T)` to return `T` to its original values. 
 ```
@@ -228,14 +228,14 @@ julia> restore!(T)
 └──────────┴───┴─────┴─────┴─────┴─────┴─────┴─────┘
 ```
 
-# Solving Linear Programs
+## Solving Linear Programs
 
-## Manually
+### Manually
 
 User can use `pivot!` to emulate the Simplex Algorithm. We plan to automate this, but 
 that will take a bit of time.
 
-## Feasible basic vector
+#### Feasible basic vector
 
 Assuming the `Tableau` has been pivoted to a basic vector, check that the current 
 state is feasible (i.e., the RHS for all the constraints is non-negative).
@@ -277,7 +277,7 @@ false
 
 
 
-## Using a solver
+### Using a solver
 
 The function `lp_solve` finds a numerical solution to the linear program 
 using a Julia solver (default: HiGHS).
@@ -304,7 +304,7 @@ Optimum value = -0.14285714285714324
 ```
 
 
-# LaTeX output
+## LaTeX output
 
 Using [LatexPrint](https://github.com/scheinerman/LatexPrint.jl) users can get the 
 code for pasting into a LaTeX document.
