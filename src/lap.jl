@@ -1,10 +1,11 @@
 import LatexPrint.latex_form
 
+
 function latex_form(T::Tableau)::String
     result = _header(T) * _any_row(T, 1) * "\\hline"
 
-    r,_ = size(T.M)
-    for i=2:r 
+    r, _ = size(T.M)
+    for i in 2:r
         result *= _any_row(T, i)
     end
 

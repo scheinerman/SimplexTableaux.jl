@@ -1,12 +1,13 @@
 
-_show_row_labels = false
+_show_row_labels = true
+
 
 """
     show_row_labels(x::Bool=true)
 
 When a Tableau is printed on the screen, decide if we show row labels starting with `obj`
 for the top row, and then `cons1`, `cons2`, etc. for the constraint rows. If `true`, then show. 
-Initially, row labels are not shown.
+Initially, row labels are shown.
 """
 function show_row_labels(x::Bool=true)
     SimplexTableaux._show_row_labels = x
@@ -19,6 +20,7 @@ Present a `Tableau` as a `DataFrame`.
 """
 function DataFrame(T::Tableau)
     df = DataFrame()
+    #hide_row_numbers(df)
 
     _, nc = size(T.M)
 

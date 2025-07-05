@@ -1,19 +1,14 @@
 
 > **Note**: DO NOT USE THIS YET! Any version numbered 0.0.x is likely to be buggy and just preliminary before the 0.1.0 release. I am going to change to minimization as the default. 
 
-# Everything below here is a lie!
-
-
-<hr>
-
 # SimplexTableaux
 
-This module can be used to show how to solve linear programming problems using the simplex method by pivoting
-tableaux. 
+This module can be used to show how to solve linear programming problems using 
+the simplex method by pivoting tableaux. 
 
-This is an illusration project for solving 
-feasible optimization problems of the form 
-$\max c^t x$ subject to $Ax ≤ b$ and $x \ge 0$. 
+This is an illusration project for solving  feasible optimization problems of the form 
+$\min c^T x$ subject to $Ax ≥ b$ and $x \ge 0$ (canonical form)
+and of the form $\min c^T x$ subject to $Ax = b$ and $x \ge 0$ (standard form).
 
 ## Caveats
 
@@ -23,11 +18,23 @@ At present it will fail if:
 * The LP is unbounded.
 * Other unidentified reasons. (In other words, still buggy.)
 
-
-This module is only set up for maximization problems only. To solve a minimization problem use the dual LP by
-replacing the inputs `A`, `b`, and `c` with `A'`, `c`, and `b` respectively. 
+This module is only set up for minimization problems only. 
 
 This module solves LPs using the simplex algorithm which is not the most performant method. Further, all data is stored using arbitrary precision integers (that is, `Rational{BigInt}`) which gives exact answer, but is much slower than floating point arithmetic. These issues are negligible for small problems. 
+
+
+
+<hr>
+
+# Everything below here is unreliable.
+
+
+<hr>
+
+
+
+
+
 
 
 # Quick Start Instructions

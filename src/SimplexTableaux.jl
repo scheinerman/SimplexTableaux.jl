@@ -12,6 +12,11 @@ using SimpleDrawingObjects
 import DataFrames: DataFrame
 import Base: show
 
+
+function __init__() 
+    LatexPrint.set_slash()
+end
+
 """
     TabEntry
 
@@ -20,23 +25,18 @@ This is the data type for the entries in the Tableau: `Ration{BigInt}`.
 TabEntry = Rational{BigInt}
 
 export Tableau,
-    find_pivot,
-    find_pivot_column,
-    find_pivot_row,
+    basis_pivot!,
     lp_solve,
     make_standard,
     negate,
     negate!,
     pivot,
     pivot!,
-    pivot_solve,
-    pivot_solve!,
     restore,
     restore!,
     show_row_labels,
     swap,
-    swap!,
-    visualize
+    swap!
 
 # Tableau struture is based on standard minimization LP:
 # min c'*x st Ax ≥ b, x≥0
