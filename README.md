@@ -18,9 +18,9 @@ At present it will fail if:
 * The LP is unbounded.
 * Other unidentified reasons. (In other words, still buggy.)
 
-This module is only set up for minimization problems only. 
+This module is set up for minimization problems only. 
 
-This module solves LPs using the simplex algorithm which is not the most performant method. 
+This module solves [not yet!!] LPs using the simplex algorithm which is not the most performant method. 
 Further, all data is stored using arbitrary precision integers (that is, `Rational{BigInt}`) which gives 
 exact answer, but is much slower than floating point arithmetic. These issues are negligible for small problems. 
 
@@ -86,6 +86,7 @@ julia> T = Tableau(A, b, c, false)
 │   Cons 2 │ 0 │   1 │   1 │  -1 │   5 │   1 │   7 │
 └──────────┴───┴─────┴─────┴─────┴─────┴─────┴─────┘
 ```
+The fourth argument `false` means that the constraints are already equalities and slack variables should not be appended. 
 
 ## Operations
 
