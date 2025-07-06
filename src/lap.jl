@@ -1,7 +1,8 @@
 import LatexPrint.latex_form
 
+_vspacer() = return "{\\Large\\strut}"
+
 function latex_form(T::Tableau)::String
-    set_slash()
     result = _latex_header(T) * _any_row(T, 1) * "\\hline \n"
 
     r, _ = size(T.M)
@@ -15,16 +16,21 @@ function latex_form(T::Tableau)::String
 end
 
 function _latex_header(T::Tableau)::String
-    align_ch = "r"
-    align = "{" * align_ch * "|" * align_ch^T.n_vars * "|" * align_ch * "}"
-    return "\\begin{array}" * align * "\n"
+    align_ch = "c"
+    align = "{" * "|" * align_ch * "|" * align_ch^T.n_vars * "|" * align_ch * "|}"
+    result = "\\begin{tabular}" * align * "\\hline \n"
+    result *= _vspacer() * "\$z\$ &"
+    for i in 1:T.n_vars
+        result *= "\$x_{$i}\$ & "
+    end
+    result *= "RHS \\\\\n"
 end
 
 function _any_row(T::Tableau, i::Int)::String
     result = ""
     _, c = size(T.M)
     for j in 1:c
-        result *= latex_form(T.M[i, j])
+        result *= "\$"*latex_form(T.M[i, j])*"\$"
         if j<c
             result *= " & "
         else
@@ -32,9 +38,9 @@ function _any_row(T::Tableau, i::Int)::String
         end
     end
     result *= "\n"
-    return result
+    return _vspacer()*result
 end
 
 function _footer(T::Tableau)::String
-    return "\\end{array}"
+    return "\\hline \n\\end{tabular}"
 end

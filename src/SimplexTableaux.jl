@@ -3,6 +3,7 @@ module SimplexTableaux
 using ChooseOptimizer
 using JuMP
 using LatexPrint
+using LinearAlgebra
 using LinearAlgebraX
 using PrettyTables
 

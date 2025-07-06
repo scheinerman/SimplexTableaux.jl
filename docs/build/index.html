@@ -180,19 +180,21 @@ Optimum value = -0.14285714285714324
  1.285714285714286</code></pre><h2 id="LaTeX-output"><a class="docs-heading-anchor" href="#LaTeX-output">LaTeX output</a><a id="LaTeX-output-1"></a><a class="docs-heading-anchor-permalink" href="#LaTeX-output" title="Permalink"></a></h2><p>Using <a href="https://github.com/scheinerman/LatexPrint.jl">LatexPrint</a> users can get the  code for pasting into a LaTeX document.</p><pre><code class="nohighlight hljs">julia&gt; using LatexPrint
 
 julia&gt; T
-┌──────────┬───┬─────┬─────┬─────┬─────┬─────┬─────┐
-│          │ z │ x_1 │ x_2 │ x_3 │ x_4 │ x_5 │ RHS │
-│ Obj Func │ 1 │  -2 │  -4 │  -2 │  -1 │   1 │   0 │
-├──────────┼───┼─────┼─────┼─────┼─────┼─────┼─────┤
-│   Cons 1 │ 0 │   2 │   1 │   0 │   9 │  -1 │   9 │
-│   Cons 2 │ 0 │   1 │   1 │  -1 │   5 │   1 │   7 │
-└──────────┴───┴─────┴─────┴─────┴─────┴─────┴─────┘
+┌──────────┬───┬─────┬─────┬─────┬─────┬──────┬─────┐
+│          │ z │ x_1 │ x_2 │ x_3 │ x_4 │  x_5 │ RHS │
+│ Obj Func │ 1 │   0 │  -3 │  -2 │   8 │    0 │   9 │
+├──────────┼───┼─────┼─────┼─────┼─────┼──────┼─────┤
+│   Cons 1 │ 0 │   1 │ 1/2 │   0 │ 9/2 │ -1/2 │ 9/2 │
+│   Cons 2 │ 0 │   0 │ 1/2 │  -1 │ 1/2 │  3/2 │ 5/2 │
+└──────────┴───┴─────┴─────┴─────┴─────┴──────┴─────┘
 
-julia&gt; laprintln(T)
 
-\begin{array}{r|rrrrr|r}
-1 &amp; -2 &amp; -4 &amp; -2 &amp; -1 &amp; 1 &amp; 0\\
+julia&gt; lap(T)
+\begin{tabular}{|c|ccccc|c|}\hline 
+{\Large\strut}$z$ &amp;$x_{1}$ &amp; $x_{2}$ &amp; $x_{3}$ &amp; $x_{4}$ &amp; $x_{5}$ &amp; RHS \\
+{\Large\strut}$1$ &amp; $0$ &amp; $-3$ &amp; $-2$ &amp; $8$ &amp; $0$ &amp; $9$\\
 \hline 
-0 &amp; 2 &amp; 1 &amp; 0 &amp; 9 &amp; -1 &amp; 9\\
-0 &amp; 1 &amp; 1 &amp; -1 &amp; 5 &amp; 1 &amp; 7\\
-\end{array}</code></pre><p><img src="tableau.png" alt/></p></article><nav class="docs-footer"><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.10.1 on <span class="colophon-date" title="Saturday 5 July 2025 17:45">Saturday 5 July 2025</span>. Using Julia version 1.11.5.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+{\Large\strut}$0$ &amp; $1$ &amp; $\frac{1}{2}$ &amp; $0$ &amp; $\frac{9}{2}$ &amp; $\frac{-1}{2}$ &amp; $\frac{9}{2}$\\
+{\Large\strut}$0$ &amp; $0$ &amp; $\frac{1}{2}$ &amp; $-1$ &amp; $\frac{1}{2}$ &amp; $\frac{3}{2}$ &amp; $\frac{5}{2}$\\
+\hline 
+\end{tabular}</code></pre><p>Here is the LaTeX output:</p><p><img src="tableau.png" alt/></p></article><nav class="docs-footer"><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.10.1 on <span class="colophon-date" title="Sunday 6 July 2025 09:37">Sunday 6 July 2025</span>. Using Julia version 1.11.5.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
