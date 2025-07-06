@@ -1,6 +1,7 @@
 module SimplexTableaux
 
 using ChooseOptimizer
+using Combinatorics
 using JuMP
 using LatexPrint
 using LinearAlgebra
@@ -28,7 +29,8 @@ export Tableau,
     scale,
     scale!,
     swap,
-    swap!
+    swap!,
+    value
 
 # Tableau struture is based on standard minimization LP:
 # min c'*x st Ax ≥ b, x≥0
@@ -132,6 +134,15 @@ function restore!(T::Tableau)
     return T
 end
 
+"""
+    value(T::Tableau, x::Vector)
+
+Return the value of the LP in `T` at the point `x`.
+"""
+function value(T::Tableau, x::Vector)
+    return T.c' * x
+end
+
 include("Pivoting.jl")
 include("Solver.jl")
 include("LPsolve.jl")
@@ -147,5 +158,17 @@ function is_feasible(T::Tableau)::Bool
     b = T.M[2:end, end]
     all(b .>= 0)
 end
+
+"""
+    is_feasible(T::Tableau, x::Vector)::Bool
+
+Return `true` is the vector `x` is a in the feasible region
+of the LP represented in `T`.
+"""
+function is_feasible(T::Tableau, x::Vector)::Bool
+    return T.A*x == T.b && all(x .>= 0)
+end
+
+include("Bases.jl")
 
 end # module SimpleTableaux

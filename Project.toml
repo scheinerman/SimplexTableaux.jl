@@ -5,6 +5,7 @@ version = "0.0.4"
 
 [deps]
 ChooseOptimizer = "858a232f-1959-5553-8cfc-91e1fd5304e2"
+Combinatorics = "861a8166-3701-5b0c-9a16-15d98fcdc6aa"
 JuMP = "4076af6c-e467-56ae-b986-b466b2749572"
 LatexPrint = "d2208f48-c256-5759-9089-c25ed2a93924"
 LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
@@ -14,6 +15,7 @@ Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
 [compat]
 ChooseOptimizer = "0.3"
+Combinatorics = "1"
 JuMP = "1"
 LatexPrint = "1"
 LinearAlgebra = "1"
