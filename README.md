@@ -22,7 +22,7 @@ This module is set up for minimization problems only.
 
 This module solves [not yet!!] LPs using the simplex algorithm which is not the most performant method. 
 Further, all data is stored using arbitrary precision integers (that is, `Rational{BigInt}`) which gives 
-exact answer, but is much slower than floating point arithmetic. These issues are negligible for small problems. 
+exact results, but is much slower than floating point arithmetic. These issues are negligible for small problems. 
 
 ## Setting up a `Tableau`
 
@@ -228,6 +228,9 @@ julia> restore!(T)
 │   Cons 2 │ 0 │   1 │   1 │  -1 │   5 │   1 │   7 │
 └──────────┴───┴─────┴─────┴─────┴─────┴─────┴─────┘
 ```
+
+Copies of the original matrix `A` and the vectors `b` and `c` used to create a `Tableau` 
+can be extracted from `T` by calling `get_Abc(T)`.
 
 ## Solving Linear Programs
 
