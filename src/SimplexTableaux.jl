@@ -16,16 +16,17 @@ import Base: show
 include("Exact.jl")
 
 export Tableau,
+    basis_pivot,
     basis_pivot!,
     get_Abc,
     is_feasible,
     lp_solve,
-    negate,
-    negate!,
     pivot,
     pivot!,
     restore,
     restore!,
+    scale,
+    scale!,
     swap,
     swap!
 

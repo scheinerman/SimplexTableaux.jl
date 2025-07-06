@@ -119,8 +119,6 @@ julia> pivot!(T,1,4)
 │   Cons 2 │ 0 │  -1/9 │   4/9 │  -1 │   0 │ 14/9 │   2 │
 └──────────┴───┴───────┴───────┴─────┴─────┴──────┴─────┘
 ```
-The function `pivot` has works the same, but does not modify the `Tableau`. It returns a 
-copy with the result of the pivot.
 
 #### Basis pivot
 
@@ -174,9 +172,9 @@ julia> swap!(T, 1, 2)
 └──────────┴───┴─────┴─────┴─────┴─────┴─────┴─────┘
 ```
 
-#### Negating a row 
+#### Scaling a row 
 
-Use `negate!(T, i)` to negate row `i`. 
+Use `scale!(T,r,s)` to multiply all elements of row `r` by `s`.
 ```
 julia> T
 ┌──────────┬───┬─────┬─────┬─────┬─────┬─────┬─────┐
@@ -187,15 +185,16 @@ julia> T
 │   Cons 2 │ 0 │   1 │   1 │  -1 │   5 │   1 │   7 │
 └──────────┴───┴─────┴─────┴─────┴─────┴─────┴─────┘
 
-julia> negate!(T,2)
+julia> scale!(T,2,5)
 ┌──────────┬───┬─────┬─────┬─────┬─────┬─────┬─────┐
 │          │ z │ x_1 │ x_2 │ x_3 │ x_4 │ x_5 │ RHS │
 │ Obj Func │ 1 │  -2 │  -4 │  -2 │  -1 │   1 │   0 │
 ├──────────┼───┼─────┼─────┼─────┼─────┼─────┼─────┤
 │   Cons 1 │ 0 │   2 │   1 │   0 │   9 │  -1 │   9 │
-│   Cons 2 │ 0 │  -1 │  -1 │   1 │  -5 │  -1 │  -7 │
+│   Cons 2 │ 0 │   5 │   5 │  -5 │  25 │   5 │  35 │
 └──────────┴───┴─────┴─────┴─────┴─────┴─────┴─────┘
 ```
+
 
 #### Return to start
 
@@ -231,6 +230,15 @@ julia> restore!(T)
 
 Copies of the original matrix `A` and the vectors `b` and `c` used to create a `Tableau` 
 can be extracted from `T` by calling `get_Abc(T)`.
+
+### Non-modifying versions of functions
+
+The functions `basis_pivot!`, `pivot!`, `restore!`, `scale!`, and `swap!` all modify 
+the tableau to which they apply. There are versions of all of these that do not modify
+the tableau; instead, they return a copy of the tableau that is the result of the
+operation, leaving the tableau unchanged. 
+The non-modifying versions have the same names, but with the `!` removed. 
+
 
 ## Solving Linear Programs
 

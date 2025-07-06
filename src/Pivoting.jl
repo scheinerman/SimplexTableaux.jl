@@ -38,41 +38,32 @@ function pivot(T::Tableau, i::Int, j::Int)
     return pivot!(TT, i, j)
 end
 
-# function pivot!(T::Tableau)
-#     i, j = find_pivot(T)
-#     if i == 0 || j == 0
-#         return T
-#     end
-#     return pivot!(T, i, j)
-# end
-
-# function pivot(T::Tableau)
-#     TT = deepcopy(T)
-#     return pivot!(TT)
-# end
-
 """
-    negate!(T::Tableau, r::Int)
+    scale!(T::Tableau, r::Int, s::_Exact)
 
-Replace constraint `r` with its negative.
+Multiply row `r` of `T` by `s` (which must be nonzero).
 """
-function negate!(T::Tableau, r::Int)
+function scale!(T::Tableau, r::Int, s::_Exact)
     r += 1
     if r==1
         error(_not_row_one)
     end
-    T.M[r, :] = -T.M[r, :]
+    if s == 0
+        error("May not scale by 0")
+    end
+    T.M[r, :] *= s
     return T
 end
 
 """
-    negate(T::Tableau, r::Int)
+    scale(T::Tableau, r::Int, s::_Exact)
 
-Replace row `r` with its negative. Nonmodifying version of `negate!`.
+Non-modifying version of 
 """
-function negate(T::Tableau, r::Int)
+function scale(T::Tableau, r::Int, s::_Exact)
     TT = deepcopy(T)
-    negate!(T, r)
+    scale!(TT, r, s)
+    return TT
 end
 
 """
@@ -130,5 +121,16 @@ function basis_pivot!(T::Tableau, vars)
             T.M[i, j] = new_M[i, j]
         end
     end
-    T
+    return T
+end
+
+"""
+    basis_pivot(T::Tableau, vars)
+
+Non-modifying version of `basis_pivot!`.
+"""
+function basis_pivot(T::Tableau, vars)
+    TT = deepcopy(T)
+    basis_pivot!(TT, vars)
+    return TT
 end
