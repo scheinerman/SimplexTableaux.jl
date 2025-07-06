@@ -17,6 +17,7 @@ include("Exact.jl")
 
 export Tableau,
     basis_pivot!,
+    get_Abc,
     is_feasible,
     lp_solve,
     negate,
@@ -102,6 +103,16 @@ See also `restore!`.
 """
 function restore(T::Tableau)
     return Tableau(T.A, T.b, T.c, false)
+end
+
+"""
+    get_Abc(T::Tableau)
+
+Returns a 3-tuple containing copies of the matrix `A`
+and the vectors `b` and `c` used to create `T`.
+"""
+function get_Abc(T::Tableau)
+    return copy(T.A), copy(T.b), copy(T.c)
 end
 
 """
