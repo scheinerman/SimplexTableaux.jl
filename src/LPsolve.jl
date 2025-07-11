@@ -26,7 +26,9 @@ function lp_solve(T::Tableau, verbose::Bool=true)
         println("Optimum value = $obj_val\n")
     end
 
-    xval = value.(x)
+    @show x 
+
+    xval = JuMP.value.(x)
 
     return xval
 end
