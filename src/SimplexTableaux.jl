@@ -17,7 +17,7 @@ import Base: show
 include("Exact.jl")
 
 export Tableau,
-    set_basis!, get_Abc, get_basis, is_feasible, lp_solve, old_pivot!, restore!, value
+    set_basis!, get_Abc, get_basis, is_feasible, lp_solve, pivot!, restore!, value
 
 include("Tableau.jl")
 include("Pivoting.jl")
