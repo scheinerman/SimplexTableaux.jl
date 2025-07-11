@@ -17,7 +17,7 @@ function pivot_solve!(T::Tableau, verbose::Bool=true)
             break
         end
         verbose && println("\nPivot at ($i,$j)\n")
-        pivot!(T, i, j)
+        old_pivot!(T, i, j)
 
         count += 1
         if count > max_pivots

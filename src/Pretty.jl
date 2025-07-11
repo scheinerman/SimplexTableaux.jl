@@ -1,5 +1,9 @@
 # output Tableau using PrettyTables
 
+const _yellow = Crayon(; foreground=:yellow)
+const _green = Crayon(; foreground=:green, bold=true)
+const _blue = Crayon(; foreground=:blue)
+
 function _pretty_string(x::_Exact)::String
     if x isa Integer
         return string(x)
@@ -53,8 +57,18 @@ function _left_column(T::Tableau)
     return result
 end
 
+function _header_colors(T::Tableau)
+    result = [Crayon(), Crayon()]
+    for k in 1:T.n_vars
+        col = k ∈ T.B ? _green : Crayon()
+        push!(result, col)
+    end
+    push!(result, Crayon())
+    return result
+end
+
 function show(io::IO, T::Tableau)
     MM = _pretty_string.(T.M[2:end, :])
     MM = hcat(_left_column(T), MM)
-    pretty_table(MM; header=_header(T))
+    pretty_table(MM; header=_header(T), header_crayon=_header_colors(T))
 end

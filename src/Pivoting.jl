@@ -2,12 +2,12 @@ _not_row_one = "May not modify the header row of the Tableau"
 _not_col_one = "May not modify the z column of the Tableau"
 
 """
-    pivot!(T::Tableau, i::Int, j::Int)
+    old_pivot!(T::Tableau, i::Int, j::Int)
 
 Modify `T` by doing a pivot operation at contraint `i` 
 and variable x_`j`.
 """
-function pivot!(T::Tableau, i::Int, j::Int)
+function old_pivot!(T::Tableau, i::Int, j::Int)
     M = T.M  # for easier access
 
     i += 1
@@ -29,108 +29,76 @@ function pivot!(T::Tableau, i::Int, j::Int)
 end
 
 """
-    pivot(T::Tableau, i::Int, j::Int)
-
-Non-modifying version of `pivot!`.
-"""
-function pivot(T::Tableau, i::Int, j::Int)
-    TT = deepcopy(T)
-    return pivot!(TT, i, j)
-end
-
-"""
-    scale!(T::Tableau, r::Int, s::_Exact)
-
-Multiply row `r` of `T` by `s` (which must be nonzero).
-"""
-function scale!(T::Tableau, r::Int, s::_Exact)
-    r += 1
-    if r==1
-        error(_not_row_one)
-    end
-    if s == 0
-        error("May not scale by 0")
-    end
-    T.M[r, :] *= s
-    return T
-end
-
-"""
-    scale(T::Tableau, r::Int, s::_Exact)
-
-Non-modifying version of 
-"""
-function scale(T::Tableau, r::Int, s::_Exact)
-    TT = deepcopy(T)
-    scale!(TT, r, s)
-    return TT
-end
-
-"""
-    swap!(T::Tableau, i::Int, j::Int)
-
-Swap constraints `i` and `j` of the Tableau.
-"""
-function swap!(T::Tableau, i::Int, j::Int)
-    i += 1
-    j += 1
-    if i<2 || j<2
-        error(_not_row_one)
-    end
-
-    if i==j
-        return T
-    end
-
-    row_i = T.M[i, :]
-    row_j = T.M[j, :]
-
-    T.M[j, :] = row_i
-    T.M[i, :] = row_j
-
-    T
-end
-"""
-    swap(T::Tableau, i::Int, j::Int)
-
-Non-modifying version of `swap!`.
-"""
-function swap(T::Tableau, i::Int, j::Int)
-    TT = deepcopy(T)
-    swap!(TT, i, j)
-end
-
-"""
-    basis_pivot!(T::Tableau, vars)
+    set_basis!(T::Tableau, vars::Vector{Int})
 
 Pivot `T` so that the variables specified in `vars`
 are the basic variables. 
 """
-function basis_pivot!(T::Tableau, vars)
+function set_basis!(T::Tableau, vars::Vector{Int})
+    n = T.n_vars
+    m = T.n_cons
+
+    vars = sort(unique(vars))
+
+    if (length(vars) ≠ m) || !(vars ⊆ collect(1:n))
+        error("Invalid basis: $vars")
+    end
+
     # bop up indices by 1 and make a list
     idx = [j+1 for j in vars]
     idx = vcat(1, idx)
 
     B = T.M[:, idx]
     BB = invx(B)  # will fail if B is not invertible
-    new_M = BB*T.M
-
-    r, c = size(T.M)
-    for i in 1:r
-        for j in 1:c
-            T.M[i, j] = new_M[i, j]
-        end
-    end
+    T.M = BB*T.M
+    T.B = vars
     return T
 end
 
 """
-    basis_pivot(T::Tableau, vars)
+    get_basis(T::Tableau)
 
-Non-modifying version of `basis_pivot!`.
+Return the current basis (indices of basic variables).
 """
-function basis_pivot(T::Tableau, vars)
-    TT = deepcopy(T)
-    basis_pivot!(TT, vars)
-    return TT
+get_basis(T::Tableau) = copy(T.B)
+
+"""
+    pivot!(T::Tableau, leave::Int, enter::Int)
+
+Remove element `leave` from the basis and include element `enter`.
+"""
+function pivot!(T::Tableau, leave::Int, enter::Int)
+    B = Set(get_basis(T))
+
+    # check for validity
+    if 0 ∈ B
+        error("No basis has been established for this tableau")
+    end
+
+    n = T.n_vars
+    if !(1 ≤ leave ≤ n)
+        error("Invalid variable index: $leave")
+    end
+
+    if !(1 ≤ enter ≤ n)
+        error("Invalid variable index: $enter")
+    end
+
+    if leave == enter
+        @warn "No pivot: enter = leave = $enter"
+        return nothing
+    end
+
+    # form new basis
+    B = Set(get_basis(T))
+    if leave ∉ B
+        error("Element $leave is not in the basis; cannot remove it")
+    end
+    if enter ∈ B
+        error("Element $enter is already in the basis; cannot add it")
+    end
+
+    delete!(B, leave)
+    push!(B, enter)
+    set_basis!(T, collect(B))
 end

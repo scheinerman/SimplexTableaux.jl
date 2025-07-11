@@ -12,13 +12,14 @@ Create a `Tableau` data structure for the linear program minimize `c' * x` subje
 
 If matrix and vectors are already in standard form, then use `Tableau(A, b, c, false)`.
 """
-struct Tableau
+mutable struct Tableau
     M::Matrix{_Exact}     # place to hold the entire Tableau
     A::Matrix             # (original) A matrix
     b::Vector             # (original) RHS, b vector
     c::Vector             # (original) objective coefficients, c vector
     n_vars::Int           # number of variables in the LP
     n_cons::Int           # number of constraints in the LP
+    B::Vector{Int}        # current basis (column indices)
 
     function Tableau(A::AbstractMatrix, b::Vector, c::Vector, is_cannonical::Bool=true)
         m, n = size(A)
@@ -40,7 +41,9 @@ struct Tableau
             @warn("Rank difficient Tableau")
         end
 
-        return new(M, A, b, c, n, m)
+        B = zeros(Int, m)  # basis is all 0s to start
+
+        return new(M, A, b, c, n, m, B)
     end
 end
 
@@ -97,6 +100,7 @@ function restore!(T::Tableau)
             T.M[i, j] = TT.M[i, j]
         end
     end
+    T.B = zeros(Int, T.n_cons)
     return T
 end
 
