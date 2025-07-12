@@ -7,11 +7,15 @@ using SimplexTableaux
     c = [2, 4, 2, 1, -1]
 
     T = Tableau(A, b, c, false)
-    set_basis!(T,[1,2])
-    pivot!(T,1,4)
+    set_basis!(T, [1, 2])
+    
+    simplex_solve!(T)
+    @test is_feasible(T)
+    @test is_optimal(T)
 
     @test is_feasible(T)
 
     set_basis!(T, [3, 4])
     @test !is_feasible(T)
+
 end

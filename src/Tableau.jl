@@ -112,3 +112,17 @@ Return the value of the LP in `T` at the point `x`.
 function value(T::Tableau, x::Vector)
     return T.c' * x
 end
+
+"""
+    value(T::Tableau)
+
+Return the value of the LP at the current basic vector. 
+"""
+function value(T::Tableau)
+    x = basic_vector(T)
+    return value(T, x)
+end
+
+function is_optimal(T::Tableau)
+    return all(T.M[1, 2:(end - 1)] .≤ 0)
+end

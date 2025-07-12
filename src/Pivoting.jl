@@ -63,11 +63,11 @@ Return the current basis (indices of basic variables).
 get_basis(T::Tableau) = copy(T.B)
 
 """
-    pivot!(T::Tableau, leave::Int, enter::Int)
+    pivot!(T::Tableau, enter::Int, leave::Int)
 
 Remove element `leave` from the basis and include element `enter`.
 """
-function pivot!(T::Tableau, leave::Int, enter::Int)
+function pivot!(T::Tableau, enter::Int, leave::Int)
     B = Set(get_basis(T))
 
     # check for validity

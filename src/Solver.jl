@@ -1,89 +1,99 @@
-"""
-    pivot_solve!(T::Tableau, verbose::Bool=true)
 
-Same as `pivot_solve` but this version modifies `T`.
 """
-function pivot_solve!(T::Tableau, verbose::Bool=true)
-    count = 0
-    max_pivots = T.n_vars * T.n_cons
-    while true
-        if verbose
-            #println("Iteration $count")
-            println(T)
-            println()
-        end
-        i, j = find_pivot(T)
-        if i == 0 || j == 0
-            break
-        end
-        verbose && println("\nPivot at ($i,$j)\n")
-        old_pivot!(T, i, j)
+    find_pivot(T::Tableau, i::Int)
 
-        count += 1
-        if count > max_pivots
-            verbose && @info "Max pivots exceeded"
-            break
+Find a valid pivot in column `i`.
+"""
+function find_pivot(T::Tableau, i::Int)
+    # Check that objective function coefficient is not negative
+    ci = T.M[1, i + 1]
+    if ci < 0
+        @info "Invalid column for pivot, $i."
+        return 0, 0
+    end
+
+    ai = T.M[2:end, i + 1]   # column i of A matrix 
+    b = T.M[2:end, end]     # RHS vector
+
+    ratios = b .// ai
+    for j in 1:T.n_cons
+        if ratios[j] < 0
+            ratios[j] = 1//0  # render negative ratios invalid
         end
-    end # end while
+    end
+
+    # get index for smallest ratio
+    min_rat = minimum(ratios)
+    j = findfirst(x -> x==min_rat, ratios)
+
+    # now find the basis vector with a 1 in position j 
+    for k in T.B
+        ak = T.M[2:end, k + 1]
+        if ak[j] == 1  # this is the one we want
+            return i, k
+        end
+    end
+
+    return (i, 0)  # this shouldn't happen!
+end
+
+"""
+    find_pivot(T::Tableau)
+
+Find a valid pivot for `T` or return `(0,0)` if none exists. 
+"""
+function find_pivot(T::Tableau)
+    c = find_pivot_column(T)
+    if c == 0
+        return 0, 0
+    end
+    p = find_pivot(T, c)
+    return p
+end
+
+function find_pivot_column(T::Tableau)
+    for i in 1:T.n_vars
+        if T.M[1, i + 1] > 0
+            return i
+        end
+    end
+    return 0 # no valid column
+end
+
+"""
+    simplex_solve!(T::Tableau, verbose::Bool=true)
+
+Solve `T` using the simplex method. 
+"""
+function simplex_solve!(T::Tableau, verbose::Bool=true)
+    if 0 ∈ T.B
+        error("Sorry: User must provide a valid basis to get started. Try: find_a_basis(T)")
+    end
 
     if verbose
-        val = Exact(T.M[end, end])
-        print("Optimum value after $count iterations = $val")
-        if denominator(val.val) ≠ 1
-            obj_val = Float64.(val.val)
-            println(" = $obj_val")
-        else
-            println()
-        end
-        println()
+        println("Starting tableau\n")
+        println(T)
     end
 
-    return _get_x(T)
-end # end pivot_solve
-
-"""
-    pivot_solve(T::Tableau, verbose::Bool=true)
-
-Solve the linear program in `T` by pivoting. 
-With `verbose` set to `true` all steps of the solution are shown.
-
-Returns the optimal solution to the linear program. 
-"""
-function pivot_solve(T::Tableau, verbose::Bool=true)
-    TT = deepcopy(T)
-    return pivot_solve!(TT, verbose)
-end
-
-"""
-    _is_basis_vector(x::Vector)::Bool
-
-Determine if `x` is vector with a single entry equal to 1 and the rest equal to 0.
-"""
-function _is_basis_vector(x::Vector)::Bool
-    x = sort(x)
-    n = length(x)
-    y = zeros(Int, n)
-    y[end] = 1
-
-    return x == y
-end
-
-"""
-    _get_x(T::Tableau)
-
-Extract the values of the solution to `T` after finish pivoting.
-"""
-function _get_x(T::Tableau)
-    x = zeros(_Exact, T.n_vars)
-
-    for i in 1:(T.n_vars)
-        # col = T.M[1:(T.n_cons), i]
-        col = T.M[:, i]
-
-        if _is_basis_vector(col)
-            j = findfirst(col .== 1)
-            x[i] = T.M[j, end]
+    while !is_optimal(T)
+        p = find_pivot(T)
+        if 0 ∈ p
+            @error "Cannot solve this LP. Is it infeasible? Unbounded?"
+        end
+        pivot!(T, p...)
+        if verbose
+            println("Pivot $p\n")
+            println(T)
         end
     end
+
+    x = basic_vector(T)
+    v = Exact(value(T))
+
+    if verbose
+        println("Optimality reached")
+        println("Value = $v")
+    end
+
     return x
 end

@@ -17,7 +17,21 @@ import Base: show
 include("Exact.jl")
 
 export Tableau,
-    set_basis!, get_Abc, get_basis, is_feasible, lp_solve, pivot!, restore!, value
+    basic_vector,
+    set_basis!,
+    find_a_basis,
+    find_all_bases,
+    find_pivot,
+    get_Abc,
+    get_basis,
+    is_feasible,
+    is_optimal,
+    lp_solve,
+    pivot!,
+    restore!,
+    simplex_solve!,
+    value,
+    old_pivot!
 
 include("Tableau.jl")
 include("Pivoting.jl")
@@ -32,8 +46,8 @@ include("Pretty.jl")
 Return `true` is the current state of `T` is at a feasible vector.
 """
 function is_feasible(T::Tableau)::Bool
-    b = T.M[2:end, end]
-    all(b .>= 0)
+    x = basic_vector(T)
+    all(x .>= 0)
 end
 
 """
