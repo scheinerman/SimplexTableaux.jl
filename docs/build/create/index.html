@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Creating and Solving LPs · SimplexTableaux</title><meta name="title" content="Creating and Solving LPs · SimplexTableaux"/><meta property="og:title" content="Creating and Solving LPs · SimplexTableaux"/><meta property="twitter:title" content="Creating and Solving LPs · SimplexTableaux"/><meta name="description" content="Documentation for SimplexTableaux."/><meta property="og:description" content="Documentation for SimplexTableaux."/><meta property="twitter:description" content="Documentation for SimplexTableaux."/><script data-outdated-warner src="../assets/warner.js"></script><link href="https://cdnjs.cloudflare.com/ajax/libs/lato-font/3.0.0/css/lato-font.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/juliamono/0.050/juliamono.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL=".."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../assets/documenter.js"></script><script src="../search_index.js"></script><script src="../siteinfo.js"></script><script src="../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/catppuccin-mocha.css" data-theme-name="catppuccin-mocha"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/catppuccin-macchiato.css" data-theme-name="catppuccin-macchiato"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/catppuccin-frappe.css" data-theme-name="catppuccin-frappe"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/catppuccin-latte.css" data-theme-name="catppuccin-latte"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><div class="docs-package-name"><span class="docs-autofit"><a href="../">SimplexTableaux</a></span></div><button class="docs-search-query input is-rounded is-small is-clickable my-2 mx-auto py-1 px-2" id="documenter-search-query">Search docs (Ctrl + /)</button><ul class="docs-menu"><li><a class="tocitem" href="../">Overview</a></li><li class="is-active"><a class="tocitem" href>Creating and Solving LPs</a><ul class="internal"><li><a class="tocitem" href="#Create-the-Tableau"><span>Create the Tableau</span></a></li><li><a class="tocitem" href="#Specify-a-Basis"><span>Specify a Basis</span></a></li><li><a class="tocitem" href="#Perform-the-Simplex-Algorithm"><span>Perform the Simplex Algorithm</span></a></li></ul></li><li><a class="tocitem" href="../other/">Other Functions</a></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><a class="docs-sidebar-button docs-navbar-link fa-solid fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a><nav class="breadcrumb"><ul class="is-hidden-mobile"><li class="is-active"><a href>Creating and Solving LPs</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Creating and Solving LPs</a></li></ul></nav><div class="docs-right"><a class="docs-navbar-link" href="https://github.com/scheinerman/SimplexTableaux.jl" title="View the repository on GitHub"><span class="docs-icon fa-brands"></span><span class="docs-label is-hidden-touch">GitHub</span></a><a class="docs-navbar-link" href="https://github.com/scheinerman/SimplexTableaux.jl/blob/main/docs/src/create.md" title="Edit source on GitHub"><span class="docs-icon fa-solid"></span></a><a class="docs-settings-button docs-navbar-link fa-solid fa-gear" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-article-toggle-button fa-solid fa-chevron-up" id="documenter-article-toggle-button" href="javascript:;" title="Collapse all docstrings"></a></div></header><article class="content" id="documenter-page"><h1 id="Creating-and-Solving-Linear-Programs"><a class="docs-heading-anchor" href="#Creating-and-Solving-Linear-Programs">Creating and Solving Linear Programs</a><a id="Creating-and-Solving-Linear-Programs-1"></a><a class="docs-heading-anchor-permalink" href="#Creating-and-Solving-Linear-Programs" title="Permalink"></a></h1><h2 id="Create-the-Tableau"><a class="docs-heading-anchor" href="#Create-the-Tableau">Create the Tableau</a><a id="Create-the-Tableau-1"></a><a class="docs-heading-anchor-permalink" href="#Create-the-Tableau" title="Permalink"></a></h2><h3 id="Canonical-LPs"><a class="docs-heading-anchor" href="#Canonical-LPs">Canonical LPs</a><a id="Canonical-LPs-1"></a><a class="docs-heading-anchor-permalink" href="#Canonical-LPs" title="Permalink"></a></h3><p>A canonical LP has the form <span>$\min c^T x$</span> s.t. <span>$Ax ≥ b, x \ge 0$</span>. To set up a tableau for this problem simply create the matrix <code>A</code> and the vectors <code>b</code> and <code>c</code>, and call <code>Tableau(A,b,c)</code>. </p><p>For example, let <code>A</code>, <code>b</code>, and <code>c</code> be as follows:</p><pre><code class="nohighlight hljs">julia&gt; A = [3 10; 5 6; 10 2];
+
+julia&gt; b = [100, 100, 100];
+
+julia&gt; c = [25, 10];
+
+julia&gt; Tableau(A, b, c)
+┌──────────┬───┬─────┬─────┬─────┬─────┬─────┬─────┐
+│          │ z │ x_1 │ x_2 │ x_3 │ x_4 │ x_5 │ RHS │
+│ Obj Func │ 1 │ -25 │ -10 │   0 │   0 │   0 │   0 │
+├──────────┼───┼─────┼─────┼─────┼─────┼─────┼─────┤
+│   Cons 1 │ 0 │   3 │  10 │  -1 │   0 │   0 │ 100 │
+│   Cons 2 │ 0 │   5 │   6 │   0 │  -1 │   0 │ 100 │
+│   Cons 3 │ 0 │  10 │   2 │   0 │   0 │  -1 │ 100 │
+└──────────┴───┴─────┴─────┴─────┴─────┴─────┴─────┘</code></pre><p>Notice that extra variables <span>$x_3$</span>, <span>$x_4$</span>, and <span>$x_5$</span> are added to the <code>Tableau</code>  as slack variables to convert inequalities into equations. That is, canonical  form LPs are automatically converted into standard form. </p><h3 id="Standard-LPs"><a class="docs-heading-anchor" href="#Standard-LPs">Standard LPs</a><a id="Standard-LPs-1"></a><a class="docs-heading-anchor-permalink" href="#Standard-LPs" title="Permalink"></a></h3><p>A linear program in standard form is <span>$\min c^T x$</span> s.t. <span>$Ax = b$</span>, <span>$x ≥ 0$</span>.  For example,</p><pre><code class="nohighlight hljs">julia&gt; A = [2 1 0 9 -1; 1 1 -1 5 1]
+2×5 Matrix{Int64}:
+ 2  1   0  9  -1
+ 1  1  -1  5   1
+
+julia&gt; b = [9, 7]
+2-element Vector{Int64}:
+ 9
+ 7
+
+julia&gt; c = [2, 4, 2, 1, -1]
+5-element Vector{Int64}:
+  2
+  4
+  2
+  1
+ -1
+
+julia&gt; T = Tableau(A, b, c, false)
+┌──────────┬───┬─────┬─────┬─────┬─────┬─────┬─────┐
+│          │ z │ x_1 │ x_2 │ x_3 │ x_4 │ x_5 │ RHS │
+│ Obj Func │ 1 │  -2 │  -4 │  -2 │  -1 │   1 │   0 │
+├──────────┼───┼─────┼─────┼─────┼─────┼─────┼─────┤
+│   Cons 1 │ 0 │   2 │   1 │   0 │   9 │  -1 │   9 │
+│   Cons 2 │ 0 │   1 │   1 │  -1 │   5 │   1 │   7 │
+└──────────┴───┴─────┴─────┴─────┴─────┴─────┴─────┘</code></pre><p>The fourth argument <code>false</code> means that the constraints are already equalities and slack variables should not be appended. </p><h2 id="Specify-a-Basis"><a class="docs-heading-anchor" href="#Specify-a-Basis">Specify a Basis</a><a id="Specify-a-Basis-1"></a><a class="docs-heading-anchor-permalink" href="#Specify-a-Basis" title="Permalink"></a></h2><p>Use <code>set_basis!(T, B)</code> to specify a staring basis for the tableau. Here, <code>B</code> is a list (<code>Vector</code>) of integers specifying the columns that are in the basis. </p><pre><code class="nohighlight hljs">julia&gt; set_basis!(T,[1,4,5])
+┌──────────┬───┬─────┬───────┬───────┬─────┬─────┬────────┐
+│          │ z │ x_1 │   x_2 │   x_3 │ x_4 │ x_5 │    RHS │
+│ Obj Func │ 1 │   0 │ 220/3 │ -25/3 │   0 │   0 │ 2500/3 │
+├──────────┼───┼─────┼───────┼───────┼─────┼─────┼────────┤
+│   Cons 1 │ 0 │   1 │  10/3 │  -1/3 │   0 │   0 │  100/3 │
+│   Cons 2 │ 0 │   0 │  32/3 │  -5/3 │   1 │   0 │  200/3 │
+│   Cons 3 │ 0 │   0 │  94/3 │ -10/3 │   0 │   1 │  700/3 │
+└──────────┴───┴─────┴───────┴───────┴─────┴─────┴────────┘</code></pre><blockquote><p>Note: On the screen, the headings for the basis (in this case, <code>x_1</code>, <code>x_3</code>, and <code>x_4</code>) appear in green. </p></blockquote><h3 id="Tools-to-find-a-basis"><a class="docs-heading-anchor" href="#Tools-to-find-a-basis">Tools to find a basis</a><a id="Tools-to-find-a-basis-1"></a><a class="docs-heading-anchor-permalink" href="#Tools-to-find-a-basis" title="Permalink"></a></h3><p>The function <code>find_all_bases(T)</code> returns a list of all feasible bases for <code>T</code>:</p><pre><code class="nohighlight hljs">julia&gt; find_all_bases(T)
+4-element Vector{Vector{Int64}}:
+ [1, 2, 3]
+ [1, 2, 5]
+ [1, 4, 5]
+ [2, 3, 4]</code></pre><p>The function <code>find_a_basis(T)</code> returns a feasible basis for <code>T</code> (the first it finds).</p><pre><code class="nohighlight hljs">julia&gt; find_a_basis(T)
+3-element Vector{Int64}:
+ 1
+ 2
+ 3</code></pre><p>These are inefficient functions. We plan to change the implementation of <code>find_a_basis</code> to something more performant. </p><h2 id="Perform-the-Simplex-Algorithm"><a class="docs-heading-anchor" href="#Perform-the-Simplex-Algorithm">Perform the Simplex Algorithm</a><a id="Perform-the-Simplex-Algorithm-1"></a><a class="docs-heading-anchor-permalink" href="#Perform-the-Simplex-Algorithm" title="Permalink"></a></h2><p>Once a tableau has been set up with a feasible basis, use <code>simplex_solve!(T)</code> to run the simplex algorithm and return solution to the LP.</p><pre><code class="nohighlight hljs">julia&gt; simplex_solve!(T)
+Starting tableau
+
+┌──────────┬───┬─────┬───────┬───────┬─────┬─────┬────────┐
+│          │ z │ x_1 │   x_2 │   x_3 │ x_4 │ x_5 │    RHS │
+│ Obj Func │ 1 │   0 │ 220/3 │ -25/3 │   0 │   0 │ 2500/3 │
+├──────────┼───┼─────┼───────┼───────┼─────┼─────┼────────┤
+│   Cons 1 │ 0 │   1 │  10/3 │  -1/3 │   0 │   0 │  100/3 │
+│   Cons 2 │ 0 │   0 │  32/3 │  -5/3 │   1 │   0 │  200/3 │
+│   Cons 3 │ 0 │   0 │  94/3 │ -10/3 │   0 │   1 │  700/3 │
+└──────────┴───┴─────┴───────┴───────┴─────┴─────┴────────┘
+
+Column 4 leaves basis and column 2 enters
+
+┌──────────┬───┬─────┬─────┬───────┬────────┬─────┬──────┐
+│          │ z │ x_1 │ x_2 │   x_3 │    x_4 │ x_5 │  RHS │
+│ Obj Func │ 1 │   0 │   0 │  25/8 │  -55/8 │   0 │  375 │
+├──────────┼───┼─────┼─────┼───────┼────────┼─────┼──────┤
+│   Cons 1 │ 0 │   1 │   0 │  3/16 │  -5/16 │   0 │ 25/2 │
+│   Cons 2 │ 0 │   0 │   1 │ -5/32 │   3/32 │   0 │ 25/4 │
+│   Cons 3 │ 0 │   0 │   0 │ 25/16 │ -47/16 │   1 │ 75/2 │
+└──────────┴───┴─────┴─────┴───────┴────────┴─────┴──────┘
+
+Column 5 leaves basis and column 3 enters
+
+┌──────────┬───┬─────┬─────┬─────┬────────┬───────┬─────┐
+│          │ z │ x_1 │ x_2 │ x_3 │    x_4 │   x_5 │ RHS │
+│ Obj Func │ 1 │   0 │   0 │   0 │     -1 │    -2 │ 300 │
+├──────────┼───┼─────┼─────┼─────┼────────┼───────┼─────┤
+│   Cons 1 │ 0 │   1 │   0 │   0 │   1/25 │ -3/25 │   8 │
+│   Cons 2 │ 0 │   0 │   1 │   0 │   -1/5 │  1/10 │  10 │
+│   Cons 3 │ 0 │   0 │   0 │   1 │ -47/25 │ 16/25 │  24 │
+└──────────┴───┴─────┴─────┴─────┴────────┴───────┴─────┘
+
+Optimality reached
+Value = 300
+5-element Vector{Rational}:
+  8
+ 10
+ 24
+  0
+  0</code></pre></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../">« Overview</a><a class="docs-footer-nextpage" href="../other/">Other Functions »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.10.1 on <span class="colophon-date" title="Sunday 13 July 2025 15:24">Sunday 13 July 2025</span>. Using Julia version 1.11.6.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
