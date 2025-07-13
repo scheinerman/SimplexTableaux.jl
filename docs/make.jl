@@ -2,8 +2,11 @@
 # julia --color=yes --project make.jl
 
 using Documenter, SimplexTableaux
-makedocs(pages=[
+makedocs(;
+    pages = [
         "Overview" => "index.md",
         "Creating and Solving LPs" => "create.md",
-        "Other Functions" => "other.md"
-    ],; sitename="SimplexTableaux")
+        "Other Functions" => "other.md",
+    ],
+    sitename = "SimplexTableaux",
+)

@@ -1,5 +1,15 @@
 # Creating and Solving Linear Programs
 
+
+## Overview
+
+There are three principle steps to solving a linear program with this module:
+* Create the tableau: `Tableau(A,b,c)`
+* Specify a feasible basis: `set_basis!(T, B)`
+* Run the simplex algorithm: `simplex_solve!(T)`
+
+
+
 ## Create the Tableau
 
 ### Canonical LPs
