@@ -8,7 +8,7 @@ using SimplexTableaux
 
     T = Tableau(A, b, c, false)
     set_basis!(T, [1, 2])
-    
+
     simplex_solve!(T)
     @test is_feasible(T)
     @test is_optimal(T)
@@ -17,5 +17,4 @@ using SimplexTableaux
 
     set_basis!(T, [3, 4])
     @test !is_feasible(T)
-
 end

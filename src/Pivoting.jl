@@ -2,12 +2,12 @@ _not_row_one = "May not modify the header row of the Tableau"
 _not_col_one = "May not modify the z column of the Tableau"
 
 """
-    old_pivot!(T::Tableau, i::Int, j::Int)
+    matrix_pivot!(T::Tableau, i::Int, j::Int)
 
 Modify `T` by doing a pivot operation at contraint `i` 
 and variable x_`j`.
 """
-function old_pivot!(T::Tableau, i::Int, j::Int)
+function matrix_pivot!(T::Tableau, i::Int, j::Int)
     M = T.M  # for easier access
 
     i += 1
@@ -63,11 +63,11 @@ Return the current basis (indices of basic variables).
 get_basis(T::Tableau) = copy(T.B)
 
 """
-    pivot!(T::Tableau, enter::Int, leave::Int)
+    basis_pivot!(T::Tableau, enter::Int, leave::Int)
 
 Remove element `leave` from the basis and include element `enter`.
 """
-function pivot!(T::Tableau, enter::Int, leave::Int)
+function basis_pivot!(T::Tableau, enter::Int, leave::Int)
     B = Set(get_basis(T))
 
     # check for validity

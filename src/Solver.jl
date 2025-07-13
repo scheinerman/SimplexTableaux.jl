@@ -80,9 +80,10 @@ function simplex_solve!(T::Tableau, verbose::Bool=true)
         if 0 ∈ p
             @error "Cannot solve this LP. Is it infeasible? Unbounded?"
         end
-        pivot!(T, p...)
+        basis_pivot!(T, p...)
         if verbose
-            println("Pivot $p\n")
+            in, out = p
+            println("Column $out leaves basis and column $in enters\n")
             println(T)
         end
     end

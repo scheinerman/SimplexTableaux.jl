@@ -18,6 +18,7 @@ include("Exact.jl")
 
 export Tableau,
     basic_vector,
+    basis_pivot!,
     set_basis!,
     find_a_basis,
     find_all_bases,
@@ -27,11 +28,10 @@ export Tableau,
     is_feasible,
     is_optimal,
     lp_solve,
-    pivot!,
+    matrix_pivot!,
     restore!,
     simplex_solve!,
-    value,
-    old_pivot!
+    value
 
 include("Tableau.jl")
 include("Pivoting.jl")
