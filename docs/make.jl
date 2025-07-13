@@ -3,10 +3,10 @@
 
 using Documenter, SimplexTableaux
 makedocs(;
-    pages = [
+    pages=[
         "Overview" => "index.md",
         "Creating and Solving LPs" => "create.md",
         "Other Functions" => "other.md",
     ],
-    sitename = "SimplexTableaux",
+    sitename="SimplexTableaux",
 )

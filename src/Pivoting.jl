@@ -24,7 +24,7 @@ function matrix_pivot!(T::Tableau, i::Int, j::Int)
         end
         M[a, :] += -M[a, j] * M[i, :]
     end
-
+    infer_basis!(T)
     return T
 end
 
@@ -101,4 +101,36 @@ function basis_pivot!(T::Tableau, enter::Int, leave::Int)
     delete!(B, leave)
     push!(B, enter)
     set_basis!(T, collect(B))
+end
+
+"""
+    _is_std_basis_vector(v::Vector)::Bool
+
+Return `true` is `v` is a standard basis vector (single 1, rest 0s).
+"""
+function _is_std_basis_vector(v::Vector)::Bool
+    if !all(x==0 || x==1 for x in v)   # must be all 0s and 1s
+        return false
+    end
+    if sum(v) ≠ 1       # must have a single 1
+        return false
+    end
+    return true
+end
+
+"""
+    infer_basis!(T::Tableau)
+
+Determine the basic variables by seeing which columns in the tableau 
+are standard basis vectors. Reset the stored basis in `T` to that result,
+or set the stored basis to all zeros if no basis can be inferred. 
+"""
+function infer_basis!(T::Tableau)
+    indicators = [_is_std_basis_vector(T.M[2:end, j + 1]) for j in 1:T.n_vars]
+    newB = findall(indicators)
+    if length(newB) ≠ T.n_cons
+        T.B = zeros(Int, T.n_cons)
+        return T.B
+    end
+    T.B = newB
 end
