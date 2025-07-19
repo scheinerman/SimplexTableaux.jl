@@ -1,5 +1,3 @@
-import LatexPrint.latex_form
-
 _vspacer() = return "{\\Large\\strut}"
 
 function latex_form(T::Tableau)::String
@@ -16,7 +14,7 @@ function latex_form(T::Tableau)::String
 end
 
 function _latex_header(T::Tableau)::String
-    align_ch = "c"
+    align_ch = "r"
     align = "{" * "|" * align_ch * "|" * align_ch^T.n_vars * "|" * align_ch * "|}"
     result = "\\begin{tabular}" * align * "\\hline \n"
     result *= _vspacer() * "\$z\$ &"

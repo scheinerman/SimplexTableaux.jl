@@ -40,7 +40,7 @@ Small example for section 4.4
 function small_example()
     A = [3 2 -1; 1 -1 3]
     b = [1; 6]
-    c = [1;2;3]
+    c = [1; 2; 3]
     return Tableau(A, b, c, false)
 end
 

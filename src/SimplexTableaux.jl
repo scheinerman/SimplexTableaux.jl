@@ -9,6 +9,7 @@ using LinearAlgebraX
 using PrettyTables
 
 import Base: show
+import LatexPrint: latex_form
 
 # function __init__()
 #     LatexPrint.set_slash()
@@ -18,7 +19,6 @@ include("Exact.jl")
 
 export Tableau,
     basic_vector,
-    basis_pivot!,
     set_basis!,
     find_a_basis,
     find_all_bases,
@@ -29,6 +29,7 @@ export Tableau,
     is_optimal,
     lp_solve,
     matrix_pivot!,
+    pivot!,
     restore!,
     simplex_solve!,
     value

@@ -14,7 +14,9 @@ There are three principle steps to solving a linear program with this module:
 
 ### Canonical LPs
 
-A canonical LP has the form $\min c^T x$ s.t. $Ax ≥ b, x \ge 0$. To set up a tableau for this problem simply create the matrix `A` and the vectors `b` and `c`, and call `Tableau(A,b,c)`. 
+A canonical LP has the form $\min c^T x$ s.t. $Ax ≥ b, x \ge 0$. 
+To set up a tableau for this problem simply create the matrix `A` 
+and the vectors `b` and `c`, and call `Tableau(A,b,c)`. 
 
 For example, let `A`, `b`, and `c` be as follows:
 ```

@@ -80,7 +80,7 @@ function simplex_solve!(T::Tableau, verbose::Bool=true)
         if 0 ∈ p
             @error "Cannot solve this LP. Is it infeasible? Unbounded?"
         end
-        basis_pivot!(T, p...)
+        pivot!(T, p...)
         if verbose
             in, out = p
             println("Column $out leaves basis and column $in enters\n")
@@ -93,7 +93,7 @@ function simplex_solve!(T::Tableau, verbose::Bool=true)
 
     if verbose
         println("Optimality reached")
-        println("Value = $v")
+        println("Value = $v = $(Float64(value(T)))")
     end
 
     return x

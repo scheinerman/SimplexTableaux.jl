@@ -22,7 +22,7 @@ Compute the solution to the LP in `T` and make sure its correct.
 """
 function check_solution(T::Tableau)::Bool
     T = deepcopy(T)
-    x = pivot_solve!(T, false)
+    x = simplex_solve!(T, false)
     if any(T.A * x .> T.b)
         return false
     end
@@ -50,7 +50,7 @@ Compute the solution to the LP in `T` and make sure its correct.
 """
 function check_solution(T::Tableau)::Bool
     T = deepcopy(T)
-    x = pivot_solve!(T, false)
+    x = simplex_solve!(T, false)
     if any(T.A * x .> T.b)
         @info "Feasibility error"
         return false

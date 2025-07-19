@@ -49,6 +49,11 @@ function set_basis!(T::Tableau, vars::Vector{Int})
     idx = vcat(1, idx)
 
     B = T.M[:, idx]
+    if detx(B) == 0
+        @warn "Columns $vars do not form a basis; ignoring"
+        return T
+    end
+
     BB = invx(B)  # will fail if B is not invertible
     T.M = BB*T.M
     T.B = vars
@@ -67,7 +72,7 @@ get_basis(T::Tableau) = copy(T.B)
 
 Remove element `leave` from the basis and include element `enter`.
 """
-function basis_pivot!(T::Tableau, enter::Int, leave::Int)
+function pivot!(T::Tableau, enter::Int, leave::Int)
     B = Set(get_basis(T))
 
     # check for validity

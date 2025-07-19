@@ -14,7 +14,7 @@
 
 ### Basis pivoting
 
-After a basis has been established, the function `basis_pivot!` can be used to modify the basis by specifying the column that enters the basis and the column that leaves.
+After a basis has been established, the function `pivot!` can be used to modify the basis by specifying the column that enters the basis and the column that leaves.
 ```
 julia> T
 ┌──────────┬───┬─────┬───────┬───────┬─────┬─────┬────────┐
@@ -27,7 +27,7 @@ julia> T
 └──────────┴───┴─────┴───────┴───────┴─────┴─────┴────────┘
 
 
-julia> basis_pivot!(T,2,1)
+julia> pivot!(T,2,1)
 ┌──────────┬───┬───────┬─────┬───────┬─────┬─────┬─────┐
 │          │ z │   x_1 │ x_2 │   x_3 │ x_4 │ x_5 │ RHS │
 │ Obj Func │ 1 │   -22 │   0 │    -1 │   0 │   0 │ 100 │
@@ -40,7 +40,7 @@ julia> basis_pivot!(T,2,1)
 
 ### Matrix pivoting
 
-A tableau may be manipulated by specifying a nonzero entry on which to pivot. The function `basis_pivot!(T,r,c)` pivots on the entry for constraint `r` and the column `c` (where `c=1` corresponds to the variable `x_1`).
+A tableau may be manipulated by specifying a nonzero entry on which to pivot. The function `pivot!(T,r,c)` pivots on the entry for constraint `r` and the column `c` (where `c=1` corresponds to the variable `x_1`).
 ```
 julia> T
 ┌──────────┬───┬─────┬───────┬───────┬─────┬─────┬────────┐
