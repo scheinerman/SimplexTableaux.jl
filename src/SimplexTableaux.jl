@@ -29,7 +29,7 @@ export Tableau,
     is_optimal,
     lp_solve,
     matrix_pivot!,
-    pivot!,
+    basis_pivot!,
     restore!,
     simplex_solve!,
     value

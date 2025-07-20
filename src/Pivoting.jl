@@ -72,7 +72,7 @@ get_basis(T::Tableau) = copy(T.B)
 
 Remove element `leave` from the basis and include element `enter`.
 """
-function pivot!(T::Tableau, enter::Int, leave::Int)
+function basis_pivot!(T::Tableau, enter::Int, leave::Int)
     B = Set(get_basis(T))
 
     # check for validity
