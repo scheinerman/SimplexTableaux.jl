@@ -24,6 +24,11 @@ function find_pivot(T::Tableau, i::Int)
 
     # get index for smallest ratio
     min_rat = minimum(ratios)
+
+    if min_rat == 1//0
+        return 0, 0
+    end
+
     j = findfirst(x -> x==min_rat, ratios)
 
     # now find the basis vector with a 1 in position j 

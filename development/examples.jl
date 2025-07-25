@@ -1,4 +1,4 @@
-using SimplexTableaux, SimpleDrawing, Plots, SimpleDrawingObjects
+using SimplexTableaux, SimpleDrawing, Plots, SimpleDrawingObjects, Clines
 
 """
     dog_food()
@@ -77,7 +77,7 @@ function unbounded_picture()
     finish()
 end
 
-function degenerate_example()
+function degenerate_example_1()
     A = [
         7 7 45 -1 3 -53 -68
         9 -5 27 -115 7 -129 42
@@ -88,6 +88,67 @@ function degenerate_example()
     T = Tableau(A, b, c, false)
     set_basis!(T, [1, 3, 6])
     return T
+end
+
+function degenerate_example_2()
+    A = [
+        3 -2
+        1 -5
+        -3 2
+        -1 5
+        1 -1
+    ]
+
+    b = [
+        1
+        -17
+        -14
+        4
+        -1
+    ]
+
+    c = [1; 1]
+
+    B = [1, 2, 3, 6, 7]
+
+    T = Tableau(A, b, c)
+    set_basis!(T, B)
+    return T
+end
+
+function deg_picture()
+    newdraw()
+    
+    L1 = Line(3,4,8,5)
+    L2 = Line(8,5,6,2)
+    L3 = Line(6,2,1,1)
+    L4 = Line(1,1,3,4)
+    L5 = Line(3,4,4,5)
+
+    p1 = Point(1,1)
+    p2 = Point(3,4)
+    p3 = Point(8,5)
+    p4 = Point(6,2)
+    pp = [p1,p2,p3,p4]
+
+    draw_xaxis(-1,9)
+    draw_yaxis(-1,6)
+
+    draw_xtick(1:8)
+    draw_ytick(1:5)
+
+    for p in pp
+        draw(p)
+    end
+
+
+    LL = [L1,L2,L3,L4,L5]
+
+    for L in LL
+        draw(L)
+    end
+    finish()
+
 end
 
 nothing
