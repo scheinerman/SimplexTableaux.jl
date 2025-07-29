@@ -17,7 +17,7 @@ function find_pivot(T::Tableau, i::Int)
 
     ratios = b .// ai
     for j in 1:T.n_cons
-        if ratios[j] < 0
+        if ratios[j] < 0 || ai[j] <= 0
             ratios[j] = 1//0  # render negative ratios invalid
         end
     end
@@ -80,15 +80,18 @@ function simplex_solve!(T::Tableau, verbose::Bool=true)
         println(T)
     end
 
+    pivot_count = 0 
+
     while !is_optimal(T)
         p = find_pivot(T)
         if 0 ∈ p
             @error "Cannot solve this LP. Is it infeasible? Unbounded?"
         end
         basis_pivot!(T, p...)
+        pivot_count += 1
         if verbose
             in, out = p
-            println("Column $out leaves basis and column $in enters\n")
+            println("Pivot $(pivot_count): column $out leaves basis and column $in enters\n")
             println(T)
         end
     end
@@ -97,7 +100,7 @@ function simplex_solve!(T::Tableau, verbose::Bool=true)
     v = Exact(value(T))
 
     if verbose
-        println("Optimality reached")
+        println("Optimality reached. Pivot count = $pivot_count")
         println("Value = $v = $(Float64(value(T)))")
     end
 
