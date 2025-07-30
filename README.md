@@ -16,10 +16,8 @@ See [the documentation](https://docs.juliahub.com/General/SimplexTableaux/stable
 ## Caveats
 
 As a demonstration project, this is not suitable for solving actual linear programming (LP) problems. 
-At present it will fail if:
-* The LP is infeasible.
-* The LP is unbounded.
-* Other unidentified reasons. (In other words, still buggy.)
+
+At present the user needs to specify a starting basis; see the documentation. 
 
 This module is set up for minimization problems only. 
 

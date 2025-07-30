@@ -57,12 +57,12 @@ function find_pivot(T::Tableau)
 end
 
 function find_pivot_column(T::Tableau)
-    for i in 1:T.n_vars
-        if T.M[1, i + 1] > 0
-            return i
-        end
+    reduced_costs = T.M[1, 2:(end - 1)]   # top row between separators
+    rc, j = findmax(reduced_costs)
+    if rc <= 0
+        return 0   # no pivot possible
     end
-    return 0 # no valid column
+    return j
 end
 
 """
@@ -80,18 +80,21 @@ function simplex_solve!(T::Tableau, verbose::Bool=true)
         println(T)
     end
 
-    pivot_count = 0 
+    pivot_count = 0
 
     while !is_optimal(T)
         p = find_pivot(T)
         if 0 ∈ p
-            @error "Cannot solve this LP. Is it infeasible? Unbounded?"
+            @info "This linear program is unbounded"
+            return nothing
         end
         basis_pivot!(T, p...)
         pivot_count += 1
         if verbose
             in, out = p
-            println("Pivot $(pivot_count): column $out leaves basis and column $in enters\n")
+            println(
+                "Pivot $(pivot_count): column $out leaves basis and column $in enters\n"
+            )
             println(T)
         end
     end

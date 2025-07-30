@@ -49,6 +49,7 @@ function unbounded_example()
     b = [5; 4; -3]
     c = [-1; -2]
     T = Tableau(A, b, c)
+    set_basis!(T, [1, 2, 5])
     return T
 end
 
@@ -118,21 +119,21 @@ end
 
 function deg_picture()
     newdraw()
-    
-    L1 = Line(3,4,8,5)
-    L2 = Line(8,5,6,2)
-    L3 = Line(6,2,1,1)
-    L4 = Line(1,1,3,4)
-    L5 = Line(3,4,4,5)
 
-    p1 = Point(1,1)
-    p2 = Point(3,4)
-    p3 = Point(8,5)
-    p4 = Point(6,2)
-    pp = [p1,p2,p3,p4]
+    L1 = Line(3, 4, 8, 5)
+    L2 = Line(8, 5, 6, 2)
+    L3 = Line(6, 2, 1, 1)
+    L4 = Line(1, 1, 3, 4)
+    L5 = Line(3, 4, 4, 5)
 
-    draw_xaxis(-1,9)
-    draw_yaxis(-1,6)
+    p1 = Point(1, 1)
+    p2 = Point(3, 4)
+    p3 = Point(8, 5)
+    p4 = Point(6, 2)
+    pp = [p1, p2, p3, p4]
+
+    draw_xaxis(-1, 9)
+    draw_yaxis(-1, 6)
 
     draw_xtick(1:8)
     draw_ytick(1:5)
@@ -141,14 +142,14 @@ function deg_picture()
         draw(p)
     end
 
-
-    LL = [L1,L2,L3,L4,L5]
+    LL = [L1, L2, L3, L4, L5]
 
     for L in LL
         draw(L)
     end
     finish()
-
 end
+
+
 
 nothing
