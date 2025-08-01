@@ -150,6 +150,30 @@ function deg_picture()
     finish()
 end
 
+# from the Gass and Vinjamuri paper
 
+function example_kuhn()
+    A = [
+        1 0 0 -2 -9 1 9;
+        0 1 0 1//3 1 -1//3 -2;
+        0 0 1 2 3 -1 -12
+    ]
+    b = [0; 0; 2]
+    c = [0; 0; 0; -2; -3; 1; 12]
+
+    return Tableau(A, b, c, false)
+end
+
+function example_chvatal()
+    c = [10; -57; -9; -24]
+    A = [
+        1//2 -11//2 -5//2 9
+        1//2 -3//2 -1//2 1
+        1 0 0 0
+    ]
+    b = [0; 0; 1]
+    T = Tableau(A, b, -c)
+    return T
+end
 
 nothing
