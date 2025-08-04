@@ -91,7 +91,8 @@ julia> set_basis!(T,[1,4,5])
 │   Cons 3 │ 0 │   0 │  94/3 │ -10/3 │   0 │   1 │  700/3 │
 └──────────┴───┴─────┴───────┴───────┴─────┴─────┴────────┘
 ```
-> Note: On the screen, the headings for the basis (in this case, `x_1`, `x_3`, and `x_4`) appear in green. 
+
+> Note: On the screen, the headings for the basis (in this case, `x_1`, `x_4`, and `x_5`) appear in green. 
 ![](color-tab.png)
 
 
