@@ -17,8 +17,6 @@ See [the documentation](https://docs.juliahub.com/General/SimplexTableaux/stable
 
 As a demonstration project, this is not suitable for solving actual linear programming (LP) problems. 
 
-At present the user needs to specify a starting basis; see the documentation. 
-
 This module is set up for minimization problems only. 
 
 This module solves LPs using the simplex algorithm which is not the most performant method. 

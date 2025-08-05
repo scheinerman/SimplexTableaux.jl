@@ -72,7 +72,15 @@ Solve `T` using the simplex method.
 """
 function simplex_solve!(T::Tableau, verbose::Bool=true)
     if 0 ∈ T.B
-        error("Sorry: User must provide a valid basis to get started. Try: find_a_basis(T)")
+        B = find_a_basis(T)
+        if 0 ∈ B
+            @info "This linear program is infeasible."
+            return 
+        end
+        if verbose
+            println("Starting basis found: $B")
+        end
+        set_basis!(T,B)
     end
 
     if verbose

@@ -122,9 +122,12 @@ These are inefficient functions. We plan to change the implementation of `find_a
 
 ## Running the Simplex Algorithm
 
-Once a tableau has been set up with a feasible basis, use `simplex_solve!(T)` to run the simplex algorithm and return solution to the LP.
+Use `simplex_solve!(T)` to find the optimum value and minimizing vector for the linear program in `T`. 
+The user may either specify a starting basis, using `set_basis!(T, B)`, or if no basis has been specificed,
+then one is provided using a brute force search. 
 ```
 julia> simplex_solve!(T)
+Starting basis found: [1, 2]
 Starting tableau
 
 ┌──────────┬───┬─────┬─────┬─────┬─────┬─────┬─────┐
@@ -135,7 +138,7 @@ Starting tableau
 │   Cons 2 │ 0 │   0 │   1 │  -2 │   1 │   3 │   5 │
 └──────────┴───┴─────┴─────┴─────┴─────┴─────┴─────┘
 
-Column 1 leaves basis and column 4 enters
+Pivot 1: column 1 leaves basis and column 4 enters
 
 ┌──────────┬───┬───────┬─────┬───────┬─────┬──────┬──────┐
 │          │ z │   x_1 │ x_2 │   x_3 │ x_4 │  x_5 │  RHS │
@@ -145,7 +148,7 @@ Column 1 leaves basis and column 4 enters
 │   Cons 2 │ 0 │   1/4 │   0 │   1/4 │   1 │ -1/2 │  1/2 │
 └──────────┴───┴───────┴─────┴───────┴─────┴──────┴──────┘
 
-Column 2 leaves basis and column 5 enters
+Pivot 2: column 2 leaves basis and column 5 enters
 
 ┌──────────┬───┬───────┬───────┬───────┬─────┬─────┬──────┐
 │          │ z │   x_1 │   x_2 │   x_3 │ x_4 │ x_5 │  RHS │
@@ -155,7 +158,7 @@ Column 2 leaves basis and column 5 enters
 │   Cons 2 │ 0 │ -1/14 │   2/7 │ -9/14 │   0 │   1 │  9/7 │
 └──────────┴───┴───────┴───────┴───────┴─────┴─────┴──────┘
 
-Optimality reached
+Optimality reached. Pivot count = 2
 Value = -1/7 = -0.14285714285714285
 5-element Vector{Rational}:
   0
@@ -165,3 +168,4 @@ Value = -1/7 = -0.14285714285714285
  9//7
 ```
 
+> **Note**: At present `find_a_basis` does a brute-force search through all possible `m`-element subsets of `{1,2,...,n}` until it finds a feasible basis. We plan to replace this with something better. 

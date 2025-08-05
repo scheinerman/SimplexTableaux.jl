@@ -7,7 +7,6 @@ using SimplexTableaux
     c = [2, 4, 2, 1, -1]
 
     T = Tableau(A, b, c, false)
-    set_basis!(T, [1, 2])
 
     simplex_solve!(T)
     @test is_feasible(T)

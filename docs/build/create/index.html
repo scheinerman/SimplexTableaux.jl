@@ -55,7 +55,8 @@ julia&gt; T = Tableau(A, b, c, false)
 3-element Vector{Int64}:
  1
  2
- 3</code></pre><p>These are inefficient functions. We plan to change the implementation of <code>find_a_basis</code> to something more performant. </p><h2 id="Running-the-Simplex-Algorithm"><a class="docs-heading-anchor" href="#Running-the-Simplex-Algorithm">Running the Simplex Algorithm</a><a id="Running-the-Simplex-Algorithm-1"></a><a class="docs-heading-anchor-permalink" href="#Running-the-Simplex-Algorithm" title="Permalink"></a></h2><p>Once a tableau has been set up with a feasible basis, use <code>simplex_solve!(T)</code> to run the simplex algorithm and return solution to the LP.</p><pre><code class="nohighlight hljs">julia&gt; simplex_solve!(T)
+ 3</code></pre><p>These are inefficient functions. We plan to change the implementation of <code>find_a_basis</code> to something more performant. </p><h2 id="Running-the-Simplex-Algorithm"><a class="docs-heading-anchor" href="#Running-the-Simplex-Algorithm">Running the Simplex Algorithm</a><a id="Running-the-Simplex-Algorithm-1"></a><a class="docs-heading-anchor-permalink" href="#Running-the-Simplex-Algorithm" title="Permalink"></a></h2><p>Use <code>simplex_solve!(T)</code> to find the optimum value and minimizing vector for the linear program in <code>T</code>.  The user may either specify a starting basis, using <code>set_basis!(T, B)</code>, or if no basis has been specificed, then one is provided using a brute force search. </p><pre><code class="nohighlight hljs">julia&gt; simplex_solve!(T)
+Starting basis found: [1, 2]
 Starting tableau
 
 ┌──────────┬───┬─────┬─────┬─────┬─────┬─────┬─────┐
@@ -66,7 +67,7 @@ Starting tableau
 │   Cons 2 │ 0 │   0 │   1 │  -2 │   1 │   3 │   5 │
 └──────────┴───┴─────┴─────┴─────┴─────┴─────┴─────┘
 
-Column 1 leaves basis and column 4 enters
+Pivot 1: column 1 leaves basis and column 4 enters
 
 ┌──────────┬───┬───────┬─────┬───────┬─────┬──────┬──────┐
 │          │ z │   x_1 │ x_2 │   x_3 │ x_4 │  x_5 │  RHS │
@@ -76,7 +77,7 @@ Column 1 leaves basis and column 4 enters
 │   Cons 2 │ 0 │   1/4 │   0 │   1/4 │   1 │ -1/2 │  1/2 │
 └──────────┴───┴───────┴─────┴───────┴─────┴──────┴──────┘
 
-Column 2 leaves basis and column 5 enters
+Pivot 2: column 2 leaves basis and column 5 enters
 
 ┌──────────┬───┬───────┬───────┬───────┬─────┬─────┬──────┐
 │          │ z │   x_1 │   x_2 │   x_3 │ x_4 │ x_5 │  RHS │
@@ -86,11 +87,11 @@ Column 2 leaves basis and column 5 enters
 │   Cons 2 │ 0 │ -1/14 │   2/7 │ -9/14 │   0 │   1 │  9/7 │
 └──────────┴───┴───────┴───────┴───────┴─────┴─────┴──────┘
 
-Optimality reached
+Optimality reached. Pivot count = 2
 Value = -1/7 = -0.14285714285714285
 5-element Vector{Rational}:
   0
   0
   0
  8//7
- 9//7</code></pre></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../">« Overview</a><a class="docs-footer-nextpage" href="../other/">Other Functions »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.10.1 on <span class="colophon-date" title="Monday 4 August 2025 11:16">Monday 4 August 2025</span>. Using Julia version 1.11.6.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+ 9//7</code></pre><blockquote><p><strong>Note</strong>: At present <code>find_a_basis</code> does a brute-force search through all possible <code>m</code>-element subsets of <code>{1,2,...,n}</code> until it finds a feasible basis. We plan to replace this with something better. </p></blockquote></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../">« Overview</a><a class="docs-footer-nextpage" href="../other/">Other Functions »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.10.1 on <span class="colophon-date" title="Tuesday 5 August 2025 13:27">Tuesday 5 August 2025</span>. Using Julia version 1.11.6.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
