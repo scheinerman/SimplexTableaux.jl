@@ -38,7 +38,7 @@ mutable struct Tableau
 
         # test rank of M[2:end,2:end-1]
         if rankx(M[2:end, 2:(end - 1)]) ≠ m
-            @warn("Rank difficient Tableau")
+            @warn("Rank deficient Tableau")
         end
 
         B = zeros(Int, m)  # basis is all 0s to start
