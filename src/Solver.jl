@@ -15,7 +15,15 @@ function find_pivot(T::Tableau, i::Int)
     ai = T.M[2:end, i + 1]   # column i of A matrix 
     b = T.M[2:end, end]     # RHS vector
 
-    ratios = b .// ai
+    ratios = b
+    for j in 1:length(b)
+        if ai[j] != 0
+            ratios[j] //= ai[j]
+        else
+            ratios[j] = 1//0   # set to infinity if no good
+        end
+    end
+
     for j in 1:T.n_cons
         if ratios[j] < 0 || ai[j] <= 0
             ratios[j] = 1//0  # render negative ratios invalid
