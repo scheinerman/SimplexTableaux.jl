@@ -75,12 +75,12 @@ function simplex_solve!(T::Tableau, verbose::Bool=true)
         B = find_a_basis(T)
         if 0 ∈ B
             @info "This linear program is infeasible."
-            return 
+            return nothing
         end
         if verbose
             println("Starting basis found: $B")
         end
-        set_basis!(T,B)
+        set_basis!(T, B)
     end
 
     if verbose
