@@ -120,7 +120,7 @@ function simplex_solve!(T::Tableau, verbose::Bool=true)
 
     if verbose
         println("Optimality reached. Pivot count = $pivot_count")
-        println("Value = $v = $(Float64(value(T)))")
+        println("Minimal value = $v = $(Float64(value(T)))")
     end
 
     return x

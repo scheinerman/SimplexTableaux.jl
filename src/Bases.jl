@@ -3,17 +3,51 @@
 
 Return a feasible basis for the LP in `T` or `nothing` if none exists.
 """
-function find_a_basis(T::Tableau)::Vector{Int}
-    r, c = size(T.A)
-    for B in combinations(1:c, r)
-        TT = set_basis!(T, B)
-        if is_feasible(TT)
-            return B
+function find_a_basis(T::Tableau)
+    A, b, c = get_Abc(T)
+    m = T.n_cons
+    n = T.n_vars
+
+    # ensure RHS is nonnegative
+    for i in 1:m
+        if b[i] < 0
+            b[i] = -b[i]
+            A[i, :] = -A[i, :]
         end
     end
-    @info "No basis found"
-    return zeros(Int, r)
+
+    # glue an identity matrix to RHS
+    A = hcat(A, eye(Int, m))
+
+    # create artifical c 
+    c = vcat(0*c, ones(Int, m))
+
+    TT = Tableau(A, b, c, false)
+
+    B = collect((n + 1):(n + m))
+    set_basis!(TT, B)
+
+    simplex_solve!(TT, false)
+    v = value(TT)
+    if v>0
+        @info "No basis found."
+        return 0*get_basis(TT)
+    end
+
+    return TT.B
 end
+
+# function find_a_basis(T::Tableau)::Vector{Int}
+#     r, c = size(T.A)
+#     for B in combinations(1:c, r)
+#         TT = set_basis!(T, B)
+#         if is_feasible(TT)
+#             return B
+#         end
+#     end
+#     @info "No basis found"
+#     return zeros(Int, r)
+# end
 
 """
     find_all_bases(T::Tableau)

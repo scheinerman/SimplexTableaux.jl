@@ -1,18 +1,19 @@
 using SimplexTableaux, LinearAlgebra, ProgressMeter
 
 """
-    random_example(n_vars::Int, n_cons::Int, modulus::Int=10)
+    random_example(n_vars::Int, n_cons::Int, lo::Int, hi::Int, canonical::Bool=true)::Tableau
 
 Create a random instance of a `Tableau` with `n_vars` variables, 
 `n_cons` constraints in which all data are chosen IID uniformly
-from `{1,2,...,modulus}`.
+from `{lo, ..., hi}`. 
 """
-function random_example(n_vars::Int, n_cons::Int, modulus::Int=10)::Tableau
-    f(x::Int) = mod1(x, modulus)
-    A = f.(rand(Int, n_cons, n_vars))
-    b = f.(rand(Int, n_cons))
-    c = f.(rand(Int, n_vars))
-    return Tableau(A, b, c)
+function random_example(
+    n_vars::Int, n_cons::Int, lo::Int, hi::Int, canonical::Bool=true
+)::Tableau
+    A = rand(lo:hi, n_cons, n_vars)
+    b = rand(lo:hi, n_cons)
+    c = rand(lo:hi, n_vars)
+    return Tableau(A, b, c, canonical)
 end
 
 """

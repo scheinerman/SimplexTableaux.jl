@@ -23,7 +23,7 @@ function lp_solve(T::Tableau, verbose::Bool=true)
     end
     if verbose
         obj_val = objective_value(MOD)
-        println("Optimum value = $obj_val\n")
+        println("Minimial objective value = $obj_val\n")
     end
 
     xval = JuMP.value.(x)
