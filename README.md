@@ -1,6 +1,3 @@
-
-> **Note**: This is early days for this module. Any version before 0.1.0 is subject to massive changes. 
-
 # SimplexTableaux
 
 This module can be used to show how to solve linear programming problems using 
