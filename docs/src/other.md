@@ -5,7 +5,7 @@
 
 * `basic_vector(T)` returns the vector in which the nonbasic variable have been set to zero. 
 * `get_Abc(T)` returns the original matrix `A` and the vectors `b` and `c` that were the standard presentation of the linear program.
-* `get_basis(T)` returns the column number of the current basis.
+* `get_basis(T)` returns the column numbers of the current basis.
 * `is_feasible(T)` returns `true` if the current basic vector is in the feasible region.
 * `is_optimal(T)` returns `true` if the tableau has reached an optimal (minimal) state.
 * `value(T)` returns the objective function value of the current basic vector. 
@@ -110,7 +110,7 @@ julia> T
 └──────────┴───┴─────┴─────┴─────┴─────┴─────┴─────┘
 
 julia> lp_solve(T)
-Optimum value = -0.14285714285714324
+Minimal objective value = -0.14285714285714324
 
 5-element Vector{Float64}:
  0.0
