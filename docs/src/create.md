@@ -81,6 +81,16 @@ Use `set_basis!(T, B)` to specify a staring basis for the tableau. Here, `B` is 
 of integers specifying the columns that are in the basis. 
 
 ```
+julia> T
+┌──────────┬───┬─────┬─────┬─────┬─────┬─────┬─────┐
+│          │ z │ x_1 │ x_2 │ x_3 │ x_4 │ x_5 │ RHS │
+│ Obj Func │ 1 │ -25 │ -10 │   0 │   0 │   0 │   0 │
+├──────────┼───┼─────┼─────┼─────┼─────┼─────┼─────┤
+│   Cons 1 │ 0 │   3 │  10 │  -1 │   0 │   0 │ 100 │
+│   Cons 2 │ 0 │   5 │   6 │   0 │  -1 │   0 │ 100 │
+│   Cons 3 │ 0 │  10 │   2 │   0 │   0 │  -1 │ 100 │
+└──────────┴───┴─────┴─────┴─────┴─────┴─────┴─────┘
+
 julia> set_basis!(T,[1,4,5])
 ┌──────────┬───┬─────┬───────┬───────┬─────┬─────┬────────┐
 │          │ z │ x_1 │   x_2 │   x_3 │ x_4 │ x_5 │    RHS │
@@ -98,25 +108,42 @@ julia> set_basis!(T,[1,4,5])
 
 ### Tools to find a basis
 
-The function `find_all_bases(T)` returns a list of all feasible bases for `T`:
+
+
+The function `find_a_basis(T)` returns a feasible basis for `T` using the phase-one method.
 ```
-julia> find_all_bases(T)
-4-element Vector{Vector{Int64}}:
- [1, 2, 3]
- [1, 2, 5]
- [1, 4, 5]
- [2, 3, 4]
-```
-The function `find_a_basis(T)` returns a feasible basis for `T` (the first it finds).
-```
+julia> T
+┌──────────┬───┬────────┬─────────┬─────┬─────┬─────┬───────┐
+│          │ z │    x_1 │     x_2 │ x_3 │ x_4 │ x_5 │   RHS │
+│ Obj Func │ 1 │ 61/200 │ 109/200 │   0 │   0 │   0 │     0 │
+├──────────┼───┼────────┼─────────┼─────┼─────┼─────┼───────┤
+│   Cons 1 │ 0 │  -7/10 │   -9/10 │  -1 │   0 │   0 │ -5000 │
+│   Cons 2 │ 0 │  -1/10 │   -1/20 │   0 │  -1 │   0 │  -500 │
+│   Cons 3 │ 0 │      1 │    -1/2 │   0 │   0 │  -1 │     0 │
+└──────────┴───┴────────┴─────────┴─────┴─────┴─────┴───────┘
+
+
 julia> find_a_basis(T)
 3-element Vector{Int64}:
  1
  2
- 3
+ 4
 ```
 
-These are inefficient functions. We plan to change the implementation of `find_a_basis` to something more performant. 
+
+
+The function `find_all_bases(T)` returns a list of all feasible bases for `T`:
+```
+julia> find_all_bases(T)
+6-element Vector{Vector{Int64}}:
+ [1, 2, 4]
+ [1, 2, 5]
+ [1, 3, 4]
+ [1, 3, 5]
+ [2, 3, 4]
+ [3, 4, 5]
+```
+Note that `find_all_bases` is rather inefficient as it considers all possible `m`-element subsets of the columns.
 
 
 
@@ -124,48 +151,106 @@ These are inefficient functions. We plan to change the implementation of `find_a
 
 Use `simplex_solve!(T)` to find the optimum value and minimizing vector for the linear program in `T`. 
 The user may either specify a starting basis, using `set_basis!(T, B)`, or if no basis has been specificed,
-then one is provided using a brute force search. 
+then one is automatically provided using `find_a_basis`. 
 ```
+julia> T 
+┌──────────┬───┬─────┬─────┬─────┬─────┬─────┬──────┬─────┬─────┐
+│          │ z │ x_1 │ x_2 │ x_3 │ x_4 │ x_5 │  x_6 │ x_7 │ RHS │
+│ Obj Func │ 1 │   0 │   0 │   0 │   2 │   3 │   -1 │ -12 │   0 │
+├──────────┼───┼─────┼─────┼─────┼─────┼─────┼──────┼─────┼─────┤
+│   Cons 1 │ 0 │   1 │   0 │   0 │  -2 │  -9 │    1 │   9 │   0 │
+│   Cons 2 │ 0 │   0 │   1 │   0 │ 1/3 │   1 │ -1/3 │  -2 │   0 │
+│   Cons 3 │ 0 │   0 │   0 │   1 │   2 │   3 │   -1 │ -12 │   2 │
+└──────────┴───┴─────┴─────┴─────┴─────┴─────┴──────┴─────┴─────┘
+
 julia> simplex_solve!(T)
-Starting basis found: [1, 2]
+Starting basis found: [1, 3, 5]
 Starting tableau
 
-┌──────────┬───┬─────┬─────┬─────┬─────┬─────┬─────┐
-│          │ z │ x_1 │ x_2 │ x_3 │ x_4 │ x_5 │ RHS │
-│ Obj Func │ 1 │   0 │   0 │  -8 │  11 │   9 │  24 │
-├──────────┼───┼─────┼─────┼─────┼─────┼─────┼─────┤
-│   Cons 1 │ 0 │   1 │   0 │   1 │   4 │  -2 │   2 │
-│   Cons 2 │ 0 │   0 │   1 │  -2 │   1 │   3 │   5 │
-└──────────┴───┴─────┴─────┴─────┴─────┴─────┴─────┘
+┌──────────┬───┬─────┬─────┬─────┬─────┬─────┬──────┬─────┬─────┐
+│          │ z │ x_1 │ x_2 │ x_3 │ x_4 │ x_5 │  x_6 │ x_7 │ RHS │
+│ Obj Func │ 1 │   0 │  -3 │   0 │   1 │   0 │    0 │  -6 │   0 │
+├──────────┼───┼─────┼─────┼─────┼─────┼─────┼──────┼─────┼─────┤
+│   Cons 1 │ 0 │   1 │   9 │   0 │   1 │   0 │   -2 │  -9 │   0 │
+│   Cons 2 │ 0 │   0 │  -3 │   1 │   1 │   0 │    0 │  -6 │   2 │
+│   Cons 3 │ 0 │   0 │   1 │   0 │ 1/3 │   1 │ -1/3 │  -2 │   0 │
+└──────────┴───┴─────┴─────┴─────┴─────┴─────┴──────┴─────┴─────┘
 
 Pivot 1: column 1 leaves basis and column 4 enters
 
-┌──────────┬───┬───────┬─────┬───────┬─────┬──────┬──────┐
-│          │ z │   x_1 │ x_2 │   x_3 │ x_4 │  x_5 │  RHS │
-│ Obj Func │ 1 │ -11/4 │   0 │ -43/4 │   0 │ 29/2 │ 37/2 │
-├──────────┼───┼───────┼─────┼───────┼─────┼──────┼──────┤
-│   Cons 1 │ 0 │  -1/4 │   1 │  -9/4 │   0 │  7/2 │  9/2 │
-│   Cons 2 │ 0 │   1/4 │   0 │   1/4 │   1 │ -1/2 │  1/2 │
-└──────────┴───┴───────┴─────┴───────┴─────┴──────┴──────┘
+┌──────────┬───┬──────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┐
+│          │ z │  x_1 │ x_2 │ x_3 │ x_4 │ x_5 │ x_6 │ x_7 │ RHS │
+│ Obj Func │ 1 │   -1 │ -12 │   0 │   0 │   0 │   2 │   3 │   0 │
+├──────────┼───┼──────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┤
+│   Cons 1 │ 0 │   -1 │ -12 │   1 │   0 │   0 │   2 │   3 │   2 │
+│   Cons 2 │ 0 │    1 │   9 │   0 │   1 │   0 │  -2 │  -9 │   0 │
+│   Cons 3 │ 0 │ -1/3 │  -2 │   0 │   0 │   1 │ 1/3 │   1 │   0 │
+└──────────┴───┴──────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┘
 
-Pivot 2: column 2 leaves basis and column 5 enters
+Pivot 2: column 5 leaves basis and column 7 enters
 
-┌──────────┬───┬───────┬───────┬───────┬─────┬─────┬──────┐
-│          │ z │   x_1 │   x_2 │   x_3 │ x_4 │ x_5 │  RHS │
-│ Obj Func │ 1 │ -12/7 │ -29/7 │ -10/7 │   0 │   0 │ -1/7 │
-├──────────┼───┼───────┼───────┼───────┼─────┼─────┼──────┤
-│   Cons 1 │ 0 │  3/14 │   1/7 │ -1/14 │   1 │   0 │  8/7 │
-│   Cons 2 │ 0 │ -1/14 │   2/7 │ -9/14 │   0 │   1 │  9/7 │
-└──────────┴───┴───────┴───────┴───────┴─────┴─────┴──────┘
+┌──────────┬───┬──────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┐
+│          │ z │  x_1 │ x_2 │ x_3 │ x_4 │ x_5 │ x_6 │ x_7 │ RHS │
+│ Obj Func │ 1 │    0 │  -6 │   0 │   0 │  -3 │   1 │   0 │   0 │
+├──────────┼───┼──────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┤
+│   Cons 1 │ 0 │    0 │  -6 │   1 │   0 │  -3 │   1 │   0 │   2 │
+│   Cons 2 │ 0 │   -2 │  -9 │   0 │   1 │   9 │   1 │   0 │   0 │
+│   Cons 3 │ 0 │ -1/3 │  -2 │   0 │   0 │   1 │ 1/3 │   1 │   0 │
+└──────────┴───┴──────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┘
 
-Optimality reached. Pivot count = 2
-Value = -1/7 = -0.14285714285714285
-5-element Vector{Rational}:
-  0
-  0
-  0
- 8//7
- 9//7
+Pivot 3: column 4 leaves basis and column 6 enters
+
+┌──────────┬───┬─────┬─────┬─────┬──────┬─────┬─────┬─────┬─────┐
+│          │ z │ x_1 │ x_2 │ x_3 │  x_4 │ x_5 │ x_6 │ x_7 │ RHS │
+│ Obj Func │ 1 │   2 │   3 │   0 │   -1 │ -12 │   0 │   0 │   0 │
+├──────────┼───┼─────┼─────┼─────┼──────┼─────┼─────┼─────┼─────┤
+│   Cons 1 │ 0 │   2 │   3 │   1 │   -1 │ -12 │   0 │   0 │   2 │
+│   Cons 2 │ 0 │  -2 │  -9 │   0 │    1 │   9 │   1 │   0 │   0 │
+│   Cons 3 │ 0 │ 1/3 │   1 │   0 │ -1/3 │  -2 │   0 │   1 │   0 │
+└──────────┴───┴─────┴─────┴─────┴──────┴─────┴─────┴─────┴─────┘
+
+Pivot 4: column 7 leaves basis and column 2 enters
+
+┌──────────┬───┬─────┬─────┬─────┬──────┬─────┬─────┬─────┬─────┐
+│          │ z │ x_1 │ x_2 │ x_3 │  x_4 │ x_5 │ x_6 │ x_7 │ RHS │
+│ Obj Func │ 1 │   1 │   0 │   0 │    0 │  -6 │   0 │  -3 │   0 │
+├──────────┼───┼─────┼─────┼─────┼──────┼─────┼─────┼─────┼─────┤
+│   Cons 1 │ 0 │ 1/3 │   1 │   0 │ -1/3 │  -2 │   0 │   1 │   0 │
+│   Cons 2 │ 0 │   1 │   0 │   1 │    0 │  -6 │   0 │  -3 │   2 │
+│   Cons 3 │ 0 │   1 │   0 │   0 │   -2 │  -9 │   1 │   9 │   0 │
+└──────────┴───┴─────┴─────┴─────┴──────┴─────┴─────┴─────┴─────┘
+
+Pivot 5: column 2 leaves basis and column 1 enters
+
+┌──────────┬───┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┐
+│          │ z │ x_1 │ x_2 │ x_3 │ x_4 │ x_5 │ x_6 │ x_7 │ RHS │
+│ Obj Func │ 1 │   0 │  -3 │   0 │   1 │   0 │   0 │  -6 │   0 │
+├──────────┼───┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┤
+│   Cons 1 │ 0 │   1 │   3 │   0 │  -1 │  -6 │   0 │   3 │   0 │
+│   Cons 2 │ 0 │   0 │  -3 │   1 │   1 │   0 │   0 │  -6 │   2 │
+│   Cons 3 │ 0 │   0 │  -3 │   0 │  -1 │  -3 │   1 │   6 │   0 │
+└──────────┴───┴─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┘
+
+Pivot 6: column 3 leaves basis and column 4 enters
+
+┌──────────┬───┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┐
+│          │ z │ x_1 │ x_2 │ x_3 │ x_4 │ x_5 │ x_6 │ x_7 │ RHS │
+│ Obj Func │ 1 │   0 │   0 │  -1 │   0 │   0 │   0 │   0 │  -2 │
+├──────────┼───┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┤
+│   Cons 1 │ 0 │   1 │   0 │   1 │   0 │  -6 │   0 │  -3 │   2 │
+│   Cons 2 │ 0 │   0 │  -3 │   1 │   1 │   0 │   0 │  -6 │   2 │
+│   Cons 3 │ 0 │   0 │  -6 │   1 │   0 │  -3 │   1 │   0 │   2 │
+└──────────┴───┴─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┘
+
+Optimality reached. Pivot count = 6
+Minimal value = -2 = -2.0
+7-element Vector{Rational}:
+ 2
+ 0
+ 0
+ 2
+ 0
+ 2
+ 0
 ```
 
-> **Note**: At present `find_a_basis` does a brute-force search through all possible `m`-element subsets of `{1,2,...,n}` until it finds a feasible basis. We plan to replace this with something better. 
