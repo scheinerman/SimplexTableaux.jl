@@ -3,7 +3,7 @@
 
 ## Inspection Functions
 
-* `basic_vector(T)` returns the vector in which the nonbasic variable have been set to zero. 
+* `basic_vector(T)` returns the vector in which the nonbasic variables have been set to zero. 
 * `get_Abc(T)` returns the original matrix `A` and the vectors `b` and `c` that were the standard presentation of the linear program.
 * `get_basis(T)` returns the column numbers of the current basis.
 * `is_feasible(T)` returns `true` if the current basic vector is in the feasible region.
