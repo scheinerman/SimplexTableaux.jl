@@ -1,9 +1,4 @@
-"""
-    find_a_basis(T::Tableau)
-
-Return a feasible basis for the LP in `T` or `nothing` if none exists.
-"""
-function find_a_basis(T::Tableau)
+function _phase_one_tableau(T::Tableau)
     A, b, c = get_Abc(T)
     m = T.n_cons
     n = T.n_vars
@@ -30,6 +25,19 @@ function find_a_basis(T::Tableau)
     B = collect((n + 1):(n + m))
     set_basis!(TT, B)
 
+    return TT
+end
+
+"""
+    find_a_basis(T::Tableau)
+
+Return a feasible basis for the LP in `T` or `nothing` if none exists.
+"""
+function find_a_basis(T::Tableau)
+    TT = _phase_one_tableau(T)
+    n = T.n_vars
+    m = T.n_cons
+
     simplex_solve!(TT, false)
     v = value(TT)
     if v>0
@@ -40,7 +48,7 @@ function find_a_basis(T::Tableau)
     xx = basic_vector(TT)
     xx = xx[1:n]
 
-    B = findall(iszero, xx)
+    B = findall(!iszero, xx)
 
     return B
 end
