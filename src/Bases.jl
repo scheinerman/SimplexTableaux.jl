@@ -8,21 +8,24 @@ function find_a_basis(T::Tableau)
     m = T.n_cons
     n = T.n_vars
 
+    bb = deepcopy(b)
+    AA = deepcopy(A)
+
     # ensure RHS is nonnegative
     for i in 1:m
-        if b[i] < 0
-            b[i] = -b[i]
-            A[i, :] = -A[i, :]
+        if bb[i] < 0
+            bb[i] = -bb[i]
+            AA[i, :] = -AA[i, :]
         end
     end
 
     # glue an identity matrix to RHS
-    A = hcat(A, eye(Int, m))
+    AA = hcat(AA, eye(Int, m))
 
     # create artifical c 
-    c = vcat(0*c, ones(Int, m))
+    cc = vcat(0*c, ones(Int, m))
 
-    TT = Tableau(A, b, c, false)
+    TT = Tableau(AA, bb, cc, false)
 
     B = collect((n + 1):(n + m))
     set_basis!(TT, B)
@@ -34,7 +37,12 @@ function find_a_basis(T::Tableau)
         return 0*get_basis(TT)
     end
 
-    return TT.B
+    xx = basic_vector(TT)
+    xx = xx[1:n]
+
+    B = findall(iszero, xx)
+
+    return B
 end
 
 # function find_a_basis(T::Tableau)::Vector{Int}
