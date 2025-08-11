@@ -19,6 +19,8 @@ include("Exact.jl")
 
 export Tableau,
     basic_vector,
+    big_M_solve,
+    check_basis,
     set_basis!,
     find_a_basis,
     find_all_bases,
@@ -26,6 +28,7 @@ export Tableau,
     find_pivot_column,
     get_Abc,
     get_basis,
+    infer_basis!,
     is_feasible,
     is_optimal,
     lp_solve,
@@ -63,5 +66,6 @@ function is_feasible(T::Tableau, x::Vector)::Bool
 end
 
 include("Bases.jl")
+include("big_M.jl")
 
 end # module SimpleTableaux

@@ -61,6 +61,29 @@ function set_basis!(T::Tableau, vars::Vector{Int})
 end
 
 """
+    check_basis(T::Tableau, vars::Vector{Int})::Bool
+
+See if the list of column indices `vars` form a basis (feasible or not) for `T`.
+"""
+function check_basis(T::Tableau, vars::Vector{Int})::Bool
+    n = T.n_vars
+    m = T.n_cons
+
+    vars = sort(unique(vars))
+
+    if (length(vars) ≠ m) || !(vars ⊆ collect(1:n))
+        return false
+    end
+
+    # bop up indices by 1 and make a list
+    idx = [j+1 for j in vars]
+    idx = vcat(1, idx)
+
+    B = T.M[:, idx]
+    return detx(B) ≠ 0
+end
+
+"""
     get_basis(T::Tableau)
 
 Return the current basis (indices of basic variables).
@@ -138,4 +161,30 @@ function infer_basis!(T::Tableau)
         return T.B
     end
     T.B = newB
+end
+
+"""
+    infer_basis!(T::Tableau, x::Vector)
+
+When `x` is a basic feasbile vector for `T`, determine a basis 
+of columns to that effect.
+"""
+function infer_basis!(T::Tableau, x::Vector)
+    n = T.n_vars
+    m = T.n_cons
+    A, b, c = get_Abc(T)
+    B = findall(!iszero, x)
+
+    if length(B) == m
+        return B
+    end
+
+    for j in 1:n
+        AA = A[:, B]
+        aj = A[:, j] # column j 
+        if rankx(AA) < rankx(hcat(AA, aj))
+            push!(B, j)
+        end
+    end
+    return sort(B)
 end

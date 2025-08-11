@@ -180,7 +180,14 @@ function phase_one_example()
     A = [5 -2 4 0 0; 5 4 -4 -4 0; 0 1 -5 -2 4]
     b = [-3, 1, -5]
     c = [5, 1, -2, -1, 1]
-    T = Tableau(A, b, c, false)
+    return Tableau(A, b, c, false)
+end
+
+function phase_one_trouble()
+    A = [5 1 3; 1 1 3]
+    b = [5, 5]
+    c = [0, 4, -1]
+    return Tableau(A, b, c, false)
 end
 
 nothing
