@@ -183,6 +183,17 @@ function phase_one_example()
     return Tableau(A, b, c, false)
 end
 
+function phase_one_infeasible()
+    A = [
+        2 0 5 2
+        2 1 3 1
+        -1 1 4 3
+    ]
+    b = [5, -1, 2]
+    c = [1, -1, 4, 4]
+    return Tableau(A, b, c, false)
+end
+
 function phase_one_trouble()
     A = [5 1 3; 1 1 3]
     b = [5, 5]

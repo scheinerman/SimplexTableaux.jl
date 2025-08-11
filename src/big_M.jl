@@ -17,7 +17,7 @@ function big_M_tableau(T::Tableau, M::Int=1000)
     AA = hcat(AA, eye(Int, m))
 
     # create artifical c 
-    cc = vcat(0*c, M*ones(Int, m))
+    cc = vcat(c, M*ones(Int, m))
 
     TT = Tableau(AA, bb, cc, false)
 
@@ -34,11 +34,25 @@ Solve the LP `T` using the big-M method.
 """
 function big_M_solve(T::Tableau, M::Int=1000)
     TT = big_M_tableau(T, M)
+    println("Solving augmented tableau")
     x = simplex_solve!(TT)
+
+    if isnothing(x)
+        return nothing
+    end
+    # check that artificial vars are all zero 
+
+    arts = x[(T.n_vars + 1):end]
+
+    if any(arts .≠ 0)
+        @info "LP is possibly infeasible. Try a larger value than M = $M?"
+        return nothing
+    end
+
     x = x[1:T.n_vars]
     B = infer_basis!(T, x)
     set_basis!(T, B)
-    println("Final tableau\n")
+    println("\nFinal tableau\n")
     println(T)
     v = value(T)
     println("Minimial value = $v = $(Float64(v))")
