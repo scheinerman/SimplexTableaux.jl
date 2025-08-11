@@ -2,8 +2,8 @@
 
 ## Row/Column Pivoting
 
-The function `basis_pivot!` pivots on an element of a tableau. The syntax is 
-`basis_pivot!(T, i, j)` will pivot on the entry corresponding to constraint `i` and variable `x_j`. 
+The function `matrix_pivot!` pivots on an element of a tableau. 
+The syntax is `matrix_pivot!(T, i, j)` which will pivot the tableau on the entry corresponding to constraint `i` and variable `x_j`. 
 
 For example:
 ```
@@ -67,7 +67,7 @@ Here, we pivoted the tableau so that column 1 replaced column 4.
 
 ## Finding Pivots
 
-The function `find_pivot` returns a pair `(s,t)` as a recommended basis pivot for a `Tableau`. 
+The function `find_pivot` returns a pair `(s,t)` as a recommended basis pivot for a tableau. 
 ```
 julia> T
 ┌──────────┬───┬─────┬──────┬──────┬─────┬─────┬──────┐
