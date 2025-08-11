@@ -1,4 +1,4 @@
-function big_M_tableau(T::Tableau, M::Int=1000)
+function big_M_tableau(T::Tableau, M::Int=100)
     A, b, c = get_Abc(T)
     m = T.n_cons
     n = T.n_vars
@@ -32,9 +32,13 @@ end
 
 Solve the LP `T` using the big-M method.
 """
-function big_M_solve(T::Tableau, M::Int=1000)
+function big_M_solve(T::Tableau, M::Int=100)
     TT = big_M_tableau(T, M)
-    println("Solving augmented tableau")
+    println("Solving this augmented tableau")
+    Tx = deepcopy(TT)
+    restore!(Tx)
+    println(Tx)
+
     x = simplex_solve!(TT)
 
     if isnothing(x)

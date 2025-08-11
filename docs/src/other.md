@@ -10,62 +10,7 @@
 * `is_optimal(T)` returns `true` if the tableau has reached an optimal (minimal) state.
 * `value(T)` returns the objective function value of the current basic vector. 
 
-## Tableau Manipulation
 
-### Basis pivoting
-
-After a basis has been established, the function `basis_pivot!` can be used to modify 
-the basis by specifying the column that enters the basis and the column that leaves.
-```
-julia> T
-┌──────────┬───┬─────┬───────┬───────┬─────┬─────┬────────┐
-│          │ z │ x_1 │   x_2 │   x_3 │ x_4 │ x_5 │    RHS │
-│ Obj Func │ 1 │   0 │ 220/3 │ -25/3 │   0 │   0 │ 2500/3 │
-├──────────┼───┼─────┼───────┼───────┼─────┼─────┼────────┤
-│   Cons 1 │ 0 │   1 │  10/3 │  -1/3 │   0 │   0 │  100/3 │
-│   Cons 2 │ 0 │   0 │  32/3 │  -5/3 │   1 │   0 │  200/3 │
-│   Cons 3 │ 0 │   0 │  94/3 │ -10/3 │   0 │   1 │  700/3 │
-└──────────┴───┴─────┴───────┴───────┴─────┴─────┴────────┘
-
-
-julia> basis_pivot!(T,2,1)
-┌──────────┬───┬───────┬─────┬───────┬─────┬─────┬─────┐
-│          │ z │   x_1 │ x_2 │   x_3 │ x_4 │ x_5 │ RHS │
-│ Obj Func │ 1 │   -22 │   0 │    -1 │   0 │   0 │ 100 │
-├──────────┼───┼───────┼─────┼───────┼─────┼─────┼─────┤
-│   Cons 1 │ 0 │  3/10 │   1 │ -1/10 │   0 │   0 │  10 │
-│   Cons 2 │ 0 │ -16/5 │   0 │  -3/5 │   1 │   0 │ -40 │
-│   Cons 3 │ 0 │ -47/5 │   0 │  -1/5 │   0 │   1 │ -80 │
-└──────────┴───┴───────┴─────┴───────┴─────┴─────┴─────┘
-```
-
-### Matrix pivoting
-
-A tableau may be manipulated by specifying a nonzero entry on which to pivot. 
-The function `pivot!(T,r,c)` pivots on the entry for constraint `r` and the column `c` 
-(where `c=1` corresponds to the variable `x_1`).
-```
-julia> T
-┌──────────┬───┬─────┬───────┬───────┬─────┬─────┬────────┐
-│          │ z │ x_1 │   x_2 │   x_3 │ x_4 │ x_5 │    RHS │
-│ Obj Func │ 1 │   0 │ 220/3 │ -25/3 │   0 │   0 │ 2500/3 │
-├──────────┼───┼─────┼───────┼───────┼─────┼─────┼────────┤
-│   Cons 1 │ 0 │   1 │  10/3 │  -1/3 │   0 │   0 │  100/3 │
-│   Cons 2 │ 0 │   0 │  32/3 │  -5/3 │   1 │   0 │  200/3 │
-│   Cons 3 │ 0 │   0 │  94/3 │ -10/3 │   0 │   1 │  700/3 │
-└──────────┴───┴─────┴───────┴───────┴─────┴─────┴────────┘
-
-
-julia> matrix_pivot!(T,3,2)
-┌──────────┬───┬─────┬─────┬────────┬─────┬─────────┬──────────┐
-│          │ z │ x_1 │ x_2 │    x_3 │ x_4 │     x_5 │      RHS │
-│ Obj Func │ 1 │   0 │   0 │ -25/47 │   0 │ -110/47 │ 13500/47 │
-├──────────┼───┼─────┼─────┼────────┼─────┼─────────┼──────────┤
-│   Cons 1 │ 0 │   1 │   0 │   1/47 │   0 │   -5/47 │   400/47 │
-│   Cons 2 │ 0 │   0 │   0 │ -25/47 │   1 │  -16/47 │  -600/47 │
-│   Cons 3 │ 0 │   0 │   1 │  -5/47 │   0 │    3/94 │   350/47 │
-└──────────┴───┴─────┴─────┴────────┴─────┴─────────┴──────────┘
-```
 
 ### Return to start
 
@@ -94,31 +39,6 @@ julia> restore!(T)
 ```
 
 
-## Using a Numerical Solver
-
-The function `lp_solve` finds a numerical solution to the linear program 
-using a Julia solver (default: HiGHS).
-
-```
-julia> T
-┌──────────┬───┬─────┬─────┬─────┬─────┬─────┬─────┐
-│          │ z │ x_1 │ x_2 │ x_3 │ x_4 │ x_5 │ RHS │
-│ Obj Func │ 1 │  -2 │  -4 │  -2 │  -1 │   1 │   0 │
-├──────────┼───┼─────┼─────┼─────┼─────┼─────┼─────┤
-│   Cons 1 │ 0 │   2 │   1 │   0 │   9 │  -1 │   9 │
-│   Cons 2 │ 0 │   1 │   1 │  -1 │   5 │   1 │   7 │
-└──────────┴───┴─────┴─────┴─────┴─────┴─────┴─────┘
-
-julia> lp_solve(T)
-Minimal objective value = -0.14285714285714324
-
-5-element Vector{Float64}:
- 0.0
- 0.0
- 0.0
- 1.1428571428571428
- 1.285714285714286
-```
 
 
 ## LaTeX output
