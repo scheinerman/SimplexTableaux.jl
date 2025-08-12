@@ -39,14 +39,18 @@ end
 
 Solve the LP `T` using the big-M method.
 """
-function big_M_solve(T::Tableau, M::Int=100)
+function big_M_solve(T::Tableau, M::Int=100, verbose::Bool=true)
     TT = big_M_tableau(T, M)
-    println("Solving this augmented tableau")
+    if verbose
+        println("Solving this augmented tableau")
+    end
     Tx = deepcopy(TT)
     restore!(Tx)
-    println(Tx)
+    if verbose
+        println(Tx)
+    end
 
-    x = simplex_solve!(TT)
+    x = simplex_solve!(TT, verbose)
 
     if isnothing(x)
         return nothing
@@ -56,16 +60,20 @@ function big_M_solve(T::Tableau, M::Int=100)
     arts = x[(T.n_vars + 1):end]
 
     if any(arts .≠ 0)
-        @info "LP is possibly infeasible. Try a larger value than M = $M?"
+        if verbose
+            @info "LP is possibly infeasible. Try a larger value than M = $M?"
+        end
         return nothing
     end
 
     x = x[1:T.n_vars]
     B = infer_basis!(T, x)
     set_basis!(T, B)
-    println("\nFinal tableau\n")
-    println(T)
-    v = value(T)
-    println("Minimial value = $v = $(Float64(v))")
+    if verbose
+        println("\nFinal tableau\n")
+        println(T)
+        v = value(T)
+        println("Minimal value = $v = $(Float64(v))")
+    end
     return x
 end
