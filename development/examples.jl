@@ -24,6 +24,11 @@ function peanut_butter()
     return -A, -b, -c
 end
 
+"""
+    fishkind4()
+
+DEF's example for chapter 4.
+"""
 function fishkind4()
     A = [2 1 0 9 -1; 1 1 -1 5 1]
     b = [9; 7]

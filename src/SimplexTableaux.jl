@@ -11,10 +11,6 @@ using PrettyTables
 import Base: show
 import LatexPrint: latex_form
 
-# function __init__()
-#     LatexPrint.set_slash()
-# end
-
 include("Exact.jl")
 
 export Tableau,

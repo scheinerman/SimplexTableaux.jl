@@ -33,7 +33,7 @@ end
 
 Return a feasible basis for the LP in `T` or `nothing` if none exists.
 """
-function find_a_basis(T::Tableau)
+function find_a_basis(T::Tableau, verbose::Bool=true)
     TT = _phase_one_tableau(T)
     n = T.n_vars
     m = T.n_cons
@@ -41,7 +41,9 @@ function find_a_basis(T::Tableau)
     simplex_solve!(TT, false)
     v = value(TT)
     if v>0
-        @info "No basis found."
+        if verbose
+            @info "No basis found."
+        end
         return 0*get_basis(TT)
     end
 

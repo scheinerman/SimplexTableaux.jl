@@ -86,9 +86,11 @@ Solve `T` using the simplex method.
 """
 function simplex_solve!(T::Tableau, verbose::Bool=true)
     if 0 ∈ T.B
-        B = find_a_basis(T)
+        B = find_a_basis(T, verbose)
         if 0 ∈ B
-            @info "This linear program is infeasible."
+            if verbose
+                @info "This linear program is infeasible."
+            end
             return nothing
         end
         if verbose
@@ -107,7 +109,9 @@ function simplex_solve!(T::Tableau, verbose::Bool=true)
     while !is_optimal(T)
         p = find_pivot(T)
         if 0 ∈ p
-            @info "This linear program is unbounded"
+            if verbose
+                @info "This linear program is unbounded"
+            end
             return nothing
         end
         basis_pivot!(T, p...)
