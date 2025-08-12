@@ -28,7 +28,18 @@ function fishkind4()
     A = [2 1 0 9 -1; 1 1 -1 5 1]
     b = [9; 7]
     c = [2; 4; 2; 1; -1]
-    @info "This problem is already in standard form"
+    T = Tableau(A, b, c, false)
+end
+
+"""
+    fishkind400()
+
+An example that fails the big-M method for small M. 
+"""
+function fishkind400()
+    A = [2 1 0 9 -1; 1 1 -1 5 1]
+    b = [9; 7]
+    c = 100 * [2; 4; 2; 1; -1]
     T = Tableau(A, b, c, false)
 end
 
