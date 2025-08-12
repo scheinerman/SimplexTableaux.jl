@@ -77,7 +77,7 @@ Minimal value = -407/5 = -81.4
 
 ## Big-M Solution
 
-The function `big_M_solution` solves linear programs using the Simplex Method on an augmented tableau. The user may specify the value of `M` or use the default (100).
+The function `big_M_solve!` solves linear programs using the Simplex Method on an augmented tableau. The user may specify the value of `M` or use the default (100).
 
 ```
 julia> T
@@ -90,7 +90,7 @@ julia> T
 └──────────┴───┴─────┴─────┴─────┴─────┴─────┘
 
 
-julia> big_M_solve(T)
+julia> big_M_solve!(T)
 Solving this augmented tableau
 ┌──────────┬───┬─────┬─────┬─────┬─────┬──────┬──────┬─────┐
 │          │ z │ x_1 │ x_2 │ x_3 │ x_4 │  x_5 │  x_6 │ RHS │

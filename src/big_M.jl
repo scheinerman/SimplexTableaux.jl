@@ -35,11 +35,11 @@ function big_M_tableau(T::Tableau, M::Int=100)
 end
 
 """
-    big_M_solve(T::Tableau, M::Int=1000)
+    big_M_solve!(T::Tableau, M::Int=100, verbose::Bool=true)
 
 Solve the LP `T` using the big-M method.
 """
-function big_M_solve(T::Tableau, M::Int=100, verbose::Bool=true)
+function big_M_solve!(T::Tableau, M::Int=100, verbose::Bool=true)
     TT = big_M_tableau(T, M)
     if verbose
         println("Solving this augmented tableau")

@@ -15,7 +15,7 @@ include("Exact.jl")
 
 export Tableau,
     basic_vector,
-    big_M_solve,
+    big_M_solve!,
     big_M_tableau,
     check_basis,
     set_basis!,
