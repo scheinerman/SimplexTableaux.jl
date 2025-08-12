@@ -1,3 +1,10 @@
+"""
+    big_M_tableau(T::Tableau, M::Int=100)
+
+Form a new tableau from `T` by adding `m` artificial variables 
+and add the terms `+M*x_i` (for each artificial variable `x_i`) to the objective function.
+Then set the basis to the columns for the artifical variables.
+"""
 function big_M_tableau(T::Tableau, M::Int=100)
     A, b, c = get_Abc(T)
     m = T.n_cons

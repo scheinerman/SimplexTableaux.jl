@@ -96,7 +96,8 @@ Note that `find_pivot` returns `(0,0)` if there are no feasible pivots.
 
 ### Finding a pivot for a specific column
 
-The function `find_pivot` can be invoked with a third argument specifying a column in which to find a pivot. That is `find_pivot(T, j)` returns a pair `(i,j)` so that `pivot!(T,i,j)` is feasible. 
+The function `find_pivot` can be invoked with a third argument specifying a column in which to find a pivot. 
+That is `find_pivot(T, j)` returns a pair `(i,j)` so that `basis_pivot!(T,i,j)` is feasible. 
 
 
 ```

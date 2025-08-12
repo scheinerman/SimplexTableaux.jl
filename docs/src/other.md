@@ -4,7 +4,7 @@
 ## Inspection Functions
 
 * `basic_vector(T)` returns the vector in which the nonbasic variables have been set to zero. 
-* `get_Abc(T)` returns the original matrix `A` and the vectors `b` and `c` that were the standard presentation of the linear program.
+* `get_Abc(T)` returns the original matrix `A` and the vectors `b` and `c` for the standard presentation of the linear program.
 * `get_basis(T)` returns the column numbers of the current basis.
 * `is_feasible(T)` returns `true` if the current basic vector is in the feasible region.
 * `is_optimal(T)` returns `true` if the tableau has reached an optimal (minimal) state.
@@ -12,7 +12,7 @@
 
 
 
-### Return to start
+## Return to Start
 
 The function `restore!` returns the tableau to its state when it was constructed. 
 ```
@@ -41,7 +41,7 @@ julia> restore!(T)
 
 
 
-## LaTeX output
+## LaTeX Output
 
 Using [LatexPrint](https://github.com/scheinerman/LatexPrint.jl) users can get the 
 code for pasting into a LaTeX document.
@@ -72,3 +72,16 @@ julia> lap(T)
 Here is the LaTeX output:
 
 ![](tableau.png)
+
+
+## Other Public Functions
+
+Presently, these functions are exported in `SimplexTableaux` but might be hidden in future releases. 
+They are not likely to be useful to the users of this module. 
+See the doc strings for more information:
+ 
+* `big_M_tableau`
+* `check_basis`
+* `find_pivot_column`
+* `infer_basis!`
+

@@ -66,5 +66,5 @@ julia> T = Tableau(A, b, c, false)
 │   Cons 2 │ 0 │   1 │   1 │  -1 │   5 │   1 │   7 │
 └──────────┴───┴─────┴─────┴─────┴─────┴─────┴─────┘
 ```
-The fourth argument `false` means that the constraints are already equalities and slack variables should not be appended. 
+The fourth argument is `false`; this means that the constraints are already equalities and slack variables should not be appended. 
 

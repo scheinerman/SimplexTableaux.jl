@@ -14,7 +14,7 @@ Once a tableau has been created for a given linear program, the objective functi
 
 ## Simplex Method Solution
 
-Given a tableau, use `simplex_solve!` to have the computer do all the steps to produce an optimal solution to a linear program. 
+Given a tableau, use `simplex_solve!` to have the computer perform all the steps to produce an optimal solution to a linear program. 
 
 ```
 julia> T
@@ -156,7 +156,7 @@ Minimial value = -253//50 = -5.06
 ## Numerical Solution
 
 The function `lp_solve` uses a standard linear program solver to solve the tableau. 
-We use the `HiGHS` solver.
+We use the [HiGHS](https://ergo-code.github.io/HiGHS/stable/) solver.
 
 ```
 julia> T

@@ -63,7 +63,7 @@ end
 """
     check_basis(T::Tableau, vars::Vector{Int})::Bool
 
-See if the list of column indices `vars` form a basis (feasible or not) for `T`.
+See if the list of column indices `vars` forms a basis (feasible or not) for `T`.
 """
 function check_basis(T::Tableau, vars::Vector{Int})::Bool
     n = T.n_vars

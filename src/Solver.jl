@@ -64,6 +64,12 @@ function find_pivot(T::Tableau)
     return p
 end
 
+"""
+    find_pivot_column(T::Tableau)
+
+Find a column with the most negative reduced cost 
+(i.e., the most positive value in the top row of the tableau).
+"""
 function find_pivot_column(T::Tableau)
     reduced_costs = T.M[1, 2:(end - 1)]   # top row between separators
     rc, j = findmax(reduced_costs)
