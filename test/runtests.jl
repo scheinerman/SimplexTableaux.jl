@@ -8,7 +8,7 @@ using SimplexTableaux
 
     T = Tableau(A, b, c, false)
 
-    simplex_solve!(T)
+    simplex_solve!(T, false)
     @test is_feasible(T)
     @test is_optimal(T)
 
