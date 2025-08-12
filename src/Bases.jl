@@ -29,7 +29,7 @@ function _phase_one_tableau(T::Tableau)
 end
 
 """
-    find_a_basis(T::Tableau)
+    find_a_basis(T::Tableau, verbose::Bool=true)
 
 Return a feasible basis for the LP in `T` or `nothing` if none exists.
 """
