@@ -188,3 +188,28 @@ function infer_basis!(T::Tableau, x::Vector)
     end
     return sort(B)
 end
+
+"""
+    swap_rows!(T::Tableau, i::Int, j::Int)
+
+Swap constraint rows `i` and `j` in the tableau `T`.
+"""
+function swap_rows!(T::Tableau, i::Int, j::Int)
+    if (i > T.n_cons||i < 1) || (j > T.n_cons||j < 1)
+        @info ("Bad row number(s) $i or $j; must be between 1 and $(T.n_cons). No swap performed.")
+        return T
+    end
+   
+    if i==j
+        return T
+    end
+
+    i += 1
+    j += 1
+
+    tmp = T.M[i, :]
+    T.M[i, :] = T.M[j, :]
+    T.M[j, :] = tmp
+
+    return T
+end

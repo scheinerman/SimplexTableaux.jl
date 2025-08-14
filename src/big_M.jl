@@ -42,7 +42,7 @@ Solve the LP `T` using the big-M method.
 function big_M_solve!(T::Tableau, M::Int=100, verbose::Bool=true)
     TT = big_M_tableau(T, M)
     if verbose
-        println("Solving this augmented tableau")
+        println("Solving this augmented tableau\n")
     end
     Tx = deepcopy(TT)
     restore!(Tx)

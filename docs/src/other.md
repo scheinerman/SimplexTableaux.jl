@@ -1,13 +1,14 @@
 
 # Other Features
 
-## Inspection Functions
+## Miscellaneous Functions
 
 * `basic_vector(T)` returns the vector in which the nonbasic variables have been set to zero. 
 * `get_Abc(T)` returns the original matrix `A` and the vectors `b` and `c` for the standard presentation of the linear program.
 * `get_basis(T)` returns the column numbers of the current basis.
 * `is_feasible(T)` returns `true` if the current basic vector is in the feasible region.
 * `is_optimal(T)` returns `true` if the tableau has reached an optimal (minimal) state.
+* `swap_rows!(T,i,j)` interchanges rows `i` and `j`. 
 * `value(T)` returns the objective function value of the current basic vector. 
 
 

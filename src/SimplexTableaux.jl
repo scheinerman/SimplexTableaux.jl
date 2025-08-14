@@ -33,6 +33,7 @@ export Tableau,
     basis_pivot!,
     restore!,
     simplex_solve!,
+    swap_rows!,
     value
 
 include("Tableau.jl")
