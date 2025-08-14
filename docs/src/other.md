@@ -8,9 +8,7 @@
 * `get_basis(T)` returns the column numbers of the current basis.
 * `is_feasible(T)` returns `true` if the current basic vector is in the feasible region.
 * `is_optimal(T)` returns `true` if the tableau has reached an optimal (minimal) state.
-* `swap_rows!(T,i,j)` interchanges rows `i` and `j`. 
 * `value(T)` returns the objective function value of the current basic vector. 
-
 
 
 ## Return to Start

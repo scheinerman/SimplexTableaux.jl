@@ -196,10 +196,10 @@ Swap constraint rows `i` and `j` in the tableau `T`.
 """
 function swap_rows!(T::Tableau, i::Int, j::Int)
     if (i > T.n_cons||i < 1) || (j > T.n_cons||j < 1)
-        @info ("Bad row number(s) $i or $j; must be between 1 and $(T.n_cons). No swap performed.")
+        @info "Bad row number(s) $i and/or $j; must be between 1 and $(T.n_cons). No swap performed."
         return T
     end
-   
+
     if i==j
         return T
     end

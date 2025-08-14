@@ -129,6 +129,30 @@ julia> basis_pivot!(T,3,7)
 └──────────┴───┴──────┴──────┴─────┴─────┴──────┴─────┴──────┴─────┴─────┘
 ```
 
+## Swaping Rows
+
+To interchange two (constraint) rows in the tableau, use `swap_rows!(T,i,j)`.
+```
+julia> T
+┌──────────┬───┬─────┬─────┬─────┬─────┐
+│          │ z │ x_1 │ x_2 │ x_3 │ RHS │
+│ Obj Func │ 1 │  -3 │  -4 │   1 │   0 │
+├──────────┼───┼─────┼─────┼─────┼─────┤
+│   Cons 1 │ 0 │   0 │   1 │   2 │   5 │
+│   Cons 2 │ 0 │   3 │   0 │  -1 │   4 │
+└──────────┴───┴─────┴─────┴─────┴─────┘
+
+
+julia> swap_rows!(T,1,2)
+┌──────────┬───┬─────┬─────┬─────┬─────┐
+│          │ z │ x_1 │ x_2 │ x_3 │ RHS │
+│ Obj Func │ 1 │  -3 │  -4 │   1 │   0 │
+├──────────┼───┼─────┼─────┼─────┼─────┤
+│   Cons 1 │ 0 │   3 │   0 │  -1 │   4 │
+│   Cons 2 │ 0 │   0 │   1 │   2 │   5 │
+└──────────┴───┴─────┴─────┴─────┴─────┘
+```
+
 ## Starting Over
 
 Use `restore!(T)` to return `T` to its original values before any pivoting was performed or basis was specified. 
