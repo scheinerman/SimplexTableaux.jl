@@ -9,6 +9,7 @@ makedocs(;
         "Bases" => "bases.md",
         "Pivoting Tableaux" => "pivot.md",
         "Solving LPs" => "solve.md",
+        "Dual LP" => "dual.md",
         "Other Functions" => "other.md",
     ],
     sitename="SimplexTableaux",
