@@ -17,12 +17,12 @@ function dual(T::Tableau)::Tableau
     m = T.n_cons
     n = T.n_vars
 
-    II = -T.M[2:end, (n - 1):(end - 1)]
+      II = -A[:, end-m+1:end]
 
     if II ≠ eye(Int, m)
         error(msg)
     end
-    A = A[:, 1:(n - m)]
+    A = A[:, 1:n-m]
 
     if !iszero(c[(n - m + 1):end])
         error(msg)
