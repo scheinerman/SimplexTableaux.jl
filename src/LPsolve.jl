@@ -18,15 +18,29 @@ function lp_solve(T::Tableau, verbose::Bool=true)
     optimize!(MOD)
     status = Int(termination_status(MOD))
 
-    if status ≠ 1
-        error("Linear program is either infeasible or unbounded. Status = $status")
-    end
-    if verbose
-        obj_val = objective_value(MOD)
-        println("Minimal objective value = $obj_val\n")
+    if status == 1
+        if verbose
+            obj_val = objective_value(MOD)
+            println("Minimal objective value = $obj_val\n")
+        end
+        xval = JuMP.value.(x)
+        return xval
     end
 
-    xval = JuMP.value.(x)
+    if status == 2
+        if verbose
+            @info "This linear program is infeasible."
+        end
+        return nothing
+    end
 
-    return xval
+    if status == 3
+        if verbose
+            @info "This linear program is unbounded"
+        end
+        return nothing
+    end
+
+    @info "Unknown termination status = $status"
+    nothing
 end

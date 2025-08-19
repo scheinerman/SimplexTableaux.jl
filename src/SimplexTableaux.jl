@@ -18,6 +18,7 @@ export Tableau,
     big_M_solve!,
     big_M_tableau,
     check_basis,
+    dual,
     set_basis!,
     find_a_basis,
     find_all_bases,
@@ -42,6 +43,7 @@ include("Solver.jl")
 include("LPsolve.jl")
 include("lap.jl")
 include("Pretty.jl")
+include("Dual.jl")
 
 """
     is_feasible(T::Tableau)::Bool
