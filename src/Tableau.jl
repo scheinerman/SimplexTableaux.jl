@@ -123,6 +123,6 @@ function value(T::Tableau)
     return value(T, x)
 end
 
-function is_optimal(T::Tableau)
+function in_optimal_state(T::Tableau)
     return all(T.M[1, 2:(end - 1)] .≤ 0)
 end

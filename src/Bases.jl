@@ -64,8 +64,8 @@ function find_all_bases(T::Tableau)
     r, c = size(T.A)
     TT = deepcopy(T)
     result = [
-        B for
-        B in combinations(1:c, r) if check_basis(TT, B) && is_feasible(set_basis!(TT, B))
+        B for B in combinations(1:c, r) if
+        check_basis(TT, B) && in_feasible_state(set_basis!(TT, B))
     ]
 
     # T.M = TT.M

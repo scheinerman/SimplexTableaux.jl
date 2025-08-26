@@ -1,7 +1,7 @@
 using SimplexTableaux, SimpleDrawing, Plots, SimpleDrawingObjects, Clines
 
 """
-    dog_food()
+	dog_food()
 
 A,b,c for chapter 3 dogfood problem
 """
@@ -13,7 +13,7 @@ function dog_food()
 end
 
 """
-    peanut_butter()
+	peanut_butter()
 
 A,b,c for peanut butter manufacturing problem in chapter 3
 """
@@ -25,7 +25,7 @@ function peanut_butter()
 end
 
 """
-    fishkind4()
+	fishkind4()
 
 DEF's example for chapter 4.
 """
@@ -37,7 +37,7 @@ function fishkind4()
 end
 
 """
-    fishkind400()
+	fishkind400()
 
 An example that fails the big-M method for small M. 
 """
@@ -49,7 +49,7 @@ function fishkind400()
 end
 
 """
-    small_example()
+	small_example()
 
 Small example for section 4.4
 """
@@ -215,6 +215,30 @@ function phase_one_trouble()
     b = [5, 5]
     c = [0, 4, -1]
     return Tableau(A, b, c, false)
+end
+
+"""
+	dual_infeasible()
+
+Return an LP that is infeasible and whose dual is infeasible. 
+"""
+function dual_infeasible()
+    A = [-1 -2 0 0; -3 -4 0 0; 0 0 1 2; 0 0 3 4]
+    b = [2, 2, 4, 5]
+    c = [2, 3, -4, -7]
+    return Tableau(A, b, c)
+end
+
+"""
+    small_dual_infeasible()
+
+Return an LP that is infeasible and whose dual is infeasible. 
+"""
+function small_dual_infeasible()
+    A = [-1 0; 0 1]
+    b = [1, 1]
+    c = [1, -1]
+    return Tableau(A, b, c)
 end
 
 nothing

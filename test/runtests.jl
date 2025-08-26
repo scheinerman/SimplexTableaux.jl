@@ -9,13 +9,13 @@ using SimplexTableaux
     T = Tableau(A, b, c, false)
 
     simplex_solve!(T, false)
-    @test is_feasible(T)
-    @test is_optimal(T)
+    @test in_feasible_state(T)
+    @test in_optimal_state(T)
 
-    @test is_feasible(T)
+    @test in_feasible_state(T)
 
     set_basis!(T, [3, 4])
-    @test !is_feasible(T)
+    @test !in_feasible_state(T)
 end
 
 @testset "Duality" begin

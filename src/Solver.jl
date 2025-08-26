@@ -106,7 +106,7 @@ function simplex_solve!(T::Tableau, verbose::Bool=true)
 
     pivot_count = 0
 
-    while !is_optimal(T)
+    while !in_optimal_state(T)
         p = find_pivot(T)
         if 0 ∈ p
             if verbose
