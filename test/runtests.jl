@@ -8,6 +8,8 @@ using SimplexTableaux
 
     T = Tableau(A, b, c, false)
 
+    @test !is_infeasible(T)
+
     simplex_solve!(T, false)
     @test in_feasible_state(T)
     @test in_optimal_state(T)

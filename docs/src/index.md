@@ -20,4 +20,4 @@ The steps in solving linear programs with this module are as follows:
 # Caveats
 
 * This is a demonstration project that is useful for illustrating the Simplex Method and for solving small linear programs. All arithmetic is exact (using arbitrary precision rational numbers).
-* This is early days for this module. The 0.1.x versions should be consider to be beta releases.
+* This is somewhat early days for this module. The 0.2.x versions should be consider to be sort-of beta releases.

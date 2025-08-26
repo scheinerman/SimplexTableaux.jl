@@ -6,6 +6,8 @@
 * `basic_vector(T)` returns the vector in which the nonbasic variables have been set to zero. 
 * `get_Abc(T)` returns the original matrix `A` and the vectors `b` and `c` for the standard presentation of the linear program.
 * `get_basis(T)` returns the column numbers of the current basis.
+* `is_infeasible(T)` returns `true` if the linear program's feasible region is empty. 
+* `is_unbounded(T)` returns `true` if the linear program is unbounded (below).
 * `in_feasible_state(T)` returns `true` if the current basic vector is in the feasible region.
 * `in_optimal_state(T)` returns `true` if the tableau has reached an optimal (minimal) state.
 * `value(T)` returns the objective function value of the current basic vector. 

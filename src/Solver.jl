@@ -135,3 +135,30 @@ function simplex_solve!(T::Tableau, verbose::Bool=true)
 
     return x
 end
+
+"""
+    is_infeasible(T::Tableau)::Bool
+
+Return `true` if the tableau represents an infeasible linear program (i.e., the 
+feasible region is empty).
+"""
+function is_infeasible(T::Tableau)::Bool
+    B = find_a_basis(T, false)
+    return 0 ∈ B
+end
+
+"""
+    is_unbounded(T::Tableau)::Bool
+
+Return `true` is the linear program is unbounded (below).
+"""
+function is_unbounded(T::Tableau)::Bool
+    if is_infeasible(T)
+        return false
+    end
+
+    T = deepcopy(T)
+    simplex_solve!(T, false)
+    c = find_pivot_column(T)
+    return c>0
+end

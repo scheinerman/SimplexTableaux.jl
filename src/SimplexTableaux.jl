@@ -29,6 +29,8 @@ export Tableau,
     in_feasible_state,
     in_optimal_state,
     infer_basis!,
+    is_infeasible,
+    is_unbounded,
     lp_solve,
     matrix_pivot!,
     basis_pivot!,
@@ -37,6 +39,7 @@ export Tableau,
     swap_rows!,
     value
 
+include("rank_fix.jl")
 include("Tableau.jl")
 include("Pivoting.jl")
 include("Solver.jl")

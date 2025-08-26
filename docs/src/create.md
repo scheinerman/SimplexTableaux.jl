@@ -68,3 +68,39 @@ julia> T = Tableau(A, b, c, false)
 ```
 The fourth argument is `false`; this means that the constraints are already equalities and slack variables should not be appended. 
 
+## Automatic Removal of Redundant Constraints
+
+This situation applies to standard linear programs when the rank of the matrix `[A b]` is less than the number of rows. This implies that some of the equations `A*x == b` are redundant. 
+The `Tableaux` function automatically removes redundant rows. 
+
+```
+julia> A = [1 2 3; 4 5 6; 5 7 9]
+3×3 Matrix{Int64}:
+ 1  2  3
+ 4  5  6
+ 5  7  9
+
+julia> b = [1, 2, 3]
+
+julia> c = [1, 1, 1]
+3-element Vector{Int64}:
+ 1
+ 1
+ 1
+
+julia> using LinearAlgebra
+
+julia> rank([A b])
+2
+
+julia> T = Tableau(A, b, c, false)
+┌──────────┬───┬─────┬─────┬─────┬─────┐
+│          │ z │ x_1 │ x_2 │ x_3 │ RHS │
+│ Obj Func │ 1 │  -1 │  -1 │  -1 │   0 │
+├──────────┼───┼─────┼─────┼─────┼─────┤
+│   Cons 1 │ 0 │   1 │   2 │   3 │   1 │
+│   Cons 2 │ 0 │   4 │   5 │   6 │   2 │
+└──────────┴───┴─────┴─────┴─────┴─────┘
+```
+
+Notice that the third constraint has been (silently) removed.

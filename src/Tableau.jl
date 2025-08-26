@@ -26,6 +26,7 @@ mutable struct Tableau
         if length(b) ≠ m || length(c) ≠ n
             throw(ArgumentError("Size mismatch"))
         end
+        A, b = _rank_fix(A, b)
 
         if is_cannonical
             A, b, c = make_standard(A, b, c)
@@ -35,11 +36,6 @@ mutable struct Tableau
         body = hcat(zeros(Int, m), A, b)
 
         M = vcat(top_row, body)
-
-        # test rank of M[2:end,2:end-1]
-        if rankx(M[2:end, 2:(end - 1)]) ≠ m
-            @warn("Rank deficient Tableau")
-        end
 
         B = zeros(Int, m)  # basis is all 0s to start
 
