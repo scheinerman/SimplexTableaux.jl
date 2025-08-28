@@ -70,6 +70,6 @@ end
 function show(io::IO, T::Tableau)
     MM = _pretty_string.(T.M[2:end, :])
     MM = hcat(_left_column(T), MM)
-    style = TextTableStyle(first_line_column_label = _header_colors(T));
-    pretty_table(MM; column_labels= [_header1(T), _header2(T)], style=style)
+    style = TextTableStyle(; first_line_column_label=_header_colors(T));
+    pretty_table(MM; column_labels=[_header1(T), _header2(T)], style=style)
 end
