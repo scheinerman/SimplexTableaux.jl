@@ -26,11 +26,12 @@ mutable struct Tableau
         if length(b) ≠ m || length(c) ≠ n
             throw(ArgumentError("Size mismatch"))
         end
-        A, b = _rank_fix(A, b)
 
         if is_cannonical
             A, b, c = make_standard(A, b, c)
         end
+        A, b = _rank_fix(A, b)
+
         m, n = size(A)
         top_row = hcat(1, -c', 0)
         body = hcat(zeros(Int, m), A, b)
