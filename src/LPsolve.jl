@@ -24,6 +24,11 @@ function lp_solve(T::Tableau, verbose::Bool=true)
             println("Minimal objective value = $obj_val\n")
         end
         xval = JuMP.value.(x)
+
+        if is_canonical(T)
+            n = T.n_vars-T.n_cons
+            xval = xval[1:n]
+        end
         return xval
     end
 

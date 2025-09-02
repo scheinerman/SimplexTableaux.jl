@@ -17,17 +17,18 @@ mutable struct Tableau
     A::Matrix             # (original) A matrix
     b::Vector             # (original) RHS, b vector
     c::Vector             # (original) objective coefficients, c vector
+    canonical::Bool       # true if constraints are ≥
     n_vars::Int           # number of variables in the LP
     n_cons::Int           # number of constraints in the LP
     B::Vector{Int}        # current basis (column indices)
 
-    function Tableau(A::AbstractMatrix, b::Vector, c::Vector, is_cannonical::Bool=true)
+    function Tableau(A::AbstractMatrix, b::Vector, c::Vector, canonical::Bool=true)
         m, n = size(A)
         if length(b) ≠ m || length(c) ≠ n
             throw(ArgumentError("Size mismatch"))
         end
 
-        if is_cannonical
+        if canonical
             A, b, c = make_standard(A, b, c)
         end
         A, b = _rank_fix(A, b)
@@ -40,7 +41,7 @@ mutable struct Tableau
 
         B = zeros(Int, m)  # basis is all 0s to start
 
-        return new(M, A, b, c, n, m, B)
+        return new(M, A, b, c, canonical, n, m, B)
     end
 end
 
@@ -71,7 +72,9 @@ Create a new `Tableau` based on the original data used to create `T`.
 See also `restore!`.
 """
 function restore(T::Tableau)
-    return Tableau(T.A, T.b, T.c, false)
+    A, b, c = get_Abc(T)
+
+    return Tableau(A, b, c, T.canonical)
 end
 
 """
@@ -81,6 +84,14 @@ Returns a 3-tuple containing copies of the matrix `A`
 and the vectors `b` and `c` used to create `T`.
 """
 function get_Abc(T::Tableau)
+    if T.canonical
+        AA = T.A[:, 1:(T.n_vars - T.n_cons)]
+        cc = T.c[1:(T.n_vars - T.n_cons)]
+        bb = copy(T.b)
+        return AA, bb, cc
+    end
+
+    #AA = T.A[:, 1:(T.n_vars - T.n_cons)]
     return copy(T.A), copy(T.b), copy(T.c)
 end
 
@@ -120,6 +131,21 @@ function value(T::Tableau)
     return value(T, x)
 end
 
-function in_optimal_state(T::Tableau)
+"""
+    in_optimal_state(T::Tableau)::Bool
+
+Determine if `T` has been pivoted to a global minimum state.
+"""
+function in_optimal_state(T::Tableau)::Bool
     return all(T.M[1, 2:(end - 1)] .≤ 0)
+end
+
+"""
+    is_canonical(T::Tableau)::Bool
+
+Return `true` if `T` was created from a canonical LP 
+and return `false` if it was created from a standard LP.
+"""
+function is_canonical(T::Tableau)::Bool
+    return T.canonical
 end

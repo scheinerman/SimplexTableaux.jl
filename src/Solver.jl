@@ -126,6 +126,11 @@ function simplex_solve!(T::Tableau, verbose::Bool=true)
     end
 
     x = basic_vector(T)
+
+    if is_canonical(T)
+        n = T.n_vars-T.n_cons
+        x = x[1:n]
+    end
     v = Exact(value(T))
 
     if verbose

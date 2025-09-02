@@ -1,10 +1,10 @@
 function _phase_one_tableau(T::Tableau)
-    A, b, c = get_Abc(T)
+    #A, b, c = get_Abc(T)
     m = T.n_cons
     n = T.n_vars
 
-    bb = deepcopy(b)
-    AA = deepcopy(A)
+    bb = deepcopy(T.b)
+    AA = deepcopy(T.A)
 
     # ensure RHS is nonnegative
     for i in 1:m
@@ -18,7 +18,7 @@ function _phase_one_tableau(T::Tableau)
     AA = hcat(AA, eye(Int, m))
 
     # create artifical c 
-    cc = vcat(0*c, ones(Int, m))
+    cc = vcat(0*T.c, ones(Int, m))
 
     TT = Tableau(AA, bb, cc, false)
 
@@ -86,10 +86,10 @@ function basic_vector(T::Tableau)
     end
     r, c = size(T.A)
     v = zeros(_Exact, c)
-    TT = set_basis!(T, T.B)
+    # TT = set_basis!(T, T.B)
 
     for i in 1:r
-        v[T.B[i]] = TT.M[i + 1, end]
+        v[T.B[i]] = T.M[i + 1, end]
     end
     return Rational.(v)
 end

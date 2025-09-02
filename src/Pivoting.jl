@@ -172,7 +172,8 @@ of columns to that effect.
 function infer_basis!(T::Tableau, x::Vector)
     n = T.n_vars
     m = T.n_cons
-    A, b, c = get_Abc(T)
+    A = T.A
+
     B = findall(!iszero, x)
 
     if length(B) == m

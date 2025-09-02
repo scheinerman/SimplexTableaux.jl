@@ -6,11 +6,11 @@ and add the terms `+M*x_i` (for each artificial variable `x_i`) to the objective
 Then set the basis to the columns for the artifical variables.
 """
 function big_M_tableau(T::Tableau, M::Int=100)
-    A, b, c = get_Abc(T)
     m = T.n_cons
     n = T.n_vars
-    bb = deepcopy(b)
-    AA = deepcopy(A)
+    bb = deepcopy(T.b)
+    AA = deepcopy(T.A)
+    c = T.c
 
     # ensure RHS is nonnegative
     for i in 1:m
@@ -69,6 +69,12 @@ function big_M_solve!(T::Tableau, M::Int=100, verbose::Bool=true)
     x = x[1:T.n_vars]
     B = infer_basis!(T, x)
     set_basis!(T, B)
+
+    if is_canonical(T)
+        n = T.n_vars-T.n_cons
+        x = x[1:n]
+    end
+    
     if verbose
         println("\nFinal tableau\n")
         println(T)

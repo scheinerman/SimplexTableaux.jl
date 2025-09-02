@@ -47,3 +47,8 @@ julia> dT = dual(T)
 └──────────┴───┴─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┘
 ```
 The result of `simplex_solve!(dT)` is $-15/2$. 
+
+
+### Please stand by
+
+We hope to extend `dual` to standard LPs. 

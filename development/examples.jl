@@ -241,4 +241,15 @@ function small_dual_infeasible()
     return Tableau(A, b, c)
 end
 
+function mixed_lp()
+    A = [
+        1 2 3 4 -4
+        5 6 7 8 -8
+        -5 -6 -7 -8 8
+    ]
+    b = [10; 20; -20]
+    c = [4, 5, 3, -1, 1]
+    return Tableau(A, b, c)
+end
+
 nothing
