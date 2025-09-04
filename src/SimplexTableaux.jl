@@ -26,6 +26,7 @@ export Tableau,
     find_pivot_column,
     get_Abc,
     get_basis,
+    header,
     in_feasible_state,
     in_optimal_state,
     infer_basis!,
@@ -36,7 +37,9 @@ export Tableau,
     matrix_pivot!,
     basis_pivot!,
     restore!,
+    rhs,
     simplex_solve!,
+    status,
     swap_rows!,
     value
 
@@ -48,27 +51,7 @@ include("LPsolve.jl")
 include("lap.jl")
 include("Pretty.jl")
 include("Dual.jl")
-
-"""
-    in_feasible_state(T::Tableau)::Bool
-
-Return `true` is the current state of `T` is at a feasible vector.
-"""
-function in_feasible_state(T::Tableau)::Bool
-    x = basic_vector(T)
-    all(x .>= 0)
-end
-
-"""
-    in_feasible_state(T::Tableau, x::Vector)::Bool
-
-Return `true` is the vector `x` is a in the feasible region
-of the LP represented in `T`.
-"""
-function in_feasible_state(T::Tableau, x::Vector)::Bool
-    return T.A*x == T.b && all(x .>= 0)
-end
-
+include("Status.jl")
 include("Bases.jl")
 include("big_M.jl")
 

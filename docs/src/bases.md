@@ -30,6 +30,8 @@ julia> set_basis!(T,[1,4,5])
 > Note: On the screen, the headings for the basis (in this case, `x_1`, `x_4`, and `x_5`) appear in green. 
 ![](color-tab.png)
 
+The `set_basis!` function can also be invoked without specifying a basis, i.e. `set_basis(T)`. 
+In this case, a basis is generated using `find_a_basis`.
 
 ## Finding a Basis
 

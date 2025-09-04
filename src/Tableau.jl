@@ -116,6 +116,8 @@ end
     value(T::Tableau, x::Vector)
 
 Return the value of the LP in `T` at the point `x`.
+
+This can also be invoked as `T(x)`.
 """
 function value(T::Tableau, x::Vector)
     return T.c' * x
@@ -131,13 +133,8 @@ function value(T::Tableau)
     return value(T, x)
 end
 
-"""
-    in_optimal_state(T::Tableau)::Bool
-
-Determine if `T` has been pivoted to a global minimum state.
-"""
-function in_optimal_state(T::Tableau)::Bool
-    return all(T.M[1, 2:(end - 1)] .≤ 0)
+function (T::Tableau)(x::Vector)
+    return value(T, x)
 end
 
 """
@@ -148,4 +145,50 @@ and return `false` if it was created from a standard LP.
 """
 function is_canonical(T::Tableau)::Bool
     return T.canonical
+end
+
+"""
+    rhs(T::Tableau)
+
+Return the right-hand column of the `T`. 
+
+## Example
+For this `Tableau`
+```
+┌──────────┬───┬─────┬─────┬─────┬─────┬─────┬─────┐
+│          │ z │ x_1 │ x_2 │ x_3 │ x_4 │ x_5 │ RHS │
+│ Obj Func │ 1 │  -2 │  -4 │  -2 │  -1 │   1 │   0 │
+├──────────┼───┼─────┼─────┼─────┼─────┼─────┼─────┤
+│   Cons 1 │ 0 │   2 │   1 │   0 │   9 │  -1 │   9 │
+│   Cons 2 │ 0 │   1 │   1 │  -1 │   5 │   1 │   7 │
+└──────────┴───┴─────┴─────┴─────┴─────┴─────┴─────┘
+```
+`rhs(T)` returns the vector `[9,7]`.
+
+"""
+function rhs(T::Tableau)
+    return T.M[2:end, end]
+end
+
+"""
+    header(T::Tableau)
+
+Return the header (negative reduced costs) of `T`.
+
+## Example
+
+For this `Tableau`
+```
+┌──────────┬───┬─────┬─────┬─────┬─────┬─────┬─────┐
+│          │ z │ x_1 │ x_2 │ x_3 │ x_4 │ x_5 │ RHS │
+│ Obj Func │ 1 │  -2 │  -4 │  -2 │  -1 │   1 │   0 │
+├──────────┼───┼─────┼─────┼─────┼─────┼─────┼─────┤
+│   Cons 1 │ 0 │   2 │   1 │   0 │   9 │  -1 │   9 │
+│   Cons 2 │ 0 │   1 │   1 │  -1 │   5 │   1 │   7 │
+└──────────┴───┴─────┴─────┴─────┴─────┴─────┴─────┘
+```
+`header(T)` returns the vector `[-2, -4, -2, -1, 1]`.
+"""
+function header(T::Tableau)
+    return T.M[1, 2:(end - 1)]
 end

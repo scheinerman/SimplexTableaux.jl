@@ -85,7 +85,17 @@ end
 Solve `T` using the simplex method. 
 """
 function simplex_solve!(T::Tableau, verbose::Bool=true)
+    stat = status(T)
+    if stat == :infeasible 
+        if verbose
+            @info "Infeasible basis detected. Restoring tableau to its initial state."
+        end
+        restore!(T)
+    end
     if 0 ∈ T.B
+        if verbose
+            @info "Finding an initial basis."
+        end
         B = find_a_basis(T, verbose)
         if 0 ∈ B
             if verbose

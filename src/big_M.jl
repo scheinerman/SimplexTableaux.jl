@@ -74,7 +74,7 @@ function big_M_solve!(T::Tableau, M::Int=100, verbose::Bool=true)
         n = T.n_vars-T.n_cons
         x = x[1:n]
     end
-    
+
     if verbose
         println("\nFinal tableau\n")
         println(T)

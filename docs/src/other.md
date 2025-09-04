@@ -1,16 +1,31 @@
 
 # Other Features
 
+## Status Functions
+
+The `status` function returns a symbol indicating the state of the tableau, `T`. The result 
+of `status(T)` is one of the following:
+* `:no_basis` -- no basis has been established for this tableau.
+* `:optimal` -- the tableau has reached a global minimization point. This supercedes `:feasible`. 
+* `:feasible` -- the tableau is in a feasible state, but not optimal (rhs is nonnegative).
+* `:infeasible` -- the tableau is in an infeasible state (rhs contains negative values). 
+
+These functions are superfluous but may be convenient: 
+* `in_feasible_state(T)` returns `true` if the current basic vector is in the feasible region (including if at optimality).
+* `in_optimal_state(T)` returns `true` if the tableau has reached an optimal (minimal) state.
+
+
 ## Miscellaneous Functions
 
 * `basic_vector(T)` returns the vector in which the nonbasic variables have been set to zero. 
+* `header(T)` returns the top row of `T` (negative reduced costs). Does not include the `1` in column `0` nor the value in the last column. 
 * `get_Abc(T)` returns the original matrix `A` and the vectors `b` and `c` for the standard presentation of the linear program.
 * `get_basis(T)` returns the column numbers of the current basis.
 * `is_infeasible(T)` returns `true` if the linear program's feasible region is empty. 
 * `is_unbounded(T)` returns `true` if the linear program is unbounded (below).
-* `in_feasible_state(T)` returns `true` if the current basic vector is in the feasible region.
-* `in_optimal_state(T)` returns `true` if the tableau has reached an optimal (minimal) state.
+* `rhs(T)` returns the righthand column of `T` (from row `1` onward -- does not include the value in row `0`).
 * `value(T)` returns the objective function value of the current basic vector. 
+* `value(T,x)` returns the objective function value for the vector `x`. May also be invoked as `T(x)`. 
 
 
 ## Return to Start

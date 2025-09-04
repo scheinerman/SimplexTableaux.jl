@@ -38,26 +38,40 @@ function set_basis!(T::Tableau, vars::Vector{Int})
     n = T.n_vars
     m = T.n_cons
 
-    vars = sort(unique(vars))
+    indices = (unique(vars))
 
-    if (length(vars) ≠ m) || !(vars ⊆ collect(1:n))
-        error("Invalid basis: $vars")
+    if (length(indices) ≠ m) || !(indices ⊆ collect(1:n))
+        @info "Invalid basis: $vars; ignoring."
+        return T
     end
 
     # bop up indices by 1 and make a list
-    idx = [j+1 for j in vars]
+    idx = [j+1 for j in indices]
     idx = vcat(1, idx)
 
     B = T.M[:, idx]
     if detx(B) == 0
-        @warn "Columns $vars do not form a basis; ignoring"
+        @info "Columns $indices do not form a basis; ignoring"
         return T
     end
 
     BB = invx(B)  # will fail if B is not invertible
     T.M = BB*T.M
-    T.B = vars
+    T.B = indices
     return T
+end
+
+"""
+    set_basis!(T::Tableau)
+
+Invoke `find_a_basis(T)` and use the result to establish a basis for `T`.
+Silently fail if no basis is found. 
+"""
+function set_basis!(T::Tableau)
+    B = find_a_basis(T, false)
+    if 0 ∉ B
+        set_basis!(T, B)
+    end
 end
 
 """
