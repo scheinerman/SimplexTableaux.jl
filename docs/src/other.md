@@ -6,9 +6,11 @@
 The `status` function returns a symbol indicating the state of the tableau, `T`. The result 
 of `status(T)` is one of the following:
 * `:no_basis` -- no basis has been established for this tableau.
-* `:optimal` -- the tableau has reached a global minimization point. This supercedes `:feasible`. 
 * `:feasible` -- the tableau is in a feasible state, but not optimal (rhs is nonnegative).
 * `:infeasible` -- the tableau is in an infeasible state (rhs contains negative values). 
+* `:optimal` -- the tableau has reached a global minimization point, This supercedes `:feasible`. 
+* `:unbounded` -- the tableau has reached a feasible state, but there are no pivots; the objective function value can be arbitrarily negative. This supercedes `:feasible`.
+
 
 These functions are superfluous but may be convenient: 
 * `in_feasible_state(T)` returns `true` if the current basic vector is in the feasible region (including if at optimality).
