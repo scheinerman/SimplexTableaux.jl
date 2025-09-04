@@ -18,6 +18,8 @@ using SimplexTableaux
 
     set_basis!(T, [3, 4])
     @test !in_feasible_state(T)
+
+    lp_solve(T)
 end
 
 @testset "Duality" begin
@@ -28,10 +30,25 @@ end
     T = Tableau(A, b, c)
     dT = dual(T)
 
-    simplex_solve!(T, false)
+    x = simplex_solve!(T, false)
     v = value(T)
+    @test T(x) == v
 
     simplex_solve!(dT, false)
     dv = value(dT)
     @test v == -dv
+end
+
+@testset "Status" begin
+    A, b, c = ([-1 -2 0 0; -3 -4 0 0; 0 0 1 2; 0 0 3 4], [2, 2, 4, 5], [2, 3, -4, -7])
+    T = Tableau(A, b, c)
+    @test status(T) == :no_basis
+    set_basis!(T, [2, 3, 4, 5])
+    @test status(T) == :infeasible
+
+    T = Tableau([2 1 0 9 -1; 1 1 -1 5 1], [9, 7], [2, 4, 2, 1, -1])
+    set_basis!(T, [1, 2])
+    @test status(T) == :feasible
+    simplex_solve!(T, false)
+    @test status(T) == :unbounded
 end

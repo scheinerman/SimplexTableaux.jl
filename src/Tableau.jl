@@ -120,6 +120,16 @@ Return the value of the LP in `T` at the point `x`.
 This can also be invoked as `T(x)`.
 """
 function value(T::Tableau, x::Vector)
+    n = T.n_vars
+
+    if length(x) > n
+        x = x[1:n]     # trim if too long
+    end
+
+    if length(x) < n   # pad if too short
+        x = vcat(x, zeros(Int, n-length(x)))
+    end
+
     return T.c' * x
 end
 
@@ -129,8 +139,7 @@ end
 Return the value of the LP at the current basic vector. 
 """
 function value(T::Tableau)
-    x = basic_vector(T)
-    return value(T, x)
+    return T.M[1, end]
 end
 
 function (T::Tableau)(x::Vector)

@@ -86,7 +86,7 @@ Solve `T` using the simplex method.
 """
 function simplex_solve!(T::Tableau, verbose::Bool=true)
     stat = status(T)
-    if stat == :infeasible 
+    if stat == :infeasible
         if verbose
             @info "Infeasible basis detected. Restoring tableau to its initial state."
         end
