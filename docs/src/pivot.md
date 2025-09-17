@@ -129,7 +129,8 @@ julia> basis_pivot!(T,3,7)
 └──────────┴───┴──────┴──────┴─────┴─────┴──────┴─────┴──────┴─────┴─────┘
 ```
 
-## Swaping Rows
+## Other Row Operations
+### Swaping
 
 To interchange two (constraint) rows in the tableau, use `swap_rows!(T,i,j)`.
 ```
@@ -153,7 +154,7 @@ julia> swap_rows!(T,1,2)
 └──────────┴───┴─────┴─────┴─────┴─────┘
 ```
 
-## Scaling rows
+### Scaling
 
 The function `scale_row!(T, i, m)` modifies the tableau `T` by multiplying constraint row `i` by the nonzero scalar `m`. 
 
