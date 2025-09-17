@@ -153,6 +153,30 @@ julia> swap_rows!(T,1,2)
 └──────────┴───┴─────┴─────┴─────┴─────┘
 ```
 
+## Scaling rows
+
+The function `scale_row!(T, i, m)` modifies the tableau `T` by multiplying constraint row `i` by the nonzero scalar `m`. 
+
+```
+julia> T
+┌──────────┬───┬─────┬─────┬─────┬─────┐
+│          │ z │ x_1 │ x_2 │ x_3 │ RHS │
+│ Obj Func │ 1 │  -3 │  -4 │   1 │   0 │
+├──────────┼───┼─────┼─────┼─────┼─────┤
+│   Cons 1 │ 0 │   0 │   1 │   2 │   4 │
+│   Cons 2 │ 0 │   3 │   0 │  -1 │   5 │
+└──────────┴───┴─────┴─────┴─────┴─────┘
+
+julia> scale_row!(T, 2, 1//3)
+┌──────────┬───┬─────┬─────┬──────┬─────┐
+│          │ z │ x_1 │ x_2 │  x_3 │ RHS │
+│ Obj Func │ 1 │  -3 │  -4 │    1 │   0 │
+├──────────┼───┼─────┼─────┼──────┼─────┤
+│   Cons 1 │ 0 │   0 │   1 │    2 │   4 │
+│   Cons 2 │ 0 │   1 │   0 │ -1/3 │ 5/3 │
+└──────────┴───┴─────┴─────┴──────┴─────┘
+```
+
 ## Starting Over
 
 Use `restore!(T)` to return `T` to its original values before any pivoting was performed or basis was specified. 

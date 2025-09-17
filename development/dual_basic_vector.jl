@@ -1,7 +1,7 @@
 using SimplexTableaux, LinearAlgebraX
 
 function dual_basic_vector(T::Tableau, B)
-    A = T.A 
+    A = T.A
     c = T.c
     A_B = A[:, B]
     c_B = c[B]
@@ -9,6 +9,11 @@ function dual_basic_vector(T::Tableau, B)
     return yT'
 end
 
+"""
+	dual_basic_vector(T::Tableau)
+
+Return the dual basic vector for `T`.
+"""
 function dual_basic_vector(T::Tableau)
     B = get_basis(T)
     if 0 ∈ B
@@ -16,3 +21,4 @@ function dual_basic_vector(T::Tableau)
     end
     return dual_basic_vector(T, B)
 end
+

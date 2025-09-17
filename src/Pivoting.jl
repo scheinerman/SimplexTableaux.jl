@@ -228,3 +228,22 @@ function swap_rows!(T::Tableau, i::Int, j::Int)
 
     return T
 end
+
+"""
+    scale_row!(T::Tableau, i::Int, m::_Exact)
+
+Modify `T` by multiplying row `i` (the `i`-th constraint) by `m`. 
+"""
+function scale_row!(T::Tableau, i::Int, m::_Exact)
+    if i<1 || i>T.n_cons
+        throw(error("Bad row index, $i"))
+    end
+
+    if m==0
+        throw(error("Cannot scale a row by zero"))
+    end
+
+    T.M[i + 1, :] *= m
+    infer_basis!(T)
+    return T
+end
