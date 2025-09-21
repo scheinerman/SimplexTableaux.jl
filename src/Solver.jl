@@ -1,18 +1,18 @@
 
 """
-    find_pivot(T::Tableau, i::Int)
+    find_pivot(T::Tableau, j::Int)
 
-Find a valid pivot in column `i`.
+Find a valid pivot in column `j`. Returns `(i,j)` showing where to pivot.
 """
-function find_pivot(T::Tableau, i::Int)
+function find_pivot(T::Tableau, j::Int)
     # Check that objective function coefficient is not negative
-    ci = T.M[1, i + 1]
-    if ci < 0
-        @info "Invalid column for pivot, $i."
+    cj = T.M[1, j + 1]
+    if cj < 0
+        @info "Invalid column for pivot, $j."
         return 0, 0
     end
 
-    ai = T.M[2:end, i + 1]   # column i of A matrix 
+    ai = T.M[2:end, j + 1]   # column i of A matrix 
     b = T.M[2:end, end]     # RHS vector
 
     ratios = b
@@ -37,17 +37,19 @@ function find_pivot(T::Tableau, i::Int)
         return 0, 0
     end
 
-    j = findfirst(x -> x==min_rat, ratios)
+    i = findfirst(x -> x==min_rat, ratios)
+
+    return i, j
 
     # now find the basis vector with a 1 in position j 
     for k in T.B
         ak = T.M[2:end, k + 1]
         if ak[j] == 1  # this is the one we want
-            return i, k
+            return j, k
         end
     end
 
-    return (i, 0)  # this shouldn't happen!
+    return (j, 0)  # this shouldn't happen!
 end
 
 """
@@ -124,13 +126,11 @@ function simplex_solve!(T::Tableau, verbose::Bool=true)
             end
             return nothing
         end
-        basis_pivot!(T, p...)
+        pivot!(T, p...)
         pivot_count += 1
         if verbose
             in, out = p
-            println(
-                "Pivot $(pivot_count): column $out leaves basis and column $in enters\n"
-            )
+            println("Pivot $(pivot_count) at $p\n")
             println(T)
         end
     end

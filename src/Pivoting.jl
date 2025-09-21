@@ -2,12 +2,12 @@ _not_row_one = "May not modify the header row of the Tableau"
 _not_col_one = "May not modify the z column of the Tableau"
 
 """
-    matrix_pivot!(T::Tableau, i::Int, j::Int)
+    pivot!(T::Tableau, i::Int, j::Int)
 
 Modify `T` by doing a pivot operation at contraint `i` 
 and variable x_`j`.
 """
-function matrix_pivot!(T::Tableau, i::Int, j::Int)
+function pivot!(T::Tableau, i::Int, j::Int)
     M = T.M  # for easier access
 
     i += 1
@@ -161,13 +161,13 @@ function _is_std_basis_vector(v::Vector)::Bool
 end
 
 """
-    infer_basis!(T::Tableau)
+    old_infer_basis!(T::Tableau)
 
 Determine the basic variables by seeing which columns in the tableau 
 are standard basis vectors. Reset the stored basis in `T` to that result,
 or set the stored basis to all zeros if no basis can be inferred. 
 """
-function infer_basis!(T::Tableau)
+function old_infer_basis!(T::Tableau)
     indicators = [_is_std_basis_vector(T.M[2:end, j + 1]) for j in 1:T.n_vars]
     newB = findall(indicators)
     if length(newB) ≠ T.n_cons
@@ -175,33 +175,6 @@ function infer_basis!(T::Tableau)
         return T.B
     end
     T.B = newB
-end
-
-"""
-    infer_basis!(T::Tableau, x::Vector)
-
-When `x` is a basic feasbile vector for `T`, determine a basis 
-of columns to that effect.
-"""
-function infer_basis!(T::Tableau, x::Vector)
-    n = T.n_vars
-    m = T.n_cons
-    A = T.A
-
-    B = findall(!iszero, x)
-
-    if length(B) == m
-        return B
-    end
-
-    for j in 1:n
-        AA = A[:, B]
-        aj = A[:, j] # column j 
-        if rankx(AA) < rankx(hcat(AA, aj))
-            push!(B, j)
-        end
-    end
-    return sort(B)
 end
 
 """
@@ -246,4 +219,90 @@ function scale_row!(T::Tableau, i::Int, m::_Exact)
     T.M[i + 1, :] *= m
     infer_basis!(T)
     return T
+end
+
+"""
+    _e_vector(n::Int, i::Int)
+
+Return an elementary vector of length `n` that is all zeros 
+except entry `i` which is a `1`.
+"""
+function _e_vector(n::Int, i::Int)
+    v = zeros(Int, n)
+    v[i] = 1
+    return v
+end
+
+"""
+    _find_e_vectors(M::Matrix, i::Int)
+
+Return the column index `j` such that `M[:,j] == _e_vector(n,i)`.
+"""
+function _find_e_vectors(M::Matrix, i::Int)
+    r, c = size(M)
+    ei = _e_vector(r, i)
+    for j in c:-1:1
+        if M[:, j] == ei
+            return j
+        end
+    end
+    return 0  # not found
+end
+
+"""
+    _find_e_vectors(M::Matrix)
+
+Find (one each) the elementary column vectors. 
+"""
+function _find_e_vectors(M::Matrix)
+    r, c = size(M)
+    return [_find_e_vectors(M, i) for i in 1:r]
+end
+
+"""
+    infer_basis!(T::Tableau)
+
+Find the columns that form an elementary basis in `T` and assign that basis to `T`
+"""
+function infer_basis!(T::Tableau)
+    M = T.M[:, 1:(end - 1)]   # don't include RHS column
+    indices = _find_e_vectors(M)
+    # drop artificial column 1, and subtract 1 to get proper indexing
+    if length(indices) < 2
+        return Int[]
+    end
+    B = indices[2:end] .- 1
+
+    if any(B .< 1) || length(B) != T.n_cons
+        @info "Unable to infer basis"
+    else
+        set_basis!(T, B)
+    end
+end
+
+"""
+    infer_basis!(T::Tableau, x::Vector)
+
+When `x` is a basic feasbile vector for `T`, determine a basis 
+of columns to that effect.
+"""
+function infer_basis!(T::Tableau, x::Vector)
+    n = T.n_vars
+    m = T.n_cons
+    A = T.A
+
+    B = findall(!iszero, x)
+
+    if length(B) == m
+        return B
+    end
+
+    for j in 1:n
+        AA = A[:, B]
+        aj = A[:, j] # column j 
+        if rankx(AA) < rankx(hcat(AA, aj))
+            push!(B, j)
+        end
+    end
+    return sort(B)
 end

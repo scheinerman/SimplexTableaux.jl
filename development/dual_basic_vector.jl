@@ -21,4 +21,3 @@ function dual_basic_vector(T::Tableau)
     end
     return dual_basic_vector(T, B)
 end
-

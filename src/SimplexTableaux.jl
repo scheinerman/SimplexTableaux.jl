@@ -15,11 +15,11 @@ include("Exact.jl")
 
 export Tableau,
     basic_vector,
+    # basis_pivot!,
     big_M_solve!,
     big_M_tableau,
     check_basis,
     dual,
-    set_basis!,
     find_a_basis,
     find_all_bases,
     find_pivot,
@@ -34,15 +34,21 @@ export Tableau,
     is_infeasible,
     is_unbounded,
     lp_solve,
-    matrix_pivot!,
-    basis_pivot!,
+    pivot!,
     restore!,
     rhs,
     scale_row!,
+    set_basis!,
     simplex_solve!,
     status,
     swap_rows!,
     value
+
+# _phase_one_tableau,   
+# _is_std_basis_vector,
+# _e_vector,
+# _find_e_vectors,
+# old_infer_basis!
 
 include("rank_fix.jl")
 include("Tableau.jl")

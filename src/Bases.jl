@@ -47,6 +47,10 @@ function find_a_basis(T::Tableau, verbose::Bool=true)
         return 0*get_basis(TT)
     end
 
+    # basis is just the additional columns
+    # B = collect(n+1:m+n)
+    # set_basis!(TT,B)
+
     xx = basic_vector(TT)
     xx = xx[1:n]
 
