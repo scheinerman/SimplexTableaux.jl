@@ -252,4 +252,12 @@ function mixed_lp()
     return Tableau(A, b, c)
 end
 
+function pivot_example()
+    A = [-1 5 -4 -3; 3 -2 0 2]
+    b = [-3; 6]
+    c = [-1; -3; 5; -4]
+    T = Tableau(A, b, c, false)
+    return T
+end
+
 nothing

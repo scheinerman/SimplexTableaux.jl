@@ -20,6 +20,7 @@ These functions are superfluous but may be convenient:
 ## Miscellaneous Functions
 
 * `basic_vector(T)` returns the vector in which the nonbasic variables have been set to zero. 
+* `dual_basic_vector(T)` returns the dual basic vector. 
 * `header(T)` returns the top row of `T` (negative reduced costs). Does not include the `1` in column `0` nor the value in the last column. 
 * `get_Abc(T)` returns the original matrix `A` and the vectors `b` and `c` for the standard presentation of the linear program.
 * `get_basis(T)` returns the column numbers of the current basis.

@@ -8,18 +8,18 @@ using LinearAlgebra
 using LinearAlgebraX
 using PrettyTables
 
-import Base: show
+import Base: getindex, show
 import LatexPrint: latex_form
 
 include("Exact.jl")
 
 export Tableau,
     basic_vector,
-    # basis_pivot!,
     big_M_solve!,
     big_M_tableau,
     check_basis,
     dual,
+    dual_basic_vector,
     find_a_basis,
     find_all_bases,
     find_pivot,

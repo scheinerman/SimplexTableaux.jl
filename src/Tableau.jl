@@ -201,3 +201,10 @@ For this `Tableau`
 function header(T::Tableau)
     return T.M[1, 2:(end - 1)]
 end
+
+function getindex(T, i, j)
+    if i<0 || i>T.n_cons || j<0 || j>T.n_vars+1
+        throw(error("Index [$i,$j] invalid"))
+    end
+    return T.M[i + 1, j + 1]
+end
