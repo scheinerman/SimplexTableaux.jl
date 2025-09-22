@@ -51,3 +51,13 @@ function status(T::Tableau)::Symbol
     # basic vector 
     return :infeasible
 end
+
+"""
+    in_dual_feasible_state(T::Tableau)::Bool
+
+Determine if the header of `T` is entirely nonpositive. 
+"""
+function in_dual_feasible_state(T::Tableau)::Bool
+    header = T.M[1, 2:(end - 1)]
+    return all(header .≤ 0)
+end

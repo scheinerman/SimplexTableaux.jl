@@ -129,7 +129,6 @@ function simplex_solve!(T::Tableau, verbose::Bool=true)
         pivot!(T, p...)
         pivot_count += 1
         if verbose
-            in, out = p
             println("Pivot $(pivot_count) at $p\n")
             println(T)
         end
