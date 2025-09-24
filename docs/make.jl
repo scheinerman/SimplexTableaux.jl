@@ -5,6 +5,7 @@ using Documenter, SimplexTableaux
 makedocs(;
     pages=[
         "Overview" => "index.md",
+        "Tutorial" => "tutorial.md",
         "Creating Tableaux" => "create.md",
         "Bases" => "bases.md",
         "Pivoting Tableaux" => "pivot.md",

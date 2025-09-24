@@ -8,9 +8,11 @@
 """
 Tableau(A::Matrix, b::Vector, c::Vector)
 
-Create a `Tableau` data structure for the linear program minimize `c' * x` subject to `A * x ≥ b, x ≥ 0`.
+Create a `Tableau` data structure for the canonical form 
+linear program  ``min c' * x`` subject to ``A * x ≥ b, x ≥ 0``.
 
-If matrix and vectors are already in standard form, then use `Tableau(A, b, c, false)`.
+If the LP is in standard form, ``min c' x`` s.t. ``A * x = b, x ≥ 0``, use 
+`Tableau(A, b, c, false)`.
 """
 mutable struct Tableau
     M::Matrix{_Exact}     # place to hold the entire Tableau

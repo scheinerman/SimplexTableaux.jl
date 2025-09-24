@@ -1,4 +1,10 @@
-function _phase_one_tableau(T::Tableau)
+"""
+    phase_one_tableau(T::Tableau)
+
+Create a tableau with additional slack variables from which it is 
+easy to extract a basis for `T` or determine that `T` is infeasible. 
+"""
+function phase_one_tableau(T::Tableau)
     #A, b, c = get_Abc(T)
     m = T.n_cons
     n = T.n_vars
@@ -34,7 +40,7 @@ end
 Return a feasible basis for the LP in `T` or `nothing` if none exists.
 """
 function find_a_basis(T::Tableau, verbose::Bool=true)
-    TT = _phase_one_tableau(T)
+    TT = phase_one_tableau(T)
     n = T.n_vars
     m = T.n_cons
 
