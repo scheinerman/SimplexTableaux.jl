@@ -36,6 +36,7 @@ export Tableau,
     is_unbounded,
     lp_solve,
     pivot!,
+    ratios,
     restore!,
     rhs,
     scale_row!,
@@ -62,5 +63,6 @@ include("Dual.jl")
 include("Status.jl")
 include("Bases.jl")
 include("big_M.jl")
+include("Ratios.jl")
 
 end # module SimpleTableaux
