@@ -12,7 +12,7 @@ Here, ``A`` is an ``m \times n``-matrix, ``b`` is an ``m``-vector, and ``c`` is 
 
 > Only minimization problems are supported. 
 
-> All numbers entered into the tableau must be either an `Integer` or a `Rational`. The `SimplexTableau` module does not support linear programs with floating point data. 
+> Every number entered into a `Tableau` must be an  `Integer`  or a `Rational`.  Internally, all numbers are converted to `Rational{BigInt}` type. This module does not support linear programs with floating point data.
 
 
 
@@ -133,7 +133,7 @@ julia> T = Tableau(A, b, c)
 └──────────┴───┴─────┴─────┴─────┴─────┴─────┴─────┴─────┘
 ```
 Note that $x_5$ and $x_6$ are added as slack variables. Therefore the first constraint is
-$7x_1 + 5x_2 +2 x_3 +9x_4 - x_5=2$ is equivalent to
+$7x_1 + 5x_2 +2 x_3 +9x_4 - x_5=2$ which is equivalent to
 $7x_1 + 5x_2 +2 x_3 +9x_4 \ge 2$. With these extra variables, the LP is now in standard form.
 
 The objective function is $z = 7x_1 + 6x_2 + 3x_3 + 4x_4$ that is encoded in the tableau 
@@ -142,7 +142,7 @@ as $z-7x_1 -6x_2 -3x_3 -4x_4=0$.
 
 ## Pivoting
 
-Pivoting is a fundamental operation in linear algebra that is used extensively in the Simplex Method. A pivot on a element $a_{ij}$ of a matrix begins by multiplying row $i$ by $1/a_{ij}$. This leaves a $1$ in position $i,j$. Then multiples of row $i$ are added to the other rows so that all the other entries in column $j$ are now $0$. 
+Pivoting is a fundamental operation in linear algebra that is used extensively in the Simplex Method. A pivot on element $a_{ij}$ of a matrix begins by multiplying row $i$ by $1/a_{ij}$. This leaves a $1$ in position $i,j$. Then multiples of row $i$ are added to the other rows so that all the other entries in column $j$ are now $0$. 
 
 For example, suppose we wish to pivot on the $2$ in this matrix:
 
@@ -277,10 +277,10 @@ julia> set_basis!(T,[3,6])
 ### Automatic basis selection
 
 While any $m$ linearly independent columns may be selected to form a basis, finding a set of columns
-that yield a feasible tableau can be difficult. Below we describe a method for finding a basis, 
+that yield a feasible tableau can be difficult. In a later section of this tutorial we describe a method for finding a basis, 
 but we also provide tools to make this easy.
 
-The function `find_a_basis` will automatically find a feasible basis. Combined with `set_basis!` 
+The function `find_a_basis` automatically finds a feasible basis. Combined with `set_basis!` 
 the resut is a tableau that has been pivoted to a feasible configuation. 
 ```
 julia> T
@@ -308,8 +308,8 @@ julia> set_basis!(T,[2,5])
 └──────────┴───┴───────┴─────┴─────┴───────┴─────┴──────┴──────┘
 ```
 
-Alternatively, invoking `set_basis!(T)` without specifying a basis will 
-use `find_a_basis` to choose the basis for you. 
+Alternatively, using `set_basis!(T)`, without specifying a basis,  
+invokes `find_a_basis` to choose the basis for you. 
 
 If the tableau does not have a feasible basis, `find_a_basis` returns a vector of all zeros.
 ```
@@ -369,9 +369,9 @@ vector at which that minimum is achieved.
 The steps in the Simplex Method are:
 
 1. Select a feasible starting basis. (If there is no such basis, the LP is infeasible.)
-2. Find a column headed by a positive number. (If there is none, the LP has reached an optimal state.)
-3. Form the ratios between the righthand column and the positive members of the columns selected in step 2. 
-4. Pivot on whichever entry in the selected column gives the lowest value. (If there are no positive numbers in the selected column, the LP is unbounded.)
+2. Find a column headed by a positive number. (If there are none, the LP has reached an optimal state.)
+3. Form the ratios between the righthand column and the positive members of the column selected in step 2. 
+4. Pivot on whichever entry in the selected column gives the lowest ratio. (If there are no positive numbers in the selected column, the LP is unbounded.)
 5. Go to step 2. 
 
 ### Manual execution of the Simplex Algorithm
@@ -413,7 +413,7 @@ It is possible to use the function `find_pivot(T)` to select the element on whic
 julia> find_pivot(T)
 (2, 6)
 ```
-This tells us to pivot at the $(2,6)$-entry of the tableau (where we see the value $6/17$). 
+This tells us to pivot at the $(2,6)$-entry of the tableau (where we see the value $6/71$). 
 
 
 
