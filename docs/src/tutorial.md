@@ -2,8 +2,7 @@
 
 This is a step-by-step guide for solving linear programs using the `SimplexTableau` module.
 
-## Set up the problem
-
+## Setting Up
 
 This module enables the user to solve linear program problems in one of the following two forms:
 * **Standard**: ``\min c^T  x`` subject to ``A x = b, x ≥ 0``. Use: `Tableau(A,b,c,false)`. 
@@ -12,6 +11,8 @@ This module enables the user to solve linear program problems in one of the foll
 Here, ``A`` is an ``m \times n``-matrix, ``b`` is an ``m``-vector, and ``c`` is an ``n``-vector. 
 
 > Only minimization problems are supported. 
+
+> All numbers entered into the tableau must be either an `Integer` or a `Rational`. The `SimplexTableau` module does not support linear programs with floating point data. 
 
 
 
@@ -74,11 +75,10 @@ $\left[
 0 & 2 & 6 & 2 & 9 & 2 & 1 & 4 \\
 0 & 6 & 3 & 5 & 9 & 7 & 1 & 9 \\
 \end{array}
-\right]
-$
+\right]$
 
 
-The top (header) two represents the objective function we wish to minimize:
+The top (header) row represents the objective function we wish to minimize:
 $z = 0x_1 + 3x_2 + 3x_3 - x_4 + 2x_5 - 4x_6$. It is rearranged to appear in the form 
 $z - 0x_1 - 3x_2 - 3x_3 + x_4 - 2x_5 + 4x_6 = 0$. 
 
@@ -134,7 +134,7 @@ julia> T = Tableau(A, b, c)
 ```
 Note that $x_5$ and $x_6$ are added as slack variables. Therefore the first constraint is
 $7x_1 + 5x_2 +2 x_3 +9x_4 - x_5=2$ is equivalent to
-$7x_1 + 5x_2 +2 x_3 +9x_4 \ge 2$. 
+$7x_1 + 5x_2 +2 x_3 +9x_4 \ge 2$. With these extra variables, the LP is now in standard form.
 
 The objective function is $z = 7x_1 + 6x_2 + 3x_3 + 4x_4$ that is encoded in the tableau 
 as $z-7x_1 -6x_2 -3x_3 -4x_4=0$. 
@@ -361,10 +361,295 @@ julia> find_all_bases(T)
 
 ## Simplex Method
 
-### Manually
+The Simplex Method finds the minimum objective value for a linear program, as well as the 
+vector at which that minimum is achieved. 
 
-### Fully automatic
+### Overview
 
-## Two phase method (finding a first basis)
+The steps in the Simplex Method are:
 
-## Numerical solution
+1. Select a feasible starting basis. (If there is no such basis, the LP is infeasible.)
+2. Find a column headed by a positive number. (If there is none, the LP has reached an optimal state.)
+3. Form the ratios between the righthand column and the positive members of the columns selected in step 2. 
+4. Pivot on whichever entry in the selected column gives the lowest value. (If there are no positive numbers in the selected column, the LP is unbounded.)
+5. Go to step 2. 
+
+### Manual execution of the Simplex Algorithm
+
+The first step is to find a first basis for a tableau `T` either:
+* Use `B = find_a_basis(T); set_basis!(T,B)` or more simply
+* `set_basis!(T)`.
+
+```
+julia> T
+┌──────────┬───┬─────┬─────┬─────┬─────┬─────┬─────┬─────┐
+│          │ z │ x_1 │ x_2 │ x_3 │ x_4 │ x_5 │ x_6 │ RHS │
+│ Obj Func │ 1 │   0 │  -3 │  -3 │   1 │  -2 │   4 │   0 │
+├──────────┼───┼─────┼─────┼─────┼─────┼─────┼─────┼─────┤
+│   Cons 1 │ 0 │   1 │   8 │  -2 │   8 │   6 │  -1 │  -2 │
+│   Cons 2 │ 0 │   2 │   6 │   2 │   9 │   2 │   1 │   4 │
+│   Cons 3 │ 0 │   6 │   3 │   5 │   9 │   7 │   1 │   9 │
+└──────────┴───┴─────┴─────┴─────┴─────┴─────┴─────┴─────┘
+
+
+julia> set_basis!(T)
+┌──────────┬───┬─────────┬──────────┬─────┬─────┬─────┬──────────┬────────┐
+│          │ z │     x_1 │      x_2 │ x_3 │ x_4 │ x_5 │      x_6 │    RHS │
+│ Obj Func │ 1 │ 795/284 │ -931/142 │   0 │   0 │   0 │ 1265/284 │ 334/71 │
+├──────────┼───┼─────────┼──────────┼─────┼─────┼─────┼──────────┼────────┤
+│   Cons 1 │ 0 │ 187/284 │ -117/142 │   1 │   0 │   0 │   85/284 │ 110/71 │
+│   Cons 2 │ 0 │   -1/71 │    62/71 │   0 │   1 │   0 │     6/71 │   6/71 │
+│   Cons 3 │ 0 │ 115/284 │  -15/142 │   0 │   0 │   1 │  -51/284 │   5/71 │
+└──────────┴───┴─────────┴──────────┴─────┴─────┴─────┴──────────┴────────┘
+```
+Later, we show how to find a first basis manually. See *Finding a first basis* later in this tutorial. 
+
+---
+
+Next we need to select a column in which to pivot. In this example, there are two columns headed by positive numbers: Column 1 is headed by 795/284 and column 6 is headed by 1265/284.
+
+It is possible to use the function `find_pivot(T)` to select the element on which to pivot.
+```
+julia> find_pivot(T)
+(2, 6)
+```
+This tells us to pivot at the $(2,6)$-entry of the tableau (where we see the value $6/17$). 
+
+
+
+While the `find_pivot` function suggested we pivot in column 6, we see that column 1 is also headed by a positive number, so we have the option to select a pivot there. 
+We can use the `ratios` functions to calculate the appropriate pivot for a user-selected column. 
+```
+julia> T
+┌──────────┬───┬─────────┬──────────┬─────┬─────┬─────┬──────────┬────────┐
+│          │ z │     x_1 │      x_2 │ x_3 │ x_4 │ x_5 │      x_6 │    RHS │
+│ Obj Func │ 1 │ 795/284 │ -931/142 │   0 │   0 │   0 │ 1265/284 │ 334/71 │
+├──────────┼───┼─────────┼──────────┼─────┼─────┼─────┼──────────┼────────┤
+│   Cons 1 │ 0 │ 187/284 │ -117/142 │   1 │   0 │   0 │   85/284 │ 110/71 │
+│   Cons 2 │ 0 │   -1/71 │    62/71 │   0 │   1 │   0 │     6/71 │   6/71 │
+│   Cons 3 │ 0 │ 115/284 │  -15/142 │   0 │   0 │   1 │  -51/284 │   5/71 │
+└──────────┴───┴─────────┴──────────┴─────┴─────┴─────┴──────────┴────────┘
+
+
+julia> ratios(T,1)
+  Ratios for column 1 headed by 795/284
+          Best pivot is in row 3
+┌────────────┬──────────┬────────┬───────┐
+│ Constraint │ Column 1 │    RHS │ Ratio │
+├────────────┼──────────┼────────┼───────┤
+│          1 │  187/284 │ 110/71 │ 40/17 │
+│          2 │    -1/71 │   6/71 │   --- │
+│          3 │  115/284 │   5/71 │  4/23 │
+└────────────┴──────────┴────────┴───────┘
+```
+This analysis shows that if we decide to pivot in column 1, we should do so at the $(3,1)$-entry. Here is the result:
+```
+julia> pivot!(T,3,1)
+┌──────────┬───┬─────┬─────────┬─────┬─────┬──────────┬─────────┬───────┐
+│          │ z │ x_1 │     x_2 │ x_3 │ x_4 │      x_5 │     x_6 │   RHS │
+│ Obj Func │ 1 │   0 │ -134/23 │   0 │   0 │  -159/23 │  131/23 │ 97/23 │
+├──────────┼───┼─────┼─────────┼─────┼─────┼──────────┼─────────┼───────┤
+│   Cons 1 │ 0 │   0 │  -15/23 │   1 │   0 │ -187/115 │  68/115 │ 33/23 │
+│   Cons 2 │ 0 │   0 │   20/23 │   0 │   1 │    4/115 │   9/115 │  2/23 │
+│   Cons 3 │ 0 │   1 │   -6/23 │   0 │   0 │  284/115 │ -51/115 │  4/23 │
+└──────────┴───┴─────┴─────────┴─────┴─────┴──────────┴─────────┴───────┘
+```
+
+Now the column 6 is the only one headed by a positive number. We can use `find_pivot(T)` or use `ratios` to find the smallest ratio:
+```
+julia> ratios(T,6)
+   Ratios for column 6 headed by 131/23
+          Best pivot is in row 2
+┌────────────┬──────────┬───────┬────────┐
+│ Constraint │ Column 6 │   RHS │  Ratio │
+├────────────┼──────────┼───────┼────────┤
+│          1 │   68/115 │ 33/23 │ 165/68 │
+│          2 │    9/115 │  2/23 │   10/9 │
+│          3 │  -51/115 │  4/23 │    --- │
+└────────────┴──────────┴───────┴────────┘
+```
+Pivoting at $(2,6)$:
+```
+julia> pivot!(T,2,6)
+┌──────────┬───┬─────┬────────┬─────┬────────┬───────┬─────┬───────┐
+│          │ z │ x_1 │    x_2 │ x_3 │    x_4 │   x_5 │ x_6 │   RHS │
+│ Obj Func │ 1 │   0 │ -622/9 │   0 │ -655/9 │ -85/9 │   0 │ -19/9 │
+├──────────┼───┼─────┼────────┼─────┼────────┼───────┼─────┼───────┤
+│   Cons 1 │ 0 │   0 │  -65/9 │   1 │  -68/9 │ -17/9 │   0 │   7/9 │
+│   Cons 2 │ 0 │   0 │  100/9 │   0 │  115/9 │   4/9 │   1 │  10/9 │
+│   Cons 3 │ 0 │   1 │   14/3 │   0 │   17/3 │   8/3 │   0 │   2/3 │
+└──────────┴───┴─────┴────────┴─────┴────────┴───────┴─────┴───────┘
+```
+There are no positive entries in the top row signalling that the tableau has reached its optimal state. This is verified by the `status` function:
+```
+julia> status(T)
+:optimal
+```
+Finally, we get the minimum value and the vector that attains that value:
+```
+julia> value(T)
+-19//9
+
+julia> basic_vector(T)
+6-element Vector{Rational}:
+  2//3
+   0
+  7//9
+   0
+   0
+ 10//9
+```
+
+
+
+### Fully automatic execution of the Simplex Algorithm
+
+The `simplex_solve!` function does all the steps of the Simplex Method without requiring any interaction with the user. We return the tableau `T` to its original state with `restore!(T)` and then solve the LP using `simplex_solver`:
+```
+julia> restore!(T)
+┌──────────┬───┬─────┬─────┬─────┬─────┬─────┬─────┬─────┐
+│          │ z │ x_1 │ x_2 │ x_3 │ x_4 │ x_5 │ x_6 │ RHS │
+│ Obj Func │ 1 │   0 │  -3 │  -3 │   1 │  -2 │   4 │   0 │
+├──────────┼───┼─────┼─────┼─────┼─────┼─────┼─────┼─────┤
+│   Cons 1 │ 0 │   1 │   8 │  -2 │   8 │   6 │  -1 │  -2 │
+│   Cons 2 │ 0 │   2 │   6 │   2 │   9 │   2 │   1 │   4 │
+│   Cons 3 │ 0 │   6 │   3 │   5 │   9 │   7 │   1 │   9 │
+└──────────┴───┴─────┴─────┴─────┴─────┴─────┴─────┴─────┘
+
+julia> simplex_solve!(T)
+[ Info: Finding an initial basis.
+Starting basis found: [3, 4, 5]
+Starting tableau
+
+┌──────────┬───┬─────────┬──────────┬─────┬─────┬─────┬──────────┬────────┐
+│          │ z │     x_1 │      x_2 │ x_3 │ x_4 │ x_5 │      x_6 │    RHS │
+│ Obj Func │ 1 │ 795/284 │ -931/142 │   0 │   0 │   0 │ 1265/284 │ 334/71 │
+├──────────┼───┼─────────┼──────────┼─────┼─────┼─────┼──────────┼────────┤
+│   Cons 1 │ 0 │ 187/284 │ -117/142 │   1 │   0 │   0 │   85/284 │ 110/71 │
+│   Cons 2 │ 0 │   -1/71 │    62/71 │   0 │   1 │   0 │     6/71 │   6/71 │
+│   Cons 3 │ 0 │ 115/284 │  -15/142 │   0 │   0 │   1 │  -51/284 │   5/71 │
+└──────────┴───┴─────────┴──────────┴─────┴─────┴─────┴──────────┴────────┘
+
+Pivot 1 at (2, 6)
+
+┌──────────┬───┬───────┬─────────┬─────┬──────────┬─────┬─────┬─────┐
+│          │ z │   x_1 │     x_2 │ x_3 │      x_4 │ x_5 │ x_6 │ RHS │
+│ Obj Func │ 1 │ 85/24 │ -631/12 │   0 │ -1265/24 │   0 │   0 │ 1/4 │
+├──────────┼───┼───────┼─────────┼─────┼──────────┼─────┼─────┼─────┤
+│   Cons 1 │ 0 │ 17/24 │  -47/12 │   1 │   -85/24 │   0 │   0 │ 5/4 │
+│   Cons 2 │ 0 │  -1/6 │    31/3 │   0 │     71/6 │   0 │   1 │   1 │
+│   Cons 3 │ 0 │   3/8 │     7/4 │   0 │     17/8 │   1 │   0 │ 1/4 │
+└──────────┴───┴───────┴─────────┴─────┴──────────┴─────┴─────┴─────┘
+
+Pivot 2 at (3, 1)
+
+┌──────────┬───┬─────┬────────┬─────┬────────┬───────┬─────┬───────┐
+│          │ z │ x_1 │    x_2 │ x_3 │    x_4 │   x_5 │ x_6 │   RHS │
+│ Obj Func │ 1 │   0 │ -622/9 │   0 │ -655/9 │ -85/9 │   0 │ -19/9 │
+├──────────┼───┼─────┼────────┼─────┼────────┼───────┼─────┼───────┤
+│   Cons 1 │ 0 │   0 │  -65/9 │   1 │  -68/9 │ -17/9 │   0 │   7/9 │
+│   Cons 2 │ 0 │   0 │  100/9 │   0 │  115/9 │   4/9 │   1 │  10/9 │
+│   Cons 3 │ 0 │   1 │   14/3 │   0 │   17/3 │   8/3 │   0 │   2/3 │
+└──────────┴───┴─────┴────────┴─────┴────────┴───────┴─────┴───────┘
+
+Optimality reached. Pivot count = 2
+Minimal value = -19/9 = -2.111111111111111
+6-element Vector{Rational}:
+  2//3
+   0
+  7//9
+   0
+   0
+ 10//9
+```
+
+
+
+### Numerically
+
+The function `lp_solve` also solves linear programs but uses floating point rather than exact arithmetic.
+It uses the [HiGHS](https://ergo-code.github.io/HiGHS/stable/) solver to find the optimal solution: 
+
+```
+julia> lp_solve(T)
+Minimal objective value = -2.1111111111111183
+
+6-element Vector{Float64}:
+ 0.6666666666666666
+ 0.0
+ 0.7777777777777776
+ 0.0
+ 0.0
+ 1.1111111111111127
+```
+
+
+## Finding a First Basis
+
+Given a (standard form) linear program with $n$ variables and $m$ constraints, we form an 
+auxilliary LP as follows: 
+
+1. Create $m$ additional variables, $x_{n+1}, x_{n+2},\ldots,x_{n+m}$.
+1. If a constraint has a negative right-hand side, multiply both sides by $-1$. This ensures that all constraints have a nonnegative right-hand side. 
+1. Add a ${}+x_{n+i}$ term to the left-hand side of constraint $i$ for $i=1,2,\ldots,m$. 
+1. Use $x_{n+1} + x_{n+2} + \cdots + x_{n+m}$ as the objective function to be minimized.
+
+In this new tableau, it is immediate that the new, auxilliary columns form a feasible basis. 
+
+Use the function `phase_one_tableau` build this auxilliary tableau from the original:
+```
+julia> T
+┌──────────┬───┬─────┬─────┬─────┬─────┬─────┬─────┬─────┐
+│          │ z │ x_1 │ x_2 │ x_3 │ x_4 │ x_5 │ x_6 │ RHS │
+│ Obj Func │ 1 │   0 │  -3 │  -3 │   1 │  -2 │   4 │   0 │
+├──────────┼───┼─────┼─────┼─────┼─────┼─────┼─────┼─────┤
+│   Cons 1 │ 0 │   1 │   8 │  -2 │   8 │   6 │  -1 │  -2 │  # note the RHS of row 1 is negative
+│   Cons 2 │ 0 │   2 │   6 │   2 │   9 │   2 │   1 │   4 │
+│   Cons 3 │ 0 │   6 │   3 │   5 │   9 │   7 │   1 │   9 │
+└──────────┴───┴─────┴─────┴─────┴─────┴─────┴─────┴─────┘
+
+
+julia> TT = phase_one_tableau(T)
+┌──────────┬───┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┐
+│          │ z │ x_1 │ x_2 │ x_3 │ x_4 │ x_5 │ x_6 │ x_7 │ x_8 │ x_9 │ RHS │
+│ Obj Func │ 1 │   7 │   1 │   9 │  10 │   3 │   3 │   0 │   0 │   0 │  15 │
+├──────────┼───┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┤
+│   Cons 1 │ 0 │  -1 │  -8 │   2 │  -8 │  -6 │   1 │   1 │   0 │   0 │   2 │ 
+│   Cons 2 │ 0 │   2 │   6 │   2 │   9 │   2 │   1 │   0 │   1 │   0 │   4 │
+│   Cons 3 │ 0 │   6 │   3 │   5 │   9 │   7 │   1 │   0 │   0 │   1 │   9 │
+└──────────┴───┴─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┘
+
+julia> get_basis(TT)
+3-element Vector{Int64}:
+ 7
+ 8
+ 9
+```
+
+We now solve `TT` by the Simplex Method either manually or automatically:
+```
+julia> simplex_solve!(TT, false);   # the false argument supresses the verbose output
+
+julia> TT
+┌──────────┬───┬─────────┬──────────┬─────┬─────┬─────┬─────────┬─────────┬─────────┬────────┬────────┐
+│          │ z │     x_1 │      x_2 │ x_3 │ x_4 │ x_5 │     x_6 │     x_7 │     x_8 │    x_9 │    RHS │
+│ Obj Func │ 1 │       0 │        0 │   0 │   0 │   0 │       0 │      -1 │      -1 │     -1 │      0 │
+├──────────┼───┼─────────┼──────────┼─────┼─────┼─────┼─────────┼─────────┼─────────┼────────┼────────┤
+│   Cons 1 │ 0 │ 187/284 │ -117/142 │   1 │   0 │   0 │  85/284 │  45/284 │   1/142 │ 19/142 │ 110/71 │
+│   Cons 2 │ 0 │   -1/71 │    62/71 │   0 │   1 │   0 │    6/71 │   -1/71 │   11/71 │  -4/71 │   6/71 │
+│   Cons 3 │ 0 │ 115/284 │  -15/142 │   0 │   0 │   1 │ -51/284 │ -27/284 │ -29/142 │ 17/142 │   5/71 │
+└──────────┴───┴─────────┴──────────┴─────┴─────┴─────┴─────────┴─────────┴─────────┴────────┴────────┘
+
+julia> value(TT)
+0//1
+
+julia> get_basis(TT)
+3-element Vector{Int64}:
+ 3
+ 4
+ 5
+```
+Because the value of the final auxilliary tableau is zero, its basis is the starting basis for `T`.
+
+> If the final value for the auxilliary tableau is not zero, then the original tableau is infeasible. 
+
