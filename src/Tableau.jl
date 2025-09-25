@@ -9,9 +9,9 @@
 Tableau(A::Matrix, b::Vector, c::Vector)
 
 Create a `Tableau` data structure for the canonical form 
-linear program  ``min c' * x`` subject to ``A * x ≥ b, x ≥ 0``.
+linear program  minimize ``c'x`` subject to ``Ax ≥ b, x ≥ 0``.
 
-If the LP is in standard form, ``min c' x`` s.t. ``A * x = b, x ≥ 0``, use 
+If the LP is in standard form, minimize ``c'x`` s.t. ``Ax = b, x ≥ 0``, use 
 `Tableau(A, b, c, false)`.
 """
 mutable struct Tableau

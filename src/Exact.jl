@@ -4,7 +4,7 @@ _Exact = Union{Integer,Rational}
     Exact
 
 This is a wrapper type for an `Integer` or a `Rational`.
-It's only purpose is to make printing a `Tableau` as a `DataFrame` cleaner.
+It's only purpose is to make printing a `Tableau` cleaner.
 """
 struct Exact
     val::_Exact
