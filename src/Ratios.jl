@@ -32,10 +32,18 @@ end
 function _ratio_matrix_str(T::Tableau, col::Int)
     RM = _ratio_matrix(T, col)
     result = _pretty_string.(RM)
+    blank = "---"
+
+    decimals = [blank for _ in 1:T.n_cons]
 
     for i in 1:T.n_cons
+        if RM[i, 4] ≥ 0
+            decimals[i] = @sprintf "%.7f" Float64(RM[i, 4])
+        end
+
         if RM[i, 4] == 1//0
-            result[i, 4] = "---"
+            result[i, 4] = blank
+            decimals[i] = blank
         end
     end
 
@@ -43,6 +51,8 @@ function _ratio_matrix_str(T::Tableau, col::Int)
     if m == 1//0
         i = 0
     end
+
+    result = hcat(result, decimals)
 
     return result, i
 end
@@ -55,7 +65,7 @@ Display a table for determining a valid pivot for `T` in column `col`.
 function ratios(T::Tableau, col::Int)
     RMS, i = _ratio_matrix_str(T, col)
 
-    header = ["Constraint", "Column $col", "RHS", "Ratio"]
+    header = ["Constraint", "Column $col", "RHS", "Ratio", "Decimal"]
     title = "Ratios for column $col headed by " * _pretty_string(T[0, col])
     sub = ""
     if T[0, col] < 0

@@ -7,6 +7,7 @@ using LatexPrint
 using LinearAlgebra
 using LinearAlgebraX
 using PrettyTables
+using Printf
 
 import Base: getindex, show
 import LatexPrint: latex_form

@@ -12,7 +12,7 @@ makedocs(;
         # "Solving LPs" => "solve.md",
         # "Dual LP" => "dual.md",
         "Other Functions" => "other.md",
-        "API" => "api.md"
+        "API" => "api.md",
     ],
     sitename="SimplexTableaux",
 )
