@@ -1,9 +1,11 @@
 # Duality
 
+> The duality functionality is under construction. I don't know how you found your way here, but please understand that everything on this page is in pre-beta.
+
 ## The dual function
 
 If a tableau `T` is created from a canonical minimization problem, then `dual(T)` 
-returns a new tableau corresponding to dual linear program. However, `dual(T)` is 
+returns a new tableau for its dual linear program. However, `dual(T)` is 
 also a minimization problem. The minimum value of `dual(T)` is negative that of `T`. 
 
 That is, if `T` represents the LP $\min c^T x$ s.t. $Ax \ge b$, $x\ge0$, then

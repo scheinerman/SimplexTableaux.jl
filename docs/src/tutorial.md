@@ -432,15 +432,15 @@ julia> T
 
 
 julia> ratios(T,1)
-  Ratios for column 1 headed by 795/284
-          Best pivot is in row 3
-┌────────────┬──────────┬────────┬───────┐
-│ Constraint │ Column 1 │    RHS │ Ratio │
-├────────────┼──────────┼────────┼───────┤
-│          1 │  187/284 │ 110/71 │ 40/17 │
-│          2 │    -1/71 │   6/71 │   --- │
-│          3 │  115/284 │   5/71 │  4/23 │
-└────────────┴──────────┴────────┴───────┘
+        Ratios for column 1 headed by 795/284
+                Best pivot is in row 3
+┌────────────┬──────────┬────────┬───────┬───────────┐
+│ Constraint │ Column 1 │    RHS │ Ratio │   Decimal │
+├────────────┼──────────┼────────┼───────┼───────────┤
+│          1 │  187/284 │ 110/71 │ 40/17 │ 2.3529412 │
+│          2 │    -1/71 │   6/71 │   --- │       --- │
+│          3 │  115/284 │   5/71 │  4/23 │ 0.1739130 │
+└────────────┴──────────┴────────┴───────┴───────────┘
 ```
 This analysis shows that if we decide to pivot in column 1, we should do so at the $(3,1)$-entry. Here is the result:
 ```
@@ -458,15 +458,15 @@ julia> pivot!(T,3,1)
 Now the column 6 is the only one headed by a positive number. We can use `find_pivot(T)` or use `ratios` to find the smallest ratio:
 ```
 julia> ratios(T,6)
-   Ratios for column 6 headed by 131/23
-          Best pivot is in row 2
-┌────────────┬──────────┬───────┬────────┐
-│ Constraint │ Column 6 │   RHS │  Ratio │
-├────────────┼──────────┼───────┼────────┤
-│          1 │   68/115 │ 33/23 │ 165/68 │
-│          2 │    9/115 │  2/23 │   10/9 │
-│          3 │  -51/115 │  4/23 │    --- │
-└────────────┴──────────┴───────┴────────┘
+         Ratios for column 6 headed by 131/23
+                Best pivot is in row 2
+┌────────────┬──────────┬───────┬────────┬───────────┐
+│ Constraint │ Column 6 │   RHS │  Ratio │   Decimal │
+├────────────┼──────────┼───────┼────────┼───────────┤
+│          1 │   68/115 │ 33/23 │ 165/68 │ 2.4264706 │
+│          2 │    9/115 │  2/23 │   10/9 │ 1.1111111 │
+│          3 │  -51/115 │  4/23 │    --- │       --- │
+└────────────┴──────────┴───────┴────────┴───────────┘
 ```
 Pivoting at $(2,6)$:
 ```

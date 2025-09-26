@@ -212,15 +212,15 @@ julia&gt; set_basis!(T)
 
 
 julia&gt; ratios(T,1)
-  Ratios for column 1 headed by 795/284
-          Best pivot is in row 3
-┌────────────┬──────────┬────────┬───────┐
-│ Constraint │ Column 1 │    RHS │ Ratio │
-├────────────┼──────────┼────────┼───────┤
-│          1 │  187/284 │ 110/71 │ 40/17 │
-│          2 │    -1/71 │   6/71 │   --- │
-│          3 │  115/284 │   5/71 │  4/23 │
-└────────────┴──────────┴────────┴───────┘</code></pre><p>This analysis shows that if we decide to pivot in column 1, we should do so at the <span>$(3,1)$</span>-entry. Here is the result:</p><pre><code class="nohighlight hljs">julia&gt; pivot!(T,3,1)
+        Ratios for column 1 headed by 795/284
+                Best pivot is in row 3
+┌────────────┬──────────┬────────┬───────┬───────────┐
+│ Constraint │ Column 1 │    RHS │ Ratio │   Decimal │
+├────────────┼──────────┼────────┼───────┼───────────┤
+│          1 │  187/284 │ 110/71 │ 40/17 │ 2.3529412 │
+│          2 │    -1/71 │   6/71 │   --- │       --- │
+│          3 │  115/284 │   5/71 │  4/23 │ 0.1739130 │
+└────────────┴──────────┴────────┴───────┴───────────┘</code></pre><p>This analysis shows that if we decide to pivot in column 1, we should do so at the <span>$(3,1)$</span>-entry. Here is the result:</p><pre><code class="nohighlight hljs">julia&gt; pivot!(T,3,1)
 ┌──────────┬───┬─────┬─────────┬─────┬─────┬──────────┬─────────┬───────┐
 │          │ z │ x_1 │     x_2 │ x_3 │ x_4 │      x_5 │     x_6 │   RHS │
 │ Obj Func │ 1 │   0 │ -134/23 │   0 │   0 │  -159/23 │  131/23 │ 97/23 │
@@ -229,15 +229,15 @@ julia&gt; ratios(T,1)
 │   Cons 2 │ 0 │   0 │   20/23 │   0 │   1 │    4/115 │   9/115 │  2/23 │
 │   Cons 3 │ 0 │   1 │   -6/23 │   0 │   0 │  284/115 │ -51/115 │  4/23 │
 └──────────┴───┴─────┴─────────┴─────┴─────┴──────────┴─────────┴───────┘</code></pre><p>Now the column 6 is the only one headed by a positive number. We can use <code>find_pivot(T)</code> or use <code>ratios</code> to find the smallest ratio:</p><pre><code class="nohighlight hljs">julia&gt; ratios(T,6)
-   Ratios for column 6 headed by 131/23
-          Best pivot is in row 2
-┌────────────┬──────────┬───────┬────────┐
-│ Constraint │ Column 6 │   RHS │  Ratio │
-├────────────┼──────────┼───────┼────────┤
-│          1 │   68/115 │ 33/23 │ 165/68 │
-│          2 │    9/115 │  2/23 │   10/9 │
-│          3 │  -51/115 │  4/23 │    --- │
-└────────────┴──────────┴───────┴────────┘</code></pre><p>Pivoting at <span>$(2,6)$</span>:</p><pre><code class="nohighlight hljs">julia&gt; pivot!(T,2,6)
+         Ratios for column 6 headed by 131/23
+                Best pivot is in row 2
+┌────────────┬──────────┬───────┬────────┬───────────┐
+│ Constraint │ Column 6 │   RHS │  Ratio │   Decimal │
+├────────────┼──────────┼───────┼────────┼───────────┤
+│          1 │   68/115 │ 33/23 │ 165/68 │ 2.4264706 │
+│          2 │    9/115 │  2/23 │   10/9 │ 1.1111111 │
+│          3 │  -51/115 │  4/23 │    --- │       --- │
+└────────────┴──────────┴───────┴────────┴───────────┘</code></pre><p>Pivoting at <span>$(2,6)$</span>:</p><pre><code class="nohighlight hljs">julia&gt; pivot!(T,2,6)
 ┌──────────┬───┬─────┬────────┬─────┬────────┬───────┬─────┬───────┐
 │          │ z │ x_1 │    x_2 │ x_3 │    x_4 │   x_5 │ x_6 │   RHS │
 │ Obj Func │ 1 │   0 │ -622/9 │   0 │ -655/9 │ -85/9 │   0 │ -19/9 │
@@ -363,4 +363,4 @@ julia&gt; get_basis(TT)
 3-element Vector{Int64}:
  3
  4
- 5</code></pre><p>Because the value of the final auxilliary tableau is zero, its basis is the starting basis for <code>T</code>.</p><blockquote><p>If the final value for the auxilliary tableau is not zero, then the original tableau is infeasible. </p></blockquote></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../">« Overview</a><a class="docs-footer-nextpage" href="../other/">Other Functions »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.10.1 on <span class="colophon-date" title="Thursday 25 September 2025 15:10">Thursday 25 September 2025</span>. Using Julia version 1.11.7.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+ 5</code></pre><p>Because the value of the final auxilliary tableau is zero, its basis is the starting basis for <code>T</code>.</p><blockquote><p>If the final value for the auxilliary tableau is not zero, then the original tableau is infeasible. </p></blockquote></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../">« Overview</a><a class="docs-footer-nextpage" href="../other/">Other Functions »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.14.1 on <span class="colophon-date" title="Friday 26 September 2025 08:48">Friday 26 September 2025</span>. Using Julia version 1.11.7.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
