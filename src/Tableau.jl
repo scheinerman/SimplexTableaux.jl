@@ -6,7 +6,7 @@
 #   0 |  A   | b     <== m rows
 
 """
-Tableau(A::Matrix, b::Vector, c::Vector)
+Tableau(A::Matrix, b::Vector, c::Vector, canonical::Bool=true)
 
 Create a `Tableau` data structure for the canonical form 
 linear program  minimize ``c'x`` subject to ``Ax ≥ b, x ≥ 0``.
