@@ -50,7 +50,7 @@ end
 """
     make_standard(A::AbstractMatrix, b::Vector, c::Vector)
 
-Expand the `A` matrix with an identity matrix on the right and the `b`
+Expand the `A` matrix with an identity matrix on the right and the `c`
 vector with zeros to convert a canonical LP min `c'*x` st `A*x ≥ b, x ≥ 0` into 
 min `c'*x` st `A*x = b, x ≥ 0`. Returns the new matrices/vectors `A`, `b`, and `c`.
 """
