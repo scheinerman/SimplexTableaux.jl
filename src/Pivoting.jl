@@ -4,7 +4,7 @@ _not_col_one = "May not modify the z column of the Tableau"
 """
     pivot!(T::Tableau, i::Int, j::Int)
 
-Modify `T` by doing a pivot operation at contraint `i` 
+Modify `T` by doing a pivot operation at constraint `i` 
 and variable x_`j`.
 """
 function pivot!(T::Tableau, i::Int, j::Int)
