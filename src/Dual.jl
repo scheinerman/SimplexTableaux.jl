@@ -30,7 +30,7 @@ function _canonical_dual(T::Tableau)::Tableau
     end
     c = c[1:(n - m)]
 
-    return Tableau(-A', -c, -b)
+    return Tableau(-A', -c, -b, true)
 end
 
 function dual_basic_vector(T::Tableau, B)

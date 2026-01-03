@@ -27,7 +27,7 @@ end
     b = [0, 1, 10, 3, 2, 5]
     c = [3, 4, 7]
 
-    T = Tableau(A, b, c)
+    T = Tableau(A, b, c, true)
     dT = dual(T)
 
     x = simplex_solve!(T, false)
@@ -41,12 +41,12 @@ end
 
 @testset "Status" begin
     A, b, c = ([-1 -2 0 0; -3 -4 0 0; 0 0 1 2; 0 0 3 4], [2, 2, 4, 5], [2, 3, -4, -7])
-    T = Tableau(A, b, c)
+    T = Tableau(A, b, c, true)
     @test status(T) == :no_basis
     set_basis!(T, [2, 3, 4, 5])
     @test status(T) == :infeasible
 
-    T = Tableau([2 1 0 9 -1; 1 1 -1 5 1], [9, 7], [2, 4, 2, 1, -1])
+    T = Tableau([2 1 0 9 -1; 1 1 -1 5 1], [9, 7], [2, 4, 2, 1, -1], true)
     set_basis!(T, [1, 2])
     @test status(T) == :feasible
     simplex_solve!(T, false)
