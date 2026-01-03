@@ -6,13 +6,13 @@
 #   0 |  A   | b     <== m rows
 
 """
-Tableau(A::Matrix, b::Vector, c::Vector, canonical::Bool=true)
-
-Create a `Tableau` data structure for the canonical form 
-linear program  minimize ``c'x`` subject to ``Ax ≥ b, x ≥ 0``.
+    Tableau(A::Matrix, b::Vector, c::Vector, canonical::Bool=false)
 
 If the LP is in standard form, minimize ``c'x`` s.t. ``Ax = b, x ≥ 0``, use 
-`Tableau(A, b, c, false)`.
+`Tableau(A, b, c)`.
+
+If the LP is in canonical form, minimize ``c'x`` subject to ``Ax ≥ b, x ≥ 0``, 
+use `Tableau(A, b, c, false)`.
 """
 mutable struct Tableau
     M::Matrix{_Exact}     # place to hold the entire Tableau
@@ -24,7 +24,7 @@ mutable struct Tableau
     n_cons::Int           # number of constraints in the LP
     B::Vector{Int}        # current basis (column indices)
 
-    function Tableau(A::AbstractMatrix, b::Vector, c::Vector, canonical::Bool=true)
+    function Tableau(A::AbstractMatrix, b::Vector, c::Vector, canonical::Bool=false)
         m, n = size(A)
         if length(b) ≠ m || length(c) ≠ n
             throw(ArgumentError("Size mismatch"))
