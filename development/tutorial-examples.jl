@@ -4,7 +4,7 @@ function canonical_example()
     A = [7 5 2 9; 5 9 5 5];
     b = [2, 5];
     c = [7, 6, 3, 4];
-    T = Tableau(A, b, c)
+    T = Tableau(A, b, c, true)
 end
 
 function standard_example()

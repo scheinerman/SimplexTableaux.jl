@@ -1,6 +1,8 @@
 # SimplexTableaux
 
-> **Breaking Change in Version 0.5**: The default `Tableau(A, b, c)` creates a tableau for an LP in *standard* form. To create a tableau in *canonical* form, use `Tableau(A, b, c, true)`. 
+### Breaking Change in Version 0.5 
+
+The default `Tableau(A, b, c)` creates a tableau for an LP in *standard* form. To create a tableau in *canonical* form, use `Tableau(A, b, c, true)`. 
 
 ## Overview
 

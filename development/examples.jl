@@ -64,7 +64,7 @@ function unbounded_example()
     A = [1 2; 2 1; 0 -1]
     b = [5; 4; -3]
     c = [-1; -2]
-    T = Tableau(A, b, c)
+    T = Tableau(A, b, c, true)
     set_basis!(T, [1, 2, 5])
     return T
 end
@@ -128,7 +128,7 @@ function degenerate_example_2()
 
     B = [1, 2, 3, 6, 7]
 
-    T = Tableau(A, b, c)
+    T = Tableau(A, b, c, true)
     set_basis!(T, B)
     return T
 end
@@ -188,7 +188,7 @@ function example_chvatal()
         1 0 0 0
     ]
     b = [0; 0; 1]
-    T = Tableau(A, b, -c)
+    T = Tableau(A, b, -c, true)
     return T
 end
 
