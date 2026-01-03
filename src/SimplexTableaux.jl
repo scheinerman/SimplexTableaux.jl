@@ -48,12 +48,6 @@ export Tableau,
     swap_rows!,
     value
 
-# _phase_one_tableau,   
-# _is_std_basis_vector,
-# _e_vector,
-# _find_e_vectors,
-# old_infer_basis!
-
 include("rank_fix.jl")
 include("Tableau.jl")
 include("Pivoting.jl")

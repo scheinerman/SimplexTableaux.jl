@@ -2,7 +2,7 @@
 
 ### Breaking Change in Version 0.5 
 
-> The default `Tableau(A, b, c)` creates a tableau for an LP in *standard* form. To create a tableau in *canonical* form, use `Tableau(A, b, c, true)`. 
+> The default `Tableau(A, b, c)` creates a tableau for an LP in *standard* form. To create a tableau for a *canonical* LP, use `Tableau(A, b, c, true)`. 
 
 The rationale for this change is that the Simplex Method operates on standard form LPs, so that should be the default. Hence, `Tableau(A, b, c)` is equivalent to `Tableau(A, b, c, false)`
 

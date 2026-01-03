@@ -5,8 +5,8 @@ This is a step-by-step guide for solving linear programs using the `SimplexTable
 ## Setting Up
 
 This module enables the user to solve linear program problems in one of the following two forms:
-* **Standard**: ``\min c^T  x`` subject to ``A x = b, x ≥ 0``. Use: `Tableau(A,b,c,false)`. 
-* **Canonical**: ``\min c^T  x`` subject to ``A x ≥ b, x ≥ 0``. Use: `Tableau(A,b,c)`.
+* **Standard**: ``\min c^T  x`` subject to ``A x = b, x ≥ 0``. Use: `Tableau(A,b,c)` or `Tableau(A,b,c,false)`. 
+* **Canonical**: ``\min c^T  x`` subject to ``A x ≥ b, x ≥ 0``. Use: `Tableau(A,b,c,true)`.
 
 Here, ``A`` is an ``m \times n``-matrix, ``b`` is an ``m``-vector, and ``c`` is an ``n``-vector. 
 
@@ -123,7 +123,7 @@ julia> b = [2, 5];
 
 julia> c = [7, 6, 3, 4];
 
-julia> T = Tableau(A, b, c)
+julia> T = Tableau(A, b, c, true)
 ┌──────────┬───┬─────┬─────┬─────┬─────┬─────┬─────┬─────┐
 │          │ z │ x_1 │ x_2 │ x_3 │ x_4 │ x_5 │ x_6 │ RHS │
 │ Obj Func │ 1 │  -7 │  -6 │  -3 │  -4 │   0 │   0 │   0 │
