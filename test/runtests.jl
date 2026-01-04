@@ -52,3 +52,23 @@ end
     simplex_solve!(T, false)
     @test status(T) == :unbounded
 end
+
+@testset "Type Swapping" begin
+    A = [8 -3 4 -4 7; 1 1 -1 -1 10; 9 0 4 2 10]
+    b = [7, 0, 9]
+    c = [0, -4, 10, 10, 5]
+    T = Tableau(A, b, c)
+    TT = make_canonical(T)
+    simplex_solve!(T, false)
+    simplex_solve!(TT, false)
+    @test value(T) == value(TT)
+
+    A = [-1 -1 6 10 8 5 6; 0 -1 7 10 -1 10 0; 1 9 0 2 3 7 8]
+    b = [10, 2, 10]
+    c = [0, 0, 5, 8, 1, 8, 1]
+    T = Tableau(A, b, c, false)
+    TT = make_standard(T)
+    simplex_solve!(T, false)
+    simplex_solve!(TT, false)
+    @test value(T) == value(TT)
+end

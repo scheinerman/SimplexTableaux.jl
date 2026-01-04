@@ -16,6 +16,14 @@ These functions are superfluous but may be convenient:
 * `in_feasible_state(T)` returns `true` if the current basic vector is in the feasible region (including if at optimality).
 * `in_optimal_state(T)` returns `true` if the tableau has reached an optimal (minimal) state.
 
+## Form Swapping
+
+The functions `make_standard` and `make_canonical` convert a Tableau from standard to canonical, and from canonical to standard, respectively. 
+A new Tableau is returned unless the input Tableau is already in the desired form. 
+
+* `make_canonical` adds slack variables to create a new Tableau that is in standard form and has the same solution.
+* `make_standard` replaces each equality constraint of the form `ax=b` with a pair of inequality constraints `ax≥b` and `-ax≥-b`.
+
 
 ## Miscellaneous Functions
 
