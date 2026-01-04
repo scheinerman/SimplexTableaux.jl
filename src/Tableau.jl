@@ -31,7 +31,7 @@ mutable struct Tableau
         end
 
         if canonical
-            A, b, c = make_standard(A, b, c)
+            A, b, c = _make_standard(A, b, c)
         end
         A, b = _rank_fix(A, b)
 
@@ -48,13 +48,13 @@ mutable struct Tableau
 end
 
 """
-    make_standard(A::AbstractMatrix, b::Vector, c::Vector)
+    _make_standard(A::AbstractMatrix, b::Vector, c::Vector)
 
 Expand the `A` matrix with an identity matrix on the right and the `c`
 vector with zeros to convert a canonical LP min `c'*x` st `A*x ≥ b, x ≥ 0` into 
 min `c'*x` st `A*x = b, x ≥ 0`. Returns the new matrices/vectors `A`, `b`, and `c`.
 """
-function make_standard(A::AbstractMatrix, b::Vector, c::Vector)
+function _make_standard(A::AbstractMatrix, b::Vector, c::Vector)
     m, n = size(A)
     if length(b) ≠ m || length(c) ≠ n
         throw(ArgumentError("Size mismatch"))
@@ -64,6 +64,18 @@ function make_standard(A::AbstractMatrix, b::Vector, c::Vector)
     cc = vcat(c, zeros(Int, m))
 
     return AA, bb, cc
+end
+
+"""
+    _make_canonical(A::AbstractMatrix, b::Vector, c::Vector)
+
+Convert data for a canonical LP into a standard LP. The equality constraints
+`Ax=b` are replaced by `Ax ≥ b`  and `-Ax ≥ -b`.
+"""
+function _make_canonical(A::AbstractMatrix, b::Vector, c::Vector)
+    new_A = [A; -A]
+    new_b = [b; -b]
+    return new_A, new_b, c
 end
 
 """

@@ -36,6 +36,8 @@ export Tableau,
     is_infeasible,
     is_unbounded,
     lp_solve,
+    make_canonical,
+    make_standard,
     phase_one_tableau,
     pivot!,
     ratios,
@@ -60,5 +62,6 @@ include("Status.jl")
 include("Bases.jl")
 include("big_M.jl")
 include("Ratios.jl")
+include("Swap_Types.jl")
 
 end # module SimpleTableaux

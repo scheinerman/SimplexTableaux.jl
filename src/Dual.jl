@@ -11,7 +11,7 @@ function dual(T::Tableau)::Tableau
     if is_canonical(T)
         return _canonical_dual(T)
     end
-    @info "Dual of non-canonical LPs not implemented yet"
+    @info "Dual of non-canonical LPs not implemented yet. You may try: dual(make_canonical(T))"
     return T
 end
 
