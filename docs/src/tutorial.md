@@ -54,7 +54,7 @@ julia> b = [-2, 4, 9];
 
 julia> c = [0, 3, 3, -1, 2, -4];
 
-julia> T = Tableau(A, b, c, false)
+julia> T = Tableau(A, b, c)
 ┌──────────┬───┬─────┬─────┬─────┬─────┬─────┬─────┬─────┐
 │          │ z │ x_1 │ x_2 │ x_3 │ x_4 │ x_5 │ x_6 │ RHS │
 │ Obj Func │ 1 │   0 │  -3 │  -3 │   1 │  -2 │   4 │   0 │
@@ -64,7 +64,7 @@ julia> T = Tableau(A, b, c, false)
 │   Cons 3 │ 0 │   6 │   3 │   5 │   9 │   7 │   1 │   9 │
 └──────────┴───┴─────┴─────┴─────┴─────┴─────┴─────┴─────┘
 ```
-Note the `false` in the function call; it indicates that this is not canoncial (that is, it is standard) so no slack variables are added. 
+
 
 Written as a (partitioned) matrix, this tableau looks like this:
 

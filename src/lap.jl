@@ -1,4 +1,4 @@
-_vspacer() = return "{\\Large\\strut}"
+_vspacer() = return "{\\large\\strut}"
 
 function latex_form(T::Tableau)::String
     result = _latex_header(T) * _any_row(T, 1) * "\\hline \n"
