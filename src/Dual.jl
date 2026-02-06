@@ -3,16 +3,13 @@
 
 Create a tableau that is dual to `T`. 
 
-Caveats:
-* `T` should have been created from canonical data (not standard). [Standard LPs TBW.]
-* The returned tableau is set up as a minimization problem so the value of the solved LP is negative the desired value. However, the basic feasible vector is correct.
+**Note**: The returned tableau is set up as a minimization problem so the value of the solved LP is negative the desired value.
 """
 function dual(T::Tableau)::Tableau
     if is_canonical(T)
         return _canonical_dual(T)
     end
-    @info "Dual of non-canonical LPs not implemented yet. You may try: dual(make_canonical(T))"
-    return T
+    return _standard_dual(T)
 end
 
 function _canonical_dual(T::Tableau)::Tableau
@@ -53,4 +50,14 @@ function dual_basic_vector(T::Tableau)
         error("No basis set for this tableau")
     end
     return dual_basic_vector(T, B)
+end
+
+
+function _standard_dual(T::Tableau)::Tableau 
+    A,b,c = get_Abc(T)
+    AA = [A' -A']
+    display(AA)
+    bb = -c 
+    cc = [b;-b]
+    return Tableau(AA,bb,cc,true)
 end
