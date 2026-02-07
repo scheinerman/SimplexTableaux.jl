@@ -1,28 +1,114 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Duality · SimplexTableaux</title><meta name="title" content="Duality · SimplexTableaux"/><meta property="og:title" content="Duality · SimplexTableaux"/><meta property="twitter:title" content="Duality · SimplexTableaux"/><meta name="description" content="Documentation for SimplexTableaux."/><meta property="og:description" content="Documentation for SimplexTableaux."/><meta property="twitter:description" content="Documentation for SimplexTableaux."/><script data-outdated-warner src="../assets/warner.js"></script><link href="https://cdnjs.cloudflare.com/ajax/libs/lato-font/3.0.0/css/lato-font.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/juliamono/0.050/juliamono.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL=".."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../assets/documenter.js"></script><script src="../search_index.js"></script><script src="../siteinfo.js"></script><script src="../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/catppuccin-mocha.css" data-theme-name="catppuccin-mocha"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/catppuccin-macchiato.css" data-theme-name="catppuccin-macchiato"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/catppuccin-frappe.css" data-theme-name="catppuccin-frappe"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/catppuccin-latte.css" data-theme-name="catppuccin-latte"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><div class="docs-package-name"><span class="docs-autofit"><a href="../">SimplexTableaux</a></span></div><button class="docs-search-query input is-rounded is-small is-clickable my-2 mx-auto py-1 px-2" id="documenter-search-query">Search docs (Ctrl + /)</button><ul class="docs-menu"><li><a class="tocitem" href="../">Overview</a></li><li><a class="tocitem" href="../tutorial/">Tutorial</a></li><li><a class="tocitem" href="../other/">Other Functions</a></li><li><a class="tocitem" href="../api/">API</a></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><a class="docs-sidebar-button docs-navbar-link fa-solid fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a><nav class="breadcrumb"><ul class="is-hidden-mobile"><li class="is-active"><a href>Duality</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Duality</a></li></ul></nav><div class="docs-right"><a class="docs-navbar-link" href="https://github.com/scheinerman/SimplexTableaux.jl" title="View the repository on GitHub"><span class="docs-icon fa-brands"></span><span class="docs-label is-hidden-touch">GitHub</span></a><a class="docs-navbar-link" href="https://github.com/scheinerman/SimplexTableaux.jl/blob/main/docs/src/dual.md" title="Edit source on GitHub"><span class="docs-icon fa-solid"></span></a><a class="docs-settings-button docs-navbar-link fa-solid fa-gear" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-article-toggle-button fa-solid fa-chevron-up" id="documenter-article-toggle-button" href="javascript:;" title="Collapse all docstrings"></a></div></header><article class="content" id="documenter-page"><h1 id="Duality"><a class="docs-heading-anchor" href="#Duality">Duality</a><a id="Duality-1"></a><a class="docs-heading-anchor-permalink" href="#Duality" title="Permalink"></a></h1><blockquote><p>The duality functionality is under construction. I don&#39;t know how you found your way here, but please understand that everything on this page is in pre-beta.</p></blockquote><h2 id="The-dual-function"><a class="docs-heading-anchor" href="#The-dual-function">The <code>dual</code> function</a><a id="The-dual-function-1"></a><a class="docs-heading-anchor-permalink" href="#The-dual-function" title="Permalink"></a></h2><p>If a tableau <code>T</code> is created from a canonical minimization problem, then <code>dual(T)</code>  returns a new tableau for its dual linear program. However, <code>dual(T)</code> is  also a minimization problem. The minimum value of <code>dual(T)</code> is negative that of <code>T</code>. </p><p>That is, if <code>T</code> represents the LP <span>$\min c^T x$</span> s.t. <span>$Ax \ge b$</span>, <span>$x\ge0$</span>, then <code>dual(T)</code> respresents the LP <span>$\min b^T y$</span> s.t. <span>$-A^T y \le -c$</span>, <span>$y\ge0$</span>. </p><h2 id="Example"><a class="docs-heading-anchor" href="#Example">Example</a><a id="Example-1"></a><a class="docs-heading-anchor-permalink" href="#Example" title="Permalink"></a></h2><pre><code class="nohighlight hljs">julia&gt; A = [11 2 11; 8 6 9; 8 8 5; 6 5 8; 4 1 2; 2 -1 4];
-
-julia&gt; b = [0, 1, 10, 3, 2, 5];
-
-julia&gt; c = [3, 4, 7];
-
-julia&gt; T = Tableau(A,b,c,true)
-
-┌──────────┬───┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┐
-│          │ z │ x_1 │ x_2 │ x_3 │ x_4 │ x_5 │ x_6 │ x_7 │ x_8 │ x_9 │ RHS │
-│ Obj Func │ 1 │  -3 │  -4 │  -7 │   0 │   0 │   0 │   0 │   0 │   0 │   0 │
-├──────────┼───┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┤
-│   Cons 1 │ 0 │  11 │   2 │  11 │  -1 │   0 │   0 │   0 │   0 │   0 │   0 │
-│   Cons 2 │ 0 │   8 │   6 │   9 │   0 │  -1 │   0 │   0 │   0 │   0 │   1 │
-│   Cons 3 │ 0 │   8 │   8 │   5 │   0 │   0 │  -1 │   0 │   0 │   0 │  10 │
-│   Cons 4 │ 0 │   6 │   5 │   8 │   0 │   0 │   0 │  -1 │   0 │   0 │   3 │
-│   Cons 5 │ 0 │   4 │   1 │   2 │   0 │   0 │   0 │   0 │  -1 │   0 │   2 │
-│   Cons 6 │ 0 │   2 │  -1 │   4 │   0 │   0 │   0 │   0 │   0 │  -1 │   5 │
-└──────────┴───┴─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┘</code></pre><p>The result of <code>simplex_solve!</code> on this tableau is <span>$15/2$</span>. </p><p>The tableau for the dual problem is:</p><pre><code class="nohighlight hljs">julia&gt; dT = dual(T)
-┌──────────┬───┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┐
-│          │ z │ x_1 │ x_2 │ x_3 │ x_4 │ x_5 │ x_6 │ x_7 │ x_8 │ x_9 │ RHS │
-│ Obj Func │ 1 │   0 │   1 │  10 │   3 │   2 │   5 │   0 │   0 │   0 │   0 │
-├──────────┼───┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┤
-│   Cons 1 │ 0 │ -11 │  -8 │  -8 │  -6 │  -4 │  -2 │  -1 │   0 │   0 │  -3 │
-│   Cons 2 │ 0 │  -2 │  -6 │  -8 │  -5 │  -1 │   1 │   0 │  -1 │   0 │  -4 │
-│   Cons 3 │ 0 │ -11 │  -9 │  -5 │  -8 │  -2 │  -4 │   0 │   0 │  -1 │  -7 │
-└──────────┴───┴─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┘</code></pre><p>The result of <code>simplex_solve!(dT)</code> is <span>$-15/2$</span>. </p></article><nav class="docs-footer"><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.16.1 on <span class="colophon-date" title="Saturday 7 February 2026 13:23">Saturday 7 February 2026</span>. Using Julia version 1.12.4.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Duality · SimplexTableaux</title><meta name="title" content="Duality · SimplexTableaux"/><meta property="og:title" content="Duality · SimplexTableaux"/><meta property="twitter:title" content="Duality · SimplexTableaux"/><meta name="description" content="Documentation for SimplexTableaux."/><meta property="og:description" content="Documentation for SimplexTableaux."/><meta property="twitter:description" content="Documentation for SimplexTableaux."/><script data-outdated-warner src="../assets/warner.js"></script><link href="https://cdnjs.cloudflare.com/ajax/libs/lato-font/3.0.0/css/lato-font.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/juliamono/0.050/juliamono.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL=".."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../assets/documenter.js"></script><script src="../search_index.js"></script><script src="../siteinfo.js"></script><script src="../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/catppuccin-mocha.css" data-theme-name="catppuccin-mocha"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/catppuccin-macchiato.css" data-theme-name="catppuccin-macchiato"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/catppuccin-frappe.css" data-theme-name="catppuccin-frappe"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/catppuccin-latte.css" data-theme-name="catppuccin-latte"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><div class="docs-package-name"><span class="docs-autofit"><a href="../">SimplexTableaux</a></span></div><button class="docs-search-query input is-rounded is-small is-clickable my-2 mx-auto py-1 px-2" id="documenter-search-query">Search docs (Ctrl + /)</button><ul class="docs-menu"><li><a class="tocitem" href="../">Overview</a></li><li><a class="tocitem" href="../tutorial/">Tutorial</a></li><li class="is-active"><a class="tocitem" href>Duality</a><ul class="internal"><li><a class="tocitem" href="#Mathematical-Background"><span>Mathematical Background</span></a></li><li><a class="tocitem" href="#Canonical-Dual"><span>Canonical Dual</span></a></li><li><a class="tocitem" href="#Standard-Dual"><span>Standard Dual</span></a></li></ul></li><li><a class="tocitem" href="../other/">Other Functions</a></li><li><a class="tocitem" href="../api/">API</a></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><a class="docs-sidebar-button docs-navbar-link fa-solid fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a><nav class="breadcrumb"><ul class="is-hidden-mobile"><li class="is-active"><a href>Duality</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Duality</a></li></ul></nav><div class="docs-right"><a class="docs-navbar-link" href="https://github.com/scheinerman/SimplexTableaux.jl" title="View the repository on GitHub"><span class="docs-icon fa-brands"></span><span class="docs-label is-hidden-touch">GitHub</span></a><a class="docs-navbar-link" href="https://github.com/scheinerman/SimplexTableaux.jl/blob/main/docs/src/dual.md" title="Edit source on GitHub"><span class="docs-icon fa-solid"></span></a><a class="docs-settings-button docs-navbar-link fa-solid fa-gear" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-article-toggle-button fa-solid fa-chevron-up" id="documenter-article-toggle-button" href="javascript:;" title="Collapse all docstrings"></a></div></header><article class="content" id="documenter-page"><h1 id="Duality"><a class="docs-heading-anchor" href="#Duality">Duality</a><a id="Duality-1"></a><a class="docs-heading-anchor-permalink" href="#Duality" title="Permalink"></a></h1><h2 id="Mathematical-Background"><a class="docs-heading-anchor" href="#Mathematical-Background">Mathematical Background</a><a id="Mathematical-Background-1"></a><a class="docs-heading-anchor-permalink" href="#Mathematical-Background" title="Permalink"></a></h2><p>Minimization linear programs can be (sort-of metaphorically speaking) transposed into maximization problems by forming their duals.</p><ul><li>A canonical linear program is of the form <span>$\min c^T x$</span> subject to <span>$Ax \ge b$</span>, <span>$x\ge0$</span>. </li></ul><p>The dual of this LP is <span>$\max b^T y$</span> such that <span>$A^Ty \le b$</span>, <span>$y\ge0$</span>. </p><ul><li>A standard linear program is of the form <span>$\min c^T x$</span> subject to <span>$Ax = b$</span>, <span>$x \ge 0$</span>. The dual of this LP is <span>$\max b^T y$</span> subject to <span>$A^T y \le c$</span> (with no other restriction on <span>$y$</span>).</li></ul><h2 id="Canonical-Dual"><a class="docs-heading-anchor" href="#Canonical-Dual">Canonical Dual</a><a id="Canonical-Dual-1"></a><a class="docs-heading-anchor-permalink" href="#Canonical-Dual" title="Permalink"></a></h2><p>The tableaux in this <code>SimplexTableaux</code> module are assumed to be for minimization problems.  Canonical LPs are are converted to standard form using slack variables.  Given a canonical LP (as described just above), the equivalent standard form LP looks like this: <span>$\min c^Tx + 0^Ts$</span> subject to <span>$Ax - Is = b$</span>, <span>$x\ge0$</span>, and <span>$s\ge0$</span>. </p><p>For example, suppose <span>$A= \left[ \begin{array}{ccc} 3 &amp; 2 &amp; 1 \\
+2 &amp; 0 &amp; 5 \\
+\end{array} \right]$</span>, <span>$b = \left[ \begin{array}{c} 5 \\
+2 \\
+\end{array} \right]$</span>, and  <span>$c = \left[ \begin{array}{c} 1 \\
+2 \\
+3 \\
+\end{array} \right]$</span>. The tableaux created by these instructions</p><pre><code class="language-julia hljs">A = [3 2 1; 2 0 5]
+b = [5, 2]
+c = [1, 2, 3]
+T = Tableau(A, b, c, false)</code></pre><p>is this</p><pre><code class="nohighlight hljs">┌──────────┬───┬─────┬─────┬─────┬─────┬─────┬─────┐
+│          │ z │ x_1 │ x_2 │ x_3 │ x_4 │ x_5 │ RHS │
+│ Obj Func │ 1 │  -1 │  -2 │  -3 │   0 │   0 │   0 │
+├──────────┼───┼─────┼─────┼─────┼─────┼─────┼─────┤
+│   Cons 1 │ 0 │   3 │   2 │   1 │  -1 │   0 │   5 │
+│   Cons 2 │ 0 │   2 │   0 │   5 │   0 │  -1 │   2 │
+└──────────┴───┴─────┴─────┴─────┴─────┴─────┴─────┘</code></pre><p>Note the addition of slack variables <span>$x_4$</span> and <span>$x_5$</span>. </p><p>The dual LP involves a maximization and <span>$\le$</span>-inequalities. To put this into a form suitable for this module, we replace <span>$\max b^T y$</span> with <span>$\min -b^Ty$</span> and we replace <span>$A^Ty \le c$</span> with <span>$-A^Ty \ge c$</span>. This is now a minimization problem in canonical form that needs to be converted to standard form before processing by the Simplex Method. </p><p>The <code>dual</code> function performs exactly these transformations to yield this:</p><pre><code class="nohighlight hljs">julia&gt; dT = dual(T)
+┌──────────┬───┬─────┬─────┬─────┬─────┬─────┬─────┐
+│          │ z │ x_1 │ x_2 │ x_3 │ x_4 │ x_5 │ RHS │
+│ Obj Func │ 1 │   5 │   2 │   0 │   0 │   0 │   0 │
+├──────────┼───┼─────┼─────┼─────┼─────┼─────┼─────┤
+│   Cons 1 │ 0 │  -3 │  -2 │  -1 │   0 │   0 │  -1 │
+│   Cons 2 │ 0 │  -2 │   0 │   0 │  -1 │   0 │  -2 │
+│   Cons 3 │ 0 │  -1 │  -5 │   0 │   0 │  -1 │  -3 │
+└──────────┴───┴─────┴─────┴─────┴─────┴─────┴─────┘</code></pre><p>Running <code>simplex_solve!</code> on <code>T</code> and <code>dT</code> give these tableaux:</p><pre><code class="nohighlight hljs">┌──────────┬───┬─────┬──────┬───────┬──────┬─────┬─────┐
+│          │ z │ x_1 │  x_2 │   x_3 │  x_4 │ x_5 │ RHS │
+│ Obj Func │ 1 │   0 │ -4/3 │  -8/3 │ -1/3 │   0 │ 5/3 │
+├──────────┼───┼─────┼──────┼───────┼──────┼─────┼─────┤
+│   Cons 1 │ 0 │   1 │  2/3 │   1/3 │ -1/3 │   0 │ 5/3 │
+│   Cons 2 │ 0 │   0 │  4/3 │ -13/3 │ -2/3 │   1 │ 4/3 │
+└──────────┴───┴─────┴──────┴───────┴──────┴─────┴─────┘</code></pre><p>and</p><pre><code class="nohighlight hljs">┌──────────┬───┬─────┬──────┬──────┬─────┬─────┬──────┐
+│          │ z │ x_1 │  x_2 │  x_3 │ x_4 │ x_5 │  RHS │
+│ Obj Func │ 1 │   0 │ -4/3 │ -5/3 │   0 │   0 │ -5/3 │
+├──────────┼───┼─────┼──────┼──────┼─────┼─────┼──────┤
+│   Cons 1 │ 0 │   1 │  2/3 │  1/3 │   0 │   0 │  1/3 │
+│   Cons 2 │ 0 │   0 │ -4/3 │ -2/3 │   1 │   0 │  4/3 │
+│   Cons 3 │ 0 │   0 │ 13/3 │ -1/3 │   0 │   1 │  8/3 │
+└──────────┴───┴─────┴──────┴──────┴─────┴─────┴──────┘</code></pre><p>Note that the opitmum value achieved for <code>dT</code> is <code>-5/3</code> because we replaced the function <span>$b^Ty$</span> with <span>$-b^Ty$</span>. Hence, the maximum value of the actualy dual linear program is <code>5/3</code> (the same as the original LP).</p><h2 id="Standard-Dual"><a class="docs-heading-anchor" href="#Standard-Dual">Standard Dual</a><a id="Standard-Dual-1"></a><a class="docs-heading-anchor-permalink" href="#Standard-Dual" title="Permalink"></a></h2><p>The dual of <span>$\min c^Tx$</span> s.t. <span>$Ax=b$</span>, <span>$x\ge0$</span> is <span>$\max b^Ty$</span> s.t. <span>$A^Ty\le c$</span>. To put this into standard form requires these modifications:</p><ol><li>Replace <span>$\max b^T y$</span> with <span>$\min -b^Ty$</span>.</li><li>Replace <span>$y$</span> with <span>$w&#39;-w&#39;&#39;$</span> where <span>$w&#39;\ge0$</span> and <span>$w&#39;&#39;\ge0$</span>. </li><li>Replace <span>$A^Ty \le c$</span> with <span>$-A^Ty \ge -c$</span>, or more expansively <span>$-A^T(w&#39;-w&#39;&#39;)\ge c$</span>.</li></ol><p>For example, suppose <span>$A = \left[ \begin{array}{rrrrr} 2 &amp; 0 &amp; 1 &amp; 1 &amp; 3 \\
+4 &amp; 1 &amp; 0 &amp; 2 &amp; 4 \\
+3 &amp; 1 &amp; -1 &amp; 2 &amp; 2 \\
+\end{array} \right]$</span>, <span>$b = \left[ \begin{array}{r} 8 \\
+13 \\
+8 \\
+\end{array} \right]$</span>, and <span>$c = \left[ \begin{array}{r} 2 \\
+2 \\
+-1 \\
+-3 \\
+-2 \\
+\end{array} \right]$</span>. </p><p>The tableau is created by these instructions:</p><pre><code class="language-julia hljs">A = [2 0 1 1 3; 4 1 0 2 4; 3 1 -1 2 2]
+b = [8; 13; 8]
+c = [2; 2; -1; -3; -2]
+T = Tableau(A, b, c, false)</code></pre><p>is this</p><pre><code class="nohighlight hljs">┌──────────┬───┬─────┬─────┬─────┬─────┬─────┬─────┐
+│          │ z │ x_1 │ x_2 │ x_3 │ x_4 │ x_5 │ RHS │
+│ Obj Func │ 1 │  -2 │  -2 │   1 │   3 │   2 │   0 │
+├──────────┼───┼─────┼─────┼─────┼─────┼─────┼─────┤
+│   Cons 1 │ 0 │   2 │   0 │   1 │   1 │   3 │   8 │
+│   Cons 2 │ 0 │   4 │   1 │   0 │   2 │   4 │  13 │
+│   Cons 3 │ 0 │   3 │   1 │  -1 │   2 │   2 │   8 │
+└──────────┴───┴─────┴─────┴─────┴─────┴─────┴─────┘</code></pre><p>We create the dual:</p><pre><code class="nohighlight hljs">julia&gt; dT = dual(T)
+┌──────────┬───┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬──────┬──────┬─────┐
+│          │ z │ x_1 │ x_2 │ x_3 │ x_4 │ x_5 │ x_6 │ x_7 │ x_8 │ x_9 │ x_10 │ x_11 │ RHS │
+│ Obj Func │ 1 │   8 │  13 │   8 │  -8 │ -13 │  -8 │   0 │   0 │   0 │    0 │    0 │   0 │
+├──────────┼───┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼──────┼──────┼─────┤
+│   Cons 1 │ 0 │  -2 │  -4 │  -3 │   2 │   4 │   3 │  -1 │   0 │   0 │    0 │    0 │  -2 │
+│   Cons 2 │ 0 │   0 │  -1 │  -1 │   0 │   1 │   1 │   0 │  -1 │   0 │    0 │    0 │  -2 │
+│   Cons 3 │ 0 │  -1 │   0 │   1 │   1 │   0 │  -1 │   0 │   0 │  -1 │    0 │    0 │   1 │
+│   Cons 4 │ 0 │  -1 │  -2 │  -2 │   1 │   2 │   2 │   0 │   0 │   0 │   -1 │    0 │   3 │
+│   Cons 5 │ 0 │  -3 │  -4 │  -2 │   3 │   4 │   2 │   0 │   0 │   0 │    0 │   -1 │   2 │
+└──────────┴───┴─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┴──────┴──────┴─────┘</code></pre><p>Please note that <span>$x_7$</span> through <span>$x_{10}$</span> are slack variables.</p><p>Solving these with <code>simplex_solve!</code> gives the following results for <code>T</code> and <code>dT</code>:</p><pre><code class="nohighlight hljs">┌──────────┬───┬──────┬─────┬──────┬─────┬─────┬──────┐
+│          │ z │  x_1 │ x_2 │  x_3 │ x_4 │ x_5 │  RHS │
+│ Obj Func │ 1 │ -5/2 │   0 │ -1/2 │   0 │   0 │ -5/2 │
+├──────────┼───┼──────┼─────┼──────┼─────┼─────┼──────┤
+│   Cons 1 │ 0 │  1/2 │   0 │ -1/2 │   1 │   0 │  1/2 │
+│   Cons 2 │ 0 │    1 │   1 │   -1 │   0 │   0 │    2 │
+│   Cons 3 │ 0 │  1/2 │   0 │  1/2 │   0 │   1 │  5/2 │
+└──────────┴───┴──────┴─────┴──────┴─────┴─────┴──────┘</code></pre><p>and</p><pre><code class="nohighlight hljs">┌──────────┬───┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬──────┬──────┬──────┐
+│          │ z │ x_1 │ x_2 │ x_3 │ x_4 │ x_5 │ x_6 │ x_7 │ x_8 │ x_9 │ x_10 │ x_11 │  RHS │
+│ Obj Func │ 1 │   0 │   0 │   0 │   0 │   0 │   0 │   0 │  -2 │   0 │ -1/2 │ -5/2 │  5/2 │
+├──────────┼───┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼──────┼──────┼──────┤
+│   Cons 1 │ 0 │   1 │   0 │   0 │  -1 │   0 │   0 │   0 │   2 │   0 │   -1 │    0 │    7 │
+│   Cons 2 │ 0 │   0 │   0 │   1 │   0 │   0 │  -1 │   0 │   1 │   0 │ -3/2 │  1/2 │ 11/2 │
+│   Cons 3 │ 0 │   0 │  -1 │   0 │   0 │   1 │   0 │   0 │   2 │   0 │ -3/2 │  1/2 │ 15/2 │
+│   Cons 4 │ 0 │   0 │   0 │   0 │   0 │   0 │   0 │   1 │  -1 │   0 │ -1/2 │ -1/2 │  5/2 │
+│   Cons 5 │ 0 │   0 │   0 │   0 │   0 │   0 │   0 │   0 │   1 │   1 │  1/2 │ -1/2 │  1/2 │
+└──────────┴───┴─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┴──────┴──────┴──────┘</code></pre><p>As with canonical duals, the final objective value for <code>dT</code> is negative the desired maximum value for the actual dual. </p><p>ERRORS HERE!!</p><p>The final basic vector for <code>dT</code> is  <span>$\left[ \begin{array}{r} 0 \\
+15/2 \\
+0 \\
+7 \\
+0 \\
+11/2 \\
+\end{array} \right]$</span> giving <span>$w&#39; = \left[ \begin{array}{r} 0 \\
+15/2 \\
+0 \\
+\end{array} \right]$</span> and  <span>$w&#39;&#39; =\left[ \begin{array}{r} 7 \\
+0 \\
+11/2 \\
+\end{array} \right]$</span>. Therefore <span>$y=w&#39;-w&#39;&#39;= \left[ \begin{array}{r} 7 \\
+0 \\
+11/2 \\
+\end{array} \right]$</span>. This yields <span>$y= w&#39;-w&#39;&#39; = \left[ \begin{array}{r} -7 \\
+15/2 \\
+-11/2 \\
+\end{array} \right]$</span>.</p><p>Check that <span>$A^T y= \left[ \begin{array}{r} -1/2 \\
+2 \\
+-3/2 \\
+-3 \\
+-2 \\
+\end{array} \right]$</span> which is, term by term, less than or equal to <span>$c = \left[ \begin{array}{r} 2 \\
+2 \\
+-1 \\
+-3 \\
+-2 \\
+\end{array} \right]$</span> and that <span>$b^T y = -5/2$</span>. </p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../tutorial/">« Tutorial</a><a class="docs-footer-nextpage" href="../other/">Other Functions »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.16.1 on <span class="colophon-date" title="Saturday 7 February 2026 18:28">Saturday 7 February 2026</span>. Using Julia version 1.12.4.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>

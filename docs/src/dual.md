@@ -186,25 +186,19 @@ and
 ```
 As with canonical duals, the final objective value for `dT` is negative the desired maximum value for the actual dual. 
 
-The final basic vector for `dT` is $\left[
-\begin{array}{r}
-0 \\
-15/2 \\
-0 \\
-7 \\
-0 \\
-11/2 \\
-\end{array}
-\right]$. 
-Recall that the last 5 of these are slack variables, so the final feasible basic vector is 
+
+ERRORS HERE!!
+
+
+The final basic vector for `dT` is 
 $\left[
 \begin{array}{r}
-7 \\
-0 \\
-11/2 \\
 0 \\
 15/2 \\
 0 \\
+7 \\
+0 \\
+11/2 \\
 \end{array}
 \right]$ giving $w' = \left[
 \begin{array}{r}
@@ -212,11 +206,12 @@ $\left[
 15/2 \\
 0 \\
 \end{array}
-\right]$ and $w'' = \left[
+\right]$ and 
+$w'' =\left[
 \begin{array}{r}
+7 \\
 0 \\
-15/2 \\
-0 \\
+11/2 \\
 \end{array}
 \right]$. Therefore $y=w'-w''= \left[
 \begin{array}{r}
@@ -232,3 +227,20 @@ $\left[
 \end{array}
 \right]$.
 
+Check that $A^T y= \left[
+\begin{array}{r}
+-1/2 \\
+2 \\
+-3/2 \\
+-3 \\
+-2 \\
+\end{array}
+\right]$ which is, term by term, less than or equal to $c = \left[
+\begin{array}{r}
+2 \\
+2 \\
+-1 \\
+-3 \\
+-2 \\
+\end{array}
+\right]$ and that $b^T y = -5/2$. 

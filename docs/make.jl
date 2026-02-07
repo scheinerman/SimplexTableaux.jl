@@ -6,7 +6,7 @@ makedocs(;
     pages=[
         "Overview" => "index.md",
         "Tutorial" => "tutorial.md",
-        # "Dual LP" => "dual.md",
+        "Duality" => "dual.md",
         "Other Functions" => "other.md",
         "API" => "api.md",
     ],
