@@ -54,9 +54,8 @@ end
 
 function _standard_dual(T::Tableau)::Tableau
     A, b, c = get_Abc(T)
-    AA = [A' -A']
-    display(AA)
+    AA = [-A' A']
     bb = -c
-    cc = [b; -b]
+    cc = [-b; b]
     return Tableau(AA, bb, cc, true)
 end

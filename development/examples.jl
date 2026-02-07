@@ -267,4 +267,11 @@ function example41()
     T = Tableau(A, b, c, false)
 end
 
+function little_canonical()
+    A = [3 2 1; 2 0 5]
+    b = [5, 2]
+    c = [1, 2, 3]
+    return Tableau(A, b, c, true)
+end
+
 nothing
