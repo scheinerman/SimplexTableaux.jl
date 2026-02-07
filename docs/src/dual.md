@@ -99,7 +99,7 @@ The dual of $\min c^Tx$ s.t. $Ax=b$, $x\ge0$ is $\max b^Ty$ s.t. $A^Ty\le c$. To
 
 1. Replace $\max b^T y$ with $\min -b^Ty$.
 1. Replace $y$ with $w'-w''$ where $w'\ge0$ and $w''\ge0$. 
-1. Replace $A^Ty \le c$ with $-A^Ty \ge -c$, or more expansively, $-A^T(w'-w'')\ge c$.
+1. Replace $A^Ty \le c$ with $-A^Ty \ge -c$ or, more expansively, $-A^T(w'-w'')\ge c$.
 
 For example, suppose $A = \left[
 \begin{array}{rrrrr}
