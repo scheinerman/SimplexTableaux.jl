@@ -187,8 +187,6 @@ and
 As with canonical duals, the final objective value for `dT` is negative the desired maximum value for the actual dual. 
 
 
-ERRORS HERE!!
-
 
 The final basic vector for `dT` is 
 $\left[
