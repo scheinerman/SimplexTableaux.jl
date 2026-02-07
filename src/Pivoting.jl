@@ -274,7 +274,7 @@ function infer_basis!(T::Tableau)
     B = indices[2:end] .- 1
 
     if any(B .< 1) || length(B) != T.n_cons
-        @info "Unable to infer basis"
+        # @info "Unable to infer basis"
     else
         set_basis!(T, B)
     end

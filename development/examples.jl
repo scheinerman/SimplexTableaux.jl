@@ -260,4 +260,11 @@ function pivot_example()
     return T
 end
 
+function example41()
+    A = [2 0 1 1 3; 4 1 0 2 4; 3 1 -1 2 2]
+    b = [8; 13; 8]
+    c = [2; 2; -1; -3; -2]
+    T = Tableau(A, b, c, false)
+end
+
 nothing

@@ -1,6 +1,6 @@
 name = "SimplexTableaux"
 uuid = "b49aa546-d643-4829-bb91-bc1e5e539d80"
-version = "0.5.2"
+version = "0.5.3"
 authors = ["Ed Scheinerman <ers@jhu.edu>"]
 
 [deps]

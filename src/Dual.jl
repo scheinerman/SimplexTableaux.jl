@@ -52,12 +52,11 @@ function dual_basic_vector(T::Tableau)
     return dual_basic_vector(T, B)
 end
 
-
-function _standard_dual(T::Tableau)::Tableau 
-    A,b,c = get_Abc(T)
+function _standard_dual(T::Tableau)::Tableau
+    A, b, c = get_Abc(T)
     AA = [A' -A']
     display(AA)
-    bb = -c 
-    cc = [b;-b]
-    return Tableau(AA,bb,cc,true)
+    bb = -c
+    cc = [b; -b]
+    return Tableau(AA, bb, cc, true)
 end

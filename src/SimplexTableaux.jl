@@ -48,11 +48,13 @@ export Tableau,
     simplex_solve!,
     status,
     swap_rows!,
-    value
+    value,
+    verbose_pivot!
 
 include("rank_fix.jl")
 include("Tableau.jl")
 include("Pivoting.jl")
+include("VerbosePivot.jl")
 include("Solver.jl")
 include("LPsolve.jl")
 include("lap.jl")
