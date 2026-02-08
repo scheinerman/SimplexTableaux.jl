@@ -210,13 +210,9 @@ $w'' =\left[
 0 \\
 11/2 \\
 \end{array}
-\right]$. Therefore $y=w'-w''= \left[
-\begin{array}{r}
-7 \\
-0 \\
-11/2 \\
-\end{array}
-\right]$. This yields $y= w'-w'' = \left[
+\right]$. 
+This yields 
+$y= w'-w'' = \left[
 \begin{array}{r}
 -7 \\
 15/2 \\

@@ -5,7 +5,7 @@ This module demonstrates how to solve linear programs using the Simplex Method.
 
 In particular, it can be used to solve feasible optimization problems of the form 
 of the form $\min c^T x$ subject to $Ax = b$ and $x \ge 0$ (standard form) as well as 
-$\min c^T x$ subject to $Ax ≥ b$ and $x \ge 0$ (canonical form)
+$\min c^T x$ subject to $Ax ≥ b$ and $x \ge 0$ (canonical form).
 
 >See the **Tutorial** for a thorough introduction to this module.
 

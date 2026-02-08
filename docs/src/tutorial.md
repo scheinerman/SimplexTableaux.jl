@@ -69,7 +69,7 @@ julia> T = Tableau(A, b, c)
 Written as a (partitioned) matrix, this tableau looks like this:
 
 $\left[
-\begin{array}{r|rrrrrr|r}
+\begin{array}{r|rrrrrr||r}
 1 & 0 & -3 & -3 & 1 & -2 & 4 & 0 \\ \hline
 0 & 1 & 8 & -2 & 8 & 6 & -1 & -2 \\
 0 & 2 & 6 & 2 & 9 & 2 & 1 & 4 \\
@@ -147,7 +147,7 @@ Pivoting is a fundamental operation in linear algebra that is used extensively i
 For example, suppose we wish to pivot on the $2$ in this matrix:
 
 $\left[
-\begin{array}{r|rrrrrr|r}
+\begin{array}{r|rrrrrr||r}
 1 & -7 & -6 & -3 & -4 & 0 & 0 & 0 \\ \hline
 0 & 7 & 5 & \fbox2 & 9 & -1 & 0 & 2 \\
 0 & 5 & 9 & 5 & 5 & 0 & -1 & 5 \\
@@ -159,7 +159,7 @@ The main body of the matrix lies below the header row and between the vertical d
 First we multiply row $1$ through by $1/2$:
 
 $\left[
-\begin{array}{r|rrrrrr|r}
+\begin{array}{r|rrrrrr||r}
 1 & -7 & -6 & -3 & -4 & 0 & 0 & 0 \\ \hline
 0 & 7/2 & 5/2 & 1 & 9/2 & -1/2 & 0 & 1 \\
 0 & 5 & 9 & 5 & 5 & 0 & -1 & 5 
@@ -169,7 +169,7 @@ $\left[
 Then we add $3$ times the first row to the header (row $0$) and $-5$ times the first row to the second row:
 
 $\left[
-\begin{array}{r|rrrrrr|r}
+\begin{array}{r|rrrrrr||r}
 1 & 7/2 & 3/2 & 0 & 19/2 & -3/2 & 0 & 3 \\ \hline
 0 & 7/2 & 5/2 & 1 & 9/2 & -1/2 & 0 & 1 \\
 0 & -25/2 & -7/2 & 0 & -35/2 & 5/2 & -1 & 0 \\
