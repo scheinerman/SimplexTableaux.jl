@@ -37,6 +37,15 @@ end
     simplex_solve!(dT, false)
     dv = value(dT)
     @test v == -dv
+
+    A = [2 0 1 1 3; 4 1 0 2 4; 3 1 -1 2 2]
+    b = [8; 13; 8]
+    c = [2; 2; -1; -3; -2]
+    T = Tableau(A, b, c, false)
+    dT = dual(T)
+    simplex_solve!(T, false)
+    simplex_solve!(dT, false)
+    @test value(T) == -value(dT)
 end
 
 @testset "Status" begin
